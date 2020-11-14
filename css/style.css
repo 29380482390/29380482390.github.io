@@ -37,7 +37,6 @@ a {
 
 a:focus,
 a:hover {
-    font-weight: bold;
 	cursor: url("indeks.png"), default;
 }
 
