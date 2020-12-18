@@ -1,0 +1,35 @@
+body {
+	margin: 0;
+}
+#buttons{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	margin-left: 26.8%;
+	margin-top: 19.65%;
+}
+#leftb{
+	width: 1px;
+	height: 1px;
+	border-radius: 50%;
+	margin-right: 8px;
+	background: #ff5d5b;
+	border: 4px solid #ff5d5b;
+}
+#middleb{
+	width: 1px;
+	height: 1px;
+	border-radius: 50%;
+	margin-right: 8px;
+	background: #FFBB39;
+	border: 4px solid #FFBB39;
+}
+#rightb{
+	width: 1px;
+	height: 1px;
+	border-radius: 50%;
+	margin-right: 8px;
+	background: #00cd4e;
+	border: 4px solid #00cd4e;
+}
