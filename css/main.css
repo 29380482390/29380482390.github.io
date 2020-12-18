@@ -95,7 +95,10 @@ input {
     position: absolute;
     height: 100%;
     width: 50%;
+	margin-top: 18%;
 	margin-left: 25%;
+	position: relative;
+	z-index: 5;
 }
 
 #middle {
