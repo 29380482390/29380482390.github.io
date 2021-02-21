@@ -81,8 +81,8 @@ input {
 .terminal-screen {
     overflow: hidden;
     border: 1px solid #01010155;
-	border-top: 25px solid #01010155;
-	border-radius: 16px;
+	border-top: 25px solid rgb(10,10,10);
+	border-radius: 0px;
     padding: 5px;
 	padding-left: 10px;
 	padding-top: 10px;
