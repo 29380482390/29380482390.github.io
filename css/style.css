@@ -11,6 +11,7 @@
   /* Theme  */
   --accent: #4b8ec4; /* Hover color */
   --bg: #19171a; /* Background color */
+  --darker: #131313; /* Background color */
   --sbg: #201e21; /* Cards color */
   --fg: #d8dee9; /* Foreground color */
   --sfg: #3a3a3a; /* Secondary Foreground color */
@@ -163,7 +164,7 @@ body {
 }
 .list__link:hover {
   background-color: var(--accent);
-  color: var(--sfg);
+  color: var(--darker);
 }
 
 /* M E D I A - Q U E R I E S */
@@ -192,4 +193,9 @@ body {
   .list {
     display: none;
   }
+}
+
+a, a:focus, a:active {
+  text-decoration: none;
+  outline: none;
 }
