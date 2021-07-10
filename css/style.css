@@ -90,6 +90,7 @@ a:hover {
 
 .group span {
     color: var(--second);
+    z-index: 999;
 }
 
 img {
