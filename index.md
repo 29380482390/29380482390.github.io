@@ -1,2 +1,0 @@
-index.html
-css/style
