@@ -93,6 +93,7 @@ a:hover {
 }
 
 img {
+    width: 25%;
     position: absolute;
     margin-left: 25rem;
 }
