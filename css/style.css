@@ -90,6 +90,9 @@ a:hover {
 
 .group span {
     color: var(--second);
+}
+
+#sep {
     z-index: 999;
 }
 
