@@ -2,6 +2,8 @@
 {
     font-family:'haxrcorp';
     src: url('./haxrcorpttf.ttf');
+    font-smooth: never;
+    -webkit-font-smoothing : none;
 }
 
 :root {
