@@ -28,6 +28,8 @@ body {
     background-repeat: repeat;
 	overflow: hidden;
 	font-size: 1.2rem;
+    font-smooth: never;
+    -webkit-font-smoothing: none;
 }
 
 .card-container {
