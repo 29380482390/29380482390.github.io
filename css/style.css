@@ -1,72 +1,72 @@
-@font-face
-{
-    font-family:'haxrcorp';
-    src: url('./haxrcorpttf.ttf');
-    font-smooth: never;
-    -webkit-font-smoothing : none;
-}
-
 :root {
-    --background: rgb(25, 25, 25);
-    --first: rgb(132, 121, 139);
-    --second: rgb(121, 139, 126);
-    --third: rgb(121, 133, 139);
-}
-
-* {
-    font-family: haxrcorp, monospace;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  --bgColor: rgb(3,3,3);
+  --textColor: #b3c9d3;
+  --linkColor: var(--textColor);
+  --textColorHover: #ffffff;
 }
 
 body {
-    display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 85vh;
-    background: var(--background);
-    background-image: url("../img/background.png");
-    background-repeat: repeat;
-	overflow: hidden;
-	font-size: 1.2rem;
-    font-smooth: never;
-    -webkit-font-smoothing: none;
+  font-family: "arial", monospace;
+  font-size: 13px;
+  background: var(--bgColor);
+  color: var(--textColor);
+  border: #b3c9d3;
+  display: flex;
+  justify-content: center;
 }
 
-.card-container {
-    background-color: var(--background);
-    display: flex;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    height: 200px;
-    border-radius: 4px;
+a {
+  color: var(--linkColor);
+  text-decoration: none;
+  margin-top: .2rem;
 }
 
-.container {
-    margin: 20px;
-    height: 142px;
-}
-
-.links div {
-    margin-bottom: 5px;
-    color: var(--first);
-}
-
-.links a{
-    display: flex;
-    flex-direction: column;
-    color: var(--second);
+a > div:hover {
+    color: var(--textColorHover);
     text-decoration: none;
 }
 
-.links a:hover {
-    color: var(--third);
+.flex-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: auto;
+  margin-top: 20rem;
+  outline-style: solid;
+  outline-color: #b3c9d3;
+  outline-width: 1px;
+  text-transform: lowercase;
 }
 
-img {
-    height: 200px;
-    border-radius: 0px 4px 4px 0px; 
+.flex-top-bar {
+  display: flex;
+  flex-direction: row;
+}
+
+.top-bar {
+  margin-left: 0.2rem;
+  margin-bottom: 0.1rem;
+
+}
+
+.flex-center {
+  flex-direction: row;
+  display: flex;
+  justify-content: space-between;
+}
+
+.center-box {
+  flex-direction: column;
+  display: flex;
+  margin: .75rem;
+  padding-bottom: 1rem;
+}
+
+.flex-bottom-bar {
+  flex-direction: row;
+  display: flex;
+  justify-content: space-between;
+  color: var(--bgColor);
+  background-color: var(--textColor);
+  font-family: "Source Code Pro", monospace;
 }
