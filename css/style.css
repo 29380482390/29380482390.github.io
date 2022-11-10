@@ -1,17 +1,13 @@
 /* zaza */
 
-@font-face {
-    font-family:'Terminus';
-    src: url('./Terminus.ttf');
-    font-smooth: never;
-    -webkit-font-smoothing : none;
-}
+@import url('./terminus.ttf');
 
 :root {
   --bg: rgb(12,12,12); /* whatever color your heart desires */
   --fontcolor: rgb(204,204,204); /*  you probably want a different color than above */
   --accentcolor: rgb(67,67,89); /* whatever floats your balls */
-  --fontjp: "jackeyfont", Monospace; /* japanese font */
+  --font: 'Terminus (TTF) For Windows', monospace;/* normal font */
+  --fontjp: 'jackeyfont', sans-serif; /* japanese font */
   --a: rgb(225,225,225);
   --b: rgb(156, 44, 119);
   --c: rgb(205, 16, 77);
@@ -22,23 +18,24 @@
 /* the webpage */
 
 html, body {
-    font-smooth: never;
-    -webkit-font-smoothing : none;
-    background-color: var(--bg);
-    overflow: hidden;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    user-select: none; /* supported by Chrome and Opera */
-    -webkit-user-select: none; /* Safari */
-    -khtml-user-select: none; /* Konqueror HTML */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    -webkit-font-smoothing : none;
-    animation: 
-    typing 2s steps(60, end),
-    blink-caret .75s step-end infinite;
-    color: var(--fontcolor);
+  font-smooth: never;
+  -webkit-font-smoothing : none;
+  background-color: var(--bg);
+  overflow: hidden;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none; /* supported by Chrome and Opera */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  -webkit-font-smoothing : none;
+  animation: 
+  typing 2s steps(60, end),
+  blink-caret .75s step-end infinite;
+  color: var(--fontcolor);
+  font-family: var(--font) !important;
 }
 
 #root {
@@ -47,17 +44,17 @@ html, body {
   font-size: 1rem; /* :skull: */
   display: grid;
 	place-items: center;
-  margin-left: -4rem;
 }
 
 #home {
   margin-top:-30rem;
-  margin-left:5rem;
   color: var(--accentcolor);
+  margin-left: 1px;
 }
 
 pre {
   display: inline;
+  font-family: var(--font) !important;
 }
 
 /* links */
@@ -99,6 +96,8 @@ a {
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  font-family: var(--font) !important;
+  margin-left: -42px;
 }
 
 /* greeting */
@@ -110,7 +109,10 @@ a {
   font-family: var(--fontjp);
   display: inline-block;
   margin: 0 16.1rem 0 0;
+  
+  font-size: 1.05rem; /* :skull: */
 }
+
 
 /* time */
 
@@ -130,7 +132,6 @@ a {
   from { height: 0 }
   to { height: 100% }
 }
-
 
 /* breaking geneva conventions and commiting warcrimes on scaling BLEEEH :PPP */
 
