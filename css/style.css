@@ -1,71 +1,147 @@
-@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap");
+/* zaza */
 
-body {
-    font-family: "JetBrains Mono", monospace;
-    font-size: 1vw;
-    background: rgb(13, 11, 13);
+@font-face {
+    font-family:'Terminus';
+    src: url('./Terminus.ttf');
+    font-smooth: never;
+    -webkit-font-smoothing : none;
+}
+
+:root {
+  --bg: rgb(12,12,12); /* whatever color your heart desires */
+  --fontcolor: rgb(204,204,204); /*  you probably want a different color than above */
+  --accentcolor: rgb(67,67,89); /* whatever floats your balls */
+  --fontjp: "jackeyfont", Monospace; /* japanese font */
+  --a: rgb(225,225,225);
+  --b: rgb(156, 44, 119);
+  --c: rgb(205, 16, 77);
+  --d: rgb(225, 77, 42);
+  --e: rgb(253, 132, 31);
+}
+
+/* the webpage */
+
+html, body {
+    font-smooth: never;
+    -webkit-font-smoothing : none;
+    background-color: var(--bg);
+    overflow: hidden;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
     user-select: none; /* supported by Chrome and Opera */
     -webkit-user-select: none; /* Safari */
     -khtml-user-select: none; /* Konqueror HTML */
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* Internet Explorer/Edge */
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 17%;
-    justify-content: center;
-    max-width: 1460px;
+    -webkit-font-smoothing : none;
+    animation: 
+    typing 2s steps(60, end),
+    blink-caret .75s step-end infinite;
+    color: var(--fontcolor);
 }
 
-.column {
-    float: left;
-    width: 22%;
-    padding: 1.5%;
+#root {
+  min-width: 100vw;
+  min-height: 100vh;
+  font-size: 1rem; /* :skull: */
+  display: grid;
+	place-items: center;
+  margin-left: -4rem;
 }
 
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
+#home {
+  margin-top:-30rem;
+  margin-left:5rem;
+  color: var(--accentcolor);
 }
 
-@media screen and (max-width: 330px) {
-    .column {
-        width: 100%;
-        display: block;
-        margin-bottom: 10px;
-        margin-top: 10px;
-    }
+pre {
+  display: inline;
 }
 
-.card {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    padding: 1rem 1rem 0.1rem 1rem;
-    text-align: center;
-    background-color: rgb(14, 12, 14);
-    border-radius: 0px 0pc 15px 15px;
-}
+/* links */
 
 a {
-    text-decoration: none;
-    color: white;
-    padding-top: 3%;
-    padding-bottom: 3%;
-    padding-left: 30%;
-    padding-right: 30%;
+  text-decoration: none;
+  margin: 0 0 0 0;
 }
 
-a:hover {
-    background-color: rgb(17, 15, 17);
-    border-radius: 10px;
-    color: white;
-    text-decoration: none;
-    text-shadow: 0 0 0;
+#link {
+  background: linear-gradient(
+    90deg, 
+    var(--a) 0% 50%, 
+    var(--fontcolor) 50% 100%
+  );
+  background-size: 200% 100%;
+  background-position: -100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: background-position 450ms ease;
+  transition-delay: 50ms;
 }
 
-img {
-    width: 100%;
-    max-height: 7vw;
-    object-fit: cover;
-    margin-bottom: -5%;
-    border-radius: 14px 14px 0px 0px;
+#link:hover {
+  background-position: 0;
+  transition-delay: 0ms;
+}
+
+/* logo */
+
+#logo {
+  line-height: 0.7rem;
+  background: linear-gradient(
+    0deg, 
+    var(--b) 0% 23%, 
+    var(--c) 23% 50%, 
+    var(--d) 50% 75%, 
+    var(--e) 75% 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* greeting */
+
+#greeting {
+  background: var(--accentcolor);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: var(--fontjp);
+  display: inline-block;
+  margin: 0 16.1rem 0 0;
+}
+
+/* time */
+
+#hour, #minutes, #seconds {
+  margin: 0 0 0 0;
+  color: var(--fontcolor);
+}
+
+#minutes::before, #seconds::before {
+  content: ': ';
+  color: var(--accentcolor);
+}
+
+/* stupid animation bleh :P */
+
+@keyframes typing {
+  from { height: 0 }
+  to { height: 100% }
+}
+
+
+/* breaking geneva conventions and commiting warcrimes on scaling BLEEEH :PPP */
+
+@media screen and (max-height: 750px) {
+  #home {
+    margin-top:-10rem;
+  }
+}
+
+@media screen and (max-height: 450px) {
+  #home {
+    margin-top:-2rem;
+  }
 }
