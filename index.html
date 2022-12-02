@@ -1,66 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- warcrimes -->
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="author" content="Chloe Chantelle">
-    <title>home</title>
+    <meta name="author" content="eric">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="img/favicon.png" type="image/ico">
+    <meta name="theme-color" content="#75b3ff">
+    <meta name="msapplication-TileColor" content="#0c0c0c">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/ico">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <title>home</title>
   </head>
   <body>
-    <div id="root">
-      <pre id="logo">
-        =================     ===============     ===============   ========  ======== <br/>
-        \\ . . . . . . .\\   //. . . . . . .\\   //. . . . . . .\\  \\. . .\\// . . //<br/>
-        ||. . ._____. . .|| ||. . ._____. . .|| ||. . ._____. . .|| || . . .\/ . . .||<br/>
-        || . .||   ||. . || || . .||   ||. . || || . .||   ||. . || ||. . . . . . . ||<br/>
-        ||. . ||   || . .|| ||. . ||   || . .|| ||. . ||   || . .|| || . | . . . . .||<br/>
-        || . .||   ||. _-|| ||-_ .||   ||. . || || . .||   ||. _-|| ||-_.|\ . . . . ||<br/>
-        ||. . ||   ||-'  || ||  `-||   || . .|| ||. . ||   ||-'  || ||  `|\_ . .|. .||<br/>
-        || . _||   ||    || ||    ||   ||_ . || || . _||   ||    || ||   |\ `-_/| . ||<br/>
-        ||_-' ||  .|/    || ||    \|.  || `-_|| ||_-' ||  .|/    || ||   | \  / |-_.||<br/>
-        ||    ||_-'      || ||      `-_||    || ||    ||_-'      || ||   | \  / |  `||<br/>
-        ||    `'         || ||         `'    || ||    `'         || ||   | \  / |   ||<br/>
-        ||            .===' `===.         .==='.`===.         .===' /==. |  \/  |   ||<br/>
-        ||         .=='   \_|-_ `===. .==='   _|_   `===. .===' _-|/   `==  \/  |   ||<br/>
-        ||      .=='    _-'    `-_  `='    _-'   `-_    `='  _-'   `-_  /|  \/  |   ||<br/>
-        ||   .=='    _-'          '-__\._-'         '-_./__-'         `' |. /|  |   ||<br/>
-        ||.=='    _-'                                                     `' |  /==.||<br/>
-        =='    _-'                                                            \/   `==<br/>
-        \   _-'                                                                `-_   /<br/>
-        `''                                                                      ``'
-    </pre>
-    <div id="home">
-      <p id="greeting">:)</p>
-      <a id="hour" target="" onclick="return false"></a> <!-- i love -->
-      <a id="minutes" target="" onclick="return false"></a> <!-- doing stuff -->
-      <a id="seconds" target="" onclick="return false"></a> <!-- the schizo way -->
-      <br/>
-      <pre>socials ;</pre>
-        <a id="link" target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/">facebook</a> /
-        <a id="link" target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/">instagram</a> /
-        <a id="link" target="_blank" rel="noopener noreferrer" href="https://www.reddit.com/">reddit</a> /
-        <a id="link" target="_blank" rel="noopener noreferrer" href="https://www.4chan.org/">4chan</a> /
-        <a id="link" target="_blank" rel="noopener noreferrer" href="https://www.twitter.com/">twitter</a> 
-      <br/>
-      <pre>media ;</pre>
-        <a id="link" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/">youtube</a> /
-        <a id="link" target="_blank" rel="noopener noreferrer" href="https://www.twitch.tv/">twitch</a> /
-        <a id="link" target="_blank" rel="noopener noreferrer" href="https://allanime.site/">weeb</a> /
-        <a id="link" target="_blank" rel="noopener noreferrer" href="https://www4.bflix.to/">bflix</a> 
-      <br/>
-      <pre>other ;</pre>
-        <a id="link" target="_blank" rel="noopener noreferrer" href="https://proxybay.how/">torrents</a> /
-        <a id="link" target="_blank" rel="noopener noreferrer" href="https://fitgirl-repacks.site/">fit-girl</a> /
-        <a id="link" target="_blank" rel="noopener noreferrer" href="https://mail.protonmail.com/">protonmail</a> /
-        <a id="link" target="_blank" rel="noopener noreferrer" href="https://gmail.com/">gmail</a>
-      <br/>
+  <!-- main content -->
+  <main class="d-flex mt-5" id="hide-this">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-12 mb-5">
+          <div class="card">
+            <div class="card-header">
+              <a id="hour" target="" onclick="return false"></a> <!-- i love -->
+              <a id="minutes" target="" onclick="return false"></a> <!-- doing stuff -->
+              <a id="seconds" target="" onclick="return false"></a> <!-- the schizo way -->
+            </div>
+            <div class="card-body">
+              <p id="greeting">:)</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 mb-5">
+          <div class="card">
+            <div class="card-header">social</div>
+            <div class="card-body">
+                <div class="link-list">
+                    <a id="link" target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/"><img src="https://icons.duckduckgo.com/ip3/facebook.com.ico" id="favicon" alt="">facebook</a></br></br>
+                    <a id="link" target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/"><img src="https://icons.duckduckgo.com/ip3/instagram.com.ico" id="favicon" alt="">instagram</a></br></br>
+                    <a id="link" target="_blank" rel="noopener noreferrer" href="https://www.reddit.com"><img src="https://icons.duckduckgo.com/ip3/reddit.com.ico" id="favicon" alt="">reddit</a></br></br>
+                    <a id="link" target="_blank" rel="noopener noreferrer" href="https://www.4chan.org/"><img src="https://s.4cdn.org/image/favicon.ico" id="favicon" alt="">4chan</a></br></br>
+                    <a id="link" target="_blank" rel="noopener noreferrer" href="https://www.twitter.com/"><img src="https://icons.duckduckgo.com/ip3/twitter.com.ico" id="favicon" alt="">twitter</a>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 mb-5">
+          <div class="card">
+          <div class="card-header">media</div>
+            <div class="card-body">
+                <div class="link-list">
+                    <a id="link" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/"><img src="https://icons.duckduckgo.com/ip3/youtube.com.ico" id="favicon" alt="">youtube</a></br></br>
+                    <a id="link" target="_blank" rel="noopener noreferrer" href="https://www.twitch.tv/"><img src="https://icons.duckduckgo.com/ip3/twitch.com.ico" id="favicon" alt="">twitch</a></br></br>
+                    <a id="link" target="_blank" rel="noopener noreferrer" href="https://4anime.gg/browse"><img src="https://icons.duckduckgo.com/ip3/4anime.gg.ico" id="favicon" alt="">weeb</a></br></br>
+                    <a id="link" target="_blank" rel="noopener noreferrer" href="https://www4.bflix.to/"><img src="https://icons.duckduckgo.com/ip3/bflix.to.ico" id="favicon" alt="">bflix</a>
+                  
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 mb-5">
+          <div class="card">
+            <div class="card-header">other</div>
+            <div class="card-body">
+                <div class="link-list">
+                    <a id="link" target="_blank" rel="noopener noreferrer" href="https://www.unknowncheats.me/forum/index.php"><img src="https://icons.duckduckgo.com/ip3/unknowncheats.me.ico" id="favicon" alt="">unknowncheats</a></br></br>
+                    <a id="link" target="_blank" rel="noopener noreferrer" href="https://proxybay.how/"><img src="https://icons.duckduckgo.com/ip3/proxybay.how.ico" id="favicon" alt="">torrents</a></br></br>
+                    <a id="link" target="_blank" rel="noopener noreferrer" href="https://fitgirl-repacks.site/"><img src="https://icons.duckduckgo.com/ip3/fitgirl-repacks.site.ico" id="favicon" alt="">fit-girl</a></br></br>
+                    <a id="link" target="_blank" rel="noopener noreferrer" href="https://mail.protonmail.com/"><img src="https://icons.duckduckgo.com/ip3/mail.protonmail.com.ico" id="favicon" alt="">protonmail</a></br></br>
+                    <a id="link" target="_blank" rel="noopener noreferrer" href="https://gmail.com/"><img src="https://icons.duckduckgo.com/ip3/gmail.com.ico" id="favicon" alt="">gmail</a>
+                </div>
+            </div>
+          </div>
+        </div>
     </div>
-  </div>
-  <script src="./js/greetings.js"></script>
-  <script src="./js/time.js"></script>
+  </main>
+    <script src="./js/greetings.js"></script>
+    <script src="./js/time.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous" type="3760d233f52b7b218c97f28a-text/javascript"></script>
   </body>
 </html>

@@ -1,14 +1,15 @@
 /* zaza */
 
-@import url('./terminus.ttf');
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
 
 :root {
-  --bg: rgb(12,12,12); /* whatever color your heart desires */
-  --fontcolor: rgb(204,204,204); /*  you probably want a different color than above */
-  --accentcolor: rgb(67,67,89); /* whatever floats your balls */
-  --font: 'Terminus (TTF) For Windows', monospace;/* normal font */
-  --fontjp: 'jackeyfont', sans-serif; /* japanese font */
-  --a: rgb(225,225,225);
+  --bg: rgb(12, 12, 12); /* whatever color your heart desires */
+  --fontcolor: rgb(225, 225, 225); /*  you probably want a different color than above */
+  --accentcolor: rgb(117, 179, 255); /* whatever floats your balls */
+  --font: 'Source Code Pro', monospace;/* normal font */
+  --fontjp: 'Noto Sans JP', sans serif;/* jp font */
+  --a: rgb(225, 225, 225);
   --b: rgb(156, 44, 119);
   --c: rgb(205, 16, 77);
   --d: rgb(225, 77, 42);
@@ -18,9 +19,7 @@
 /* the webpage */
 
 html, body {
-  font-smooth: never;
-  -webkit-font-smoothing : none;
-  background-color: var(--bg);
+  background-color: var(--bg) !important;
   overflow: hidden;
   box-sizing: border-box;
   margin: 0;
@@ -31,118 +30,93 @@ html, body {
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
   -webkit-font-smoothing : none;
-  animation: 
-  typing 2s steps(60, end),
-  blink-caret .75s step-end infinite;
   color: var(--fontcolor);
   font-family: var(--font) !important;
-}
-
-#root {
-  min-width: 100vw;
-  min-height: 100vh;
+  font-weight: 400 !important;
   font-size: 1rem; /* :skull: */
-  display: grid;
-	place-items: center;
-}
-
-#home {
-  margin-top:-30rem;
-  color: var(--accentcolor);
-  margin-left: 1px;
-}
-
-pre {
-  display: inline;
-  font-family: var(--font) !important;
-}
-
-/* links */
-
-a {
-  text-decoration: none;
-  margin: 0 0 0 0;
-}
-
-#link {
-  background: linear-gradient(
-    90deg, 
-    var(--a) 0% 50%, 
-    var(--fontcolor) 50% 100%
-  );
-  background-size: 200% 100%;
-  background-position: -100%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  transition: background-position 450ms ease;
-  transition-delay: 50ms;
-}
-
-#link:hover {
-  background-position: 0;
-  transition-delay: 0ms;
-}
-
-/* logo */
-
-#logo {
-  line-height: 0.7rem;
-  background: linear-gradient(
-    0deg, 
-    var(--b) 0% 23%, 
-    var(--c) 23% 50%, 
-    var(--d) 50% 75%, 
-    var(--e) 75% 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-family: var(--font) !important;
-  margin-left: -42px;
+  font-style: normal;
+  font-smooth: never;
 }
 
 /* greeting */
 
 #greeting {
-  background: var(--accentcolor);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-family: var(--fontjp);
   display: inline-block;
-  margin: 0 16.1rem 0 0;
-  
-  font-size: 1.05rem; /* :skull: */
+  margin: 0;
+  float: left !important;
+  font-family: var(--fontjp) !important;
+  font-size: 1rem; /* :skull: */
+  color: var(--fontcolor);
 }
-
 
 /* time */
 
 #hour, #minutes, #seconds {
-  margin: 0 0 0 0;
+  color: var(--fontcolor);
+  float: left;
+}
+
+#hour::after, #minutes::after {
+  content: ':';
   color: var(--fontcolor);
 }
 
-#minutes::before, #seconds::before {
-  content: ': ';
-  color: var(--accentcolor);
+/* cards */
+
+.card {
+  background-color: var(--bg) !important;
+  color: var(--fontcolor) !important;
+  box-shadow: -1px 8px 15px black;
+  border-radius: 0 !important;
 }
 
-/* stupid animation bleh :P */
-
-@keyframes typing {
-  from { height: 0 }
-  to { height: 100% }
+.card .card-header {
+  background-color: rgb(8,8,8);
+  border-bottom: 1px solid var(--accentcolor);
+  border-image-source: linear-gradient( 90deg, rgba(10,10,10, 1) 0%, var(--accentcolor) 31%, var(--accentcolor) 66%, rgba(10,10,10, 1) 100%);
+  border-image-slice: 1;
+  border-left: 0px;
+  border-right: 0px;
+  border-top: 0px;
+  color: var(--fontcolor) !important;
+  border-radius: 0 !important;
+  text-align: left;
 }
 
-/* breaking geneva conventions and commiting warcrimes on scaling BLEEEH :PPP */
+/* links */
 
-@media screen and (max-height: 750px) {
-  #home {
-    margin-top:-10rem;
+.link-list {
+  justify-content: space-between;
+  text-align: center;
+  animation: slidein 0.5s ease;
+}
+
+@keyframes slidein {
+  from {
+      transform: translateX(-50px);
+  }
+  to {
+      transform: translateX(0px);
   }
 }
 
-@media screen and (max-height: 450px) {
-  #home {
-    margin-top:-2rem;
-  }
+#link {
+  text-decoration: none;
+  margin: 0 0 0 0;
+  margin-left: -1.5rem;
+  color: var(--fontcolor) !important;
+}
+
+#link:hover {
+  color: #fff !important;
+}
+
+#link:hover #favicon {
+  filter: grayscale(0%);
+}
+
+#favicon {
+  height: 1.5rem;
+  filter: grayscale(60%);
+  float: left;
 }
