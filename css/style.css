@@ -1,24 +1,24 @@
 /* zaza */
 
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
+
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
 
 :root {
-  --bg: rgb(12, 12, 12); /* whatever color your heart desires */
-  --fontcolor: rgb(225, 225, 225); /*  you probably want a different color than above */
-  --accentcolor: rgb(117, 179, 255); /* whatever floats your balls */
+  --bg: rgb(0, 0, 0); /* whatever color your heart desires */
+  --fontcolor: rgb(255, 255, 255); /*  you probably want a different color than above */
+  --accentcolor1: rgb(0, 175, 254); /* whatever floats your balls */
+  --accentcolor2: rgb(0, 145, 254); /* whatever floats your balls */
+  --cardhead: rgb(8, 8, 8); /* bollocks itself */
+  --cardbg: rgb(0, 0, 0); /* bollocks itself */
+  --cardborder: rgb(32, 32, 32); /* bollocks itself */
   --font: 'Source Code Pro', monospace;/* normal font */
-  --fontjp: 'Noto Sans JP', sans serif;/* jp font */
-  --a: rgb(225, 225, 225);
-  --b: rgb(156, 44, 119);
-  --c: rgb(205, 16, 77);
-  --d: rgb(225, 77, 42);
-  --e: rgb(253, 132, 31);
+  --fontjp: 'Noto Sans JP', sans-serif;/* jp font */
 }
 
 /* the webpage */
 
-html, body {
+html, body, .d-flex {
   background-color: var(--bg) !important;
   overflow: hidden;
   box-sizing: border-box;
@@ -33,32 +33,15 @@ html, body {
   color: var(--fontcolor);
   font-family: var(--font) !important;
   font-weight: 400 !important;
-  font-size: 1rem; /* :skull: */
+  font-size: 1; /* :skull: */
   font-style: normal;
   font-smooth: never;
 }
 
-/* greeting */
+/* gif */
 
-#greeting {
-  display: inline-block;
-  margin: 0;
-  float: left !important;
-  font-family: var(--fontjp) !important;
-  font-size: 1rem; /* :skull: */
-  color: var(--fontcolor);
-}
-
-/* time */
-
-#hour, #minutes, #seconds {
-  color: var(--fontcolor);
-  float: left;
-}
-
-#hour::after, #minutes::after {
-  content: ':';
-  color: var(--fontcolor);
+.vamp {
+  max-width: 20rem;
 }
 
 /* cards */
@@ -66,21 +49,38 @@ html, body {
 .card {
   background-color: var(--bg) !important;
   color: var(--fontcolor) !important;
-  box-shadow: -1px 8px 15px black;
-  border-radius: 0 !important;
+}
+
+.card .card-body {
+  border-bottom: 1px solid var(--cardborder);
+  border-left: 1px solid var(--cardborder);
+  border-right: 1px solid var(--cardborder);
+  border-top: 0px solid var(--cardborder);
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
 
 .card .card-header {
   background-color: rgb(8,8,8);
-  border-bottom: 1px solid var(--accentcolor);
-  border-image-source: linear-gradient( 90deg, rgba(10,10,10, 1) 0%, var(--accentcolor) 31%, var(--accentcolor) 66%, rgba(10,10,10, 1) 100%);
-  border-image-slice: 1;
-  border-left: 0px;
-  border-right: 0px;
-  border-top: 0px;
+  border-bottom: 1px solid var(--cardborder);
+  border-left: 1px solid var(--cardborder);
+  border-right: 1px solid var(--cardborder);
+  border-top: 1px solid var(--cardborder);
   color: var(--fontcolor) !important;
-  border-radius: 0 !important;
-  text-align: left;
+  text-align: right;
+  border-top-left-radius: 4px !important;
+  border-top-right-radius: 4px !important;
+}
+
+/* time */
+
+#hour, #minutes, #seconds {
+  color: var(--fontcolor);
+}
+
+#hour::after, #minutes::after {
+  color: var(--fontcolor);
+  content: ' :';
 }
 
 /* links */
@@ -88,35 +88,22 @@ html, body {
 .link-list {
   justify-content: space-between;
   text-align: center;
-  animation: slidein 0.5s ease;
 }
 
-@keyframes slidein {
-  from {
-      transform: translateX(-50px);
-  }
-  to {
-      transform: translateX(0px);
-  }
-}
-
-#link {
+.link {
   text-decoration: none;
   margin: 0 0 0 0;
-  margin-left: -1.5rem;
-  color: var(--fontcolor) !important;
+  color: var(--accentcolor1);
 }
 
-#link:hover {
-  color: #fff !important;
+.link:hover {
+  text-decoration: none;
+  color: var(--accentcolor2);
 }
 
-#link:hover #favicon {
-  filter: grayscale(0%);
-}
+/* greeting */
 
-#favicon {
-  height: 1.5rem;
-  filter: grayscale(60%);
-  float: left;
+#greeting {
+  font-family: var(--fontjp) !important;
+  color: var(--fontcolor);
 }
