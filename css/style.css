@@ -17,7 +17,6 @@
 	margin: 0;
 	padding: 0;
 	border: 0;
-	font-size: 100%;
 	vertical-align: baseline;
   user-select: none; /* supported by Chrome and Opera */
   -webkit-user-select: none; /* Safari */
@@ -45,7 +44,7 @@ table {
 body {
   font-family: var(--font) !important;
   font-weight: 400 !important;
-  font-size: 0.8em; /* :skull: */
+  font-size: 1em; /* :skull: */
   font-style: normal;
   font-smooth: never;
   color: var(--fontcolor);
@@ -62,7 +61,7 @@ body {
 
 .main {
   display: flex;
-  width: 100%;
+  width: 100vw;
   height: 98vh;
   align-items: center;
   justify-content: center;
