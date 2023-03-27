@@ -1,109 +1,189 @@
 /* zaza */
 
-@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
-
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
 
 :root {
-  --bg: rgb(0, 0, 0); /* whatever color your heart desires */
-  --fontcolor: rgb(255, 255, 255); /*  you probably want a different color than above */
-  --accentcolor1: rgb(0, 175, 254); /* whatever floats your balls */
-  --accentcolor2: rgb(0, 145, 254); /* whatever floats your balls */
-  --cardhead: rgb(8, 8, 8); /* bollocks itself */
-  --cardbg: rgb(0, 0, 0); /* bollocks itself */
-  --cardborder: rgb(32, 32, 32); /* bollocks itself */
-  --font: 'Source Code Pro', monospace;/* normal font */
-  --fontjp: 'Noto Sans JP', sans-serif;/* jp font */
+  --font: 'Space Mono', monospace; /* normal font */
+  --bg: rgb(15, 15, 15); /* whatever color your heart desires */
+  --fontcolor: rgb(205, 205, 205); /*  you probably want a different color than above */
+  --disabledfontcolor: rgba(255, 255, 255, 0.2); /*  you also probably might want a different color than above */
+  --link: rgb(158, 195, 196); /* bollocks itself */
+  --border: rgb(24, 24, 24); /* im tired */
 }
 
-/* the webpage */
+/* commiting css shenanigans */
 
-html, body, .d-flex {
-  background-color: var(--bg) !important;
-  overflow: hidden;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	vertical-align: baseline;
   user-select: none; /* supported by Chrome and Opera */
   -webkit-user-select: none; /* Safari */
   -khtml-user-select: none; /* Konqueror HTML */
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
   -webkit-font-smoothing : none;
-  color: var(--fontcolor);
+}
+
+body {
+	line-height: 1;
+}
+
+ol, ul {
+	list-style: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* the webpage itself */
+
+body {
   font-family: var(--font) !important;
   font-weight: 400 !important;
-  font-size: 1; /* :skull: */
+  font-size: 0.8em; /* :skull: */
   font-style: normal;
   font-smooth: never;
+  color: var(--fontcolor);
+  height: 100vh;
+  background-color: black;
+  background-image: url('../img/smile.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  backdrop-filter: blur(15px);
 }
 
-/* gif */
 
-.vamp {
-  max-width: 20rem;
+/* container */
+
+.main {
+  display: flex;
+  width: 100%;
+  height: 98vh;
+  align-items: center;
+  justify-content: center;
 }
 
-/* cards */
-
-.card {
-  background-color: var(--bg) !important;
-  color: var(--fontcolor) !important;
+.box-container {
+  width: 370px;
+  height: 270px;
+  background-color: var(--bg);
+  border: solid 8px var(--bg);
+  border-radius: 4px;
+  -webkit-box-shadow: 
+  8px 8px 15px 10px rgba(0,0,0,0.66),
+  inset 0 0 1px  red; 
+  box-shadow: 
+  8px 8px 15px 10px rgba(0,0,0,0.66),
+  inset 0 0 2px var(--border);
 }
 
-.card .card-body {
-  border-bottom: 1px solid var(--cardborder);
-  border-left: 1px solid var(--cardborder);
-  border-right: 1px solid var(--cardborder);
-  border-top: 0px solid var(--cardborder);
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
+/* tabs */
+
+.tabs {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin-left: 3px;
 }
 
-.card .card-header {
-  background-color: rgb(8,8,8);
-  border-bottom: 1px solid var(--cardborder);
-  border-left: 1px solid var(--cardborder);
-  border-right: 1px solid var(--cardborder);
-  border-top: 1px solid var(--cardborder);
-  color: var(--fontcolor) !important;
-  text-align: right;
-  border-top-left-radius: 4px !important;
-  border-top-right-radius: 4px !important;
+.tabs-header {
+  display: flex;
+  flex-direction: row;
+  padding: 4px;
+  z-index: 1;
+  align-items: center;
 }
 
-/* time */
+.tab-header-item {
+  padding: 2px;
+  cursor: pointer;
+  color: var(--disabledfontcolor);
+  transition: ease-in-out 0.15s;
+}
 
-#hour, #minutes, #seconds {
+.tab-header-item:hover {
+  transition: ease-in-out 0.15s;
   color: var(--fontcolor);
 }
 
-#hour::after, #minutes::after {
+.tab-header-item.active {
   color: var(--fontcolor);
-  content: ' :';
+}
+
+.tabs-container {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+.tabs-item {
+  height: 100%;
+  display: none;
+}
+
+.tabs-item.active {
+  display: block;
 }
 
 /* links */
 
-.link-list {
-  justify-content: space-between;
-  text-align: center;
+.link-container {
+  height: -webkit-fill-available;
+  margin: 30px 0px 0px 0px;
+  display: flex;
+  flex-wrap: wrap;
+  letter-spacing: 1px;
+  justify-content: space-evenly;
 }
 
 .link {
-  text-decoration: none;
-  margin: 0 0 0 0;
-  color: var(--accentcolor1);
-}
-
-.link:hover {
-  text-decoration: none;
-  color: var(--accentcolor2);
-}
-
-/* greeting */
-
-#greeting {
-  font-family: var(--fontjp) !important;
   color: var(--fontcolor);
+}
+
+.link ul {
+  margin-left: 0px;
+}
+
+.link li {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.link a {
+  color: var(--fontcolor);
+  text-decoration: none;
+}
+
+.link span {
+  display: block;
+  margin-right: 0px;
+  padding-bottom: 4px;
+}
+
+.link a:hover {
+  color: var(--link);
+  text-decoration: none;
+}
+
+/* date and time */
+
+.date {
+  color: var(--disabledfontcolor);
+  position: absolute;
+  bottom: 10px;
+  left: 4px;
+}
+
+.time {
+  color: var(--disabledfontcolor);
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
 }

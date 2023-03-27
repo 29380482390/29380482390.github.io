@@ -6,8 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="author" content="eric">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#75b3ff">
-    <meta name="msapplication-TileColor" content="#0c0c0c">
     <link rel="shortcut icon" href="img/favicon.ico" type="image/ico">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
@@ -15,90 +13,83 @@
   </head>
   <body>
   <!-- main content -->
-  <main class="d-flex mt-5" id="hide-this">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-10 mb-5">
-          <div class="card">
-              <div class="link-list">
-                <img class="vamp" src="./img/vamp.gif">
+  <div class="main">
+    <div class="box-container">
+      <div class="tabs">
+        <div class="tabs-header">
+          <div class="tab-header-item item-1">o</div>
+          <div class="tab-header-item item-2">o</div>
+          <div class="date">
+            <span id="date"></span>
+          </div>
+          <div class="time">
+            <span id="time"></span>
+          </div>
+        </div>
+        <div class="tabs-container">
+          <div class="tabs-item item-1">
+            <div class="link-container">
+              <div class="link">
+                <span style="color:rgb(160,129,131);">social</span>
+                <ul>
+                    <li><a target="_blank" rel="noopener noreferrer" href="https://www.4chan.org/">4chan</a></li>
+                    <li><a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/">facebook</a></li>
+                    <li><a target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/">instagram</a></li>
+                    <li><a target="_blank" rel="noopener noreferrer" href="https://www.reddit.com">reddit</a></li>
+                    <li><a target="_blank" rel="noopener noreferrer" href="https://www.twitter.com/">twitter</a></li>
+                </ul>
               </div>
-          </div>
-        </div>
-        <div class="col-lg-12 mb-0">
-          <div class="card">
-              <div class="link-list">
-                  <span>it is currently </span>
-                  <a id="hour" target="" onclick="return false"></a>                        <!-- i love -->
-                  <a id="minutes" target="" onclick="return false"></a>                     <!-- doing stuff -->
-                  <a id="seconds" target="" onclick="return false"></a></br></br>           <!-- the schizo way -->
-                  <p id="greeting">:)</p></br></br>                                         <!-- lol -->
+              <div class="link">
+                <span style="color:rgb(70,127,96);">media</span>
+                <ul>
+                    <li><a target="_blank" rel="noopener noreferrer" href="https://www4.bflix.to/">bflix</a></li>
+                    <li><a target="_blank" rel="noopener noreferrer" href="https://kimcartoon.li/">cartoons</a></li>
+                    <li><a target="_blank" rel="noopener noreferrer" href="https://www.twitch.tv/">twitch</a></li>
+                    <li><a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/">youtube</a></li>
+                    <li><a target="_blank" rel="noopener noreferrer" href="https://9anime.me/">weeb</a></li>
+                </ul>
               </div>
-          </div>
+              <div class="link">
+                <span style="color:rgb(165,162,133);">other</span>
+                <ul>
+                    <li><a target="_blank" rel="noopener noreferrer" href="https://gmail.com/">gmail</a></li>
+                    <li><a target="_blank" rel="noopener noreferrer" href="https://malwarewatch.org/software">malwarewatch</a></li>
+                    <li><a target="_blank" rel="noopener noreferrer" href="https://mail.protonmail.com/">protonmail</a></li>
+                    <li><a target="_blank" rel="noopener noreferrer" href="https://tb.rg-adguard.net/public.php">techbench</a></li>
+                    <li><a target="_blank" rel="noopener noreferrer" href="https://store.rg-adguard.net/">win store</a></li>
+                </ul>
+              </div>
+            </div>
         </div>
-        <div class="col-lg-3 mb-5">
-          <div class="card">
-            <div class="card-header">social</div>
-            <div class="card-body">
-                <div class="link-list">
-                    <a class="link" target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/">facebook</a></br></br>
-                    <a class="link" target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/">instagram</a></br></br>
-                    <a class="link" target="_blank" rel="noopener noreferrer" href="https://www.reddit.com">reddit</a></br></br>
-                    <a class="link" target="_blank" rel="noopener noreferrer" href="https://www.4chan.org/">4chan</a></br></br>
-                    <a class="link" target="_blank" rel="noopener noreferrer" href="https://www.twitter.com/">twitter</a></br></br>
-                    <a class="link" target="_blank" rel="noopener noreferrer" href="https://www.tumblr.com/">tumblr</a>
-                </div>
+        <div class="tabs-item item-2">
+          <div class="link-container">
+            <div class="link">
+              <span style="color:rgb(125,121,149);">piracy</span>
+              <ul>
+                  <li><a target="_blank" rel="noopener noreferrer" href="https://cs.rin.ru/forum/">cs.rin.ru</a></li>
+                  <li><a target="_blank" rel="noopener noreferrer" href="https://fitgirl-repacks.site/">fit-girl</a></li>
+                  <li><a target="_blank" rel="noopener noreferrer" href="https://r-roms.github.io/megathread/popular/">roms</a></li>
+                  <li><a target="_blank" rel="noopener noreferrer" href="https://rutracker.org/forum/index.php">rutracker</a></li>
+                  <li><a target="_blank" rel="noopener noreferrer" href="https://github.com/Abd-007/Switch-Emulators-Guide/blob/main/README.md">switch</a></li>
+                  <li><a target="_blank" rel="noopener noreferrer" href="https://proxybay.github.io//">torrents</a></li>
+              </ul>
+            </div>
+            <div class="link">
+              <span style="color:rgb(196,158,196);">cheating</span>
+              <ul>
+                <li><a target="_blank" rel="noopener noreferrer" href="https://www.unknowncheats.me/">unknowncheats</a></li>
+              </ul>
             </div>
           </div>
         </div>
-        <div class="col-lg-3 mb-5">
-          <div class="card">
-          <div class="card-header">media</div>
-            <div class="card-body">
-                <div class="link-list">
-                    <a class="link" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/">youtube</a></br></br>
-                    <a class="link" target="_blank" rel="noopener noreferrer" href="https://www.twitch.tv/">twitch</a></br></br>
-                    <a class="link" target="_blank" rel="noopener noreferrer" href="https://soundcloud.com/">soundcloud</a></br></br>
-                    <a class="link" target="_blank" rel="noopener noreferrer" href="https://9anime.me/">weeb</a></br></br>
-                    <a class="link" target="_blank" rel="noopener noreferrer" href="https://www4.bflix.to/">bflix</a>
-                </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 mb-5">
-          <div class="card">
-            <div class="card-header">other</div>
-            <div class="card-body">
-                <div class="link-list">
-                    <a class="link" target="_blank" rel="noopener noreferrer" href="https://www.unknowncheats.me/">unknowncheats</a></br></br>
-                    <a class="link" target="_blank" rel="noopener noreferrer" href="https://proxybay.github.io//">torrents</a></br></br>
-                    <a class="link" target="_blank" rel="noopener noreferrer" href="https://fitgirl-repacks.site/">fit-girl</a></br></br>
-                    <a class="link" target="_blank" rel="noopener noreferrer" href="https://mail.protonmail.com/">protonmail</a></br></br>
-                    <a class="link" target="_blank" rel="noopener noreferrer" href="https://gmail.com/">gmail</a>
-                </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 mb-5">
-          <div class="card">
-            <div class="card-header">tools</div>
-            <div class="card-body">
-                <div class="link-list">
-                    <a class="link" target="_blank" rel="noopener noreferrer" href="https://malwarewatch.org/software">malwarewatch</a></br></br>
-                    <a class="link" target="_blank" rel="noopener noreferrer" href="https://tb.rg-adguard.net/public.php">techbench</a></br></br>
-                    <a class="link" target="_blank" rel="noopener noreferrer" href="https://rutracker.org/forum/index.php">rutracker</a></br></br>
-                    <a class="link" target="_blank" rel="noopener noreferrer" href="https://cs.rin.ru/forum/">cs.rin.ru</a></br></br>
-                    <a class="link" target="_blank" rel="noopener noreferrer" href="https://store.rg-adguard.net/">win store</a>
-                </div>
-            </div>
-          </div>
-        </div>
+      </div>
+      </div>
     </div>
   </div>
-  </main>
-    <script src="./js/time.js"></script>
-    <script src="./js/greetings.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous" type="3760d233f52b7b218c97f28a-text/javascript"></script>
   </body>
+  <!-- js -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+  <script src="./js/tablogic.js"></script>
+  <script src="./js/time.js"></script>
 </html>
