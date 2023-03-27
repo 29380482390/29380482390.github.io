@@ -134,7 +134,6 @@ body {
 /* links */
 
 .link-container {
-  height: -webkit-fill-available;
   margin: 30px 0px 0px 0px;
   display: flex;
   flex-wrap: wrap;
