@@ -28,6 +28,10 @@
     -webkit-font-smoothing: none;
 }
 
+html {
+    background-color: var(--color-background);
+}
+
 html,
 body {
     font-family: var(--font) !important;
