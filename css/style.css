@@ -1,16 +1,14 @@
 /* zaza */
 
-@import url("https://fonts.googleapis.com/css2?family=Space+Mono&display=swap");
+@import url("./Fontspring-DEMO-toruspro-regular.otf");
 
 :root {
-    --font: "Space Mono", monospace; /* normal font */
+    --font: "Torus Pro"; /* normal font */
     --color-font: rgb(205, 205, 205); /*  you probably want a good readable color */
     --color-disabledfont: rgba(255, 255, 255, 0.2); /*  you also might want a different color than above */
-    --color-link: rgb(158, 195, 196); /* bollocks itself */
-    --color-tabbackground: rgb(10, 10, 10); /* whatever color your heart desires */
-    --color-tabborder: rgb(20, 20, 20); /* probably a good border color */
-    --color-background: rgb(17, 17, 17); /* im tired */
-    --color-rain: rgb(34, 34, 34); /* sometimes i just want to :3 but i have to :( */
+	--color-link: rgb(158, 195, 196); /* bollocks itself */
+    --color-background: rgb(10, 10, 10); /* whatever color your heart desires */
+    --color-background2: rgb(15, 15, 15); /* probably a good color */
 }
 
 /* commiting css shenanigans */
@@ -28,149 +26,39 @@
     -webkit-font-smoothing: none;
 }
 
-html {
-    background-color: var(--color-background);
-}
-
-html,
 body {
-    font-family: var(--font) !important;
+	font-family: var(--font) !important;
     font-weight: 400 !important;
     font-size: 120%; /* :skull: */
     font-style: normal;
-    font-smooth: never;
+	letter-spacing: 1px;
+	background-color: var(--color-background);
+	/* align to center */
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
-/* base */
-
-body {
-    line-height: 1;
-    color: var(--color-font);
+dysmorphia {
+	/* flow horizontally */
+	display: flex;
 }
 
-/* containers */
-
-.body {
-    display: flex;
-    width: 100vw;
-    height: 98vh;
-    align-items: center;
-    justify-content: center;
+div > * {
+	display: block;
+	text-decoration: none;
+	padding: 10px 40px;
+	text-align: center;
 }
 
-.main {
-    width: 25.125rem;
-    height: 18.875rem;
-    background-color: var(--color-tabbackground);
-    border: solid 0.7rem var(--color-tabbackground);
-    border-radius: 4px;
-    -webkit-box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px,
-        inset 0 0 1px var(--color-tabborder);
-    box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px,
-        inset 0 0 1px var(--color-tabborder);
+a { 
+	color: var(--color-disabledfont);
+	transition: 250ms ease-in;
 }
 
-/* tab */
-
-.frame {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-}
-
-.tabs {
-    display: flex;
-    flex-direction: row;
-    z-index: 1;
-    align-items: center;
-    padding: 0.1em 0 0 0.7em;
-}
-
-.tabs-item {
-    padding: 0 0.30em 0 0;
-    cursor: pointer;
-    color: var(--color-disabledfont);
-    transition: ease-in-out 0.15s;
-}
-
-.tabs-item:hover {
-    transition: ease-in-out 0.15s;
-    color: var(--color-font);
-}
-
-.tabs-item.active {
-    color: var(--color-font);
-}
-
-.tab-container {
-    height: 100%;
-    width: 100%;
-    position: absolute;
-}
-
-.tab {
-    height: 100%;
-    display: none;
-}
-
-.tab.active {
-    display: block;
-}
-
-/* date and time */
-
-.date {
-    color: var(--color-disabledfont);
-    position: absolute;
-    bottom: 0.35em;
-    left: 0.5em;
-}
-
-.time {
-    color: var(--color-disabledfont);
-    position: absolute;
-    bottom: 0.35em;
-    right: 0.5em;
-}
-
-/* links */
-
-.link-container {
-    margin: 2em 0 0 0;
-    display: flex;
-    flex-wrap: wrap;
-    letter-spacing: 1px;
-    justify-content: space-evenly;
-}
-
-.link {
-    color: var(--color-font);
-}
-
-.link ul {
-    margin-left: 0;
-    list-style: none;
-}
-
-.link li {
-    margin-top: 0;
-    margin-bottom: 0.5em;
-}
-
-.link a {
-    color: var(--color-font);
-    text-decoration: none;
-}
-
-.link span {
-    display: block;
-    margin-right: 0;
-    padding-bottom: 1em;
-}
-
-.link a:hover {
-    color: var(--color-link);
-    text-decoration: none;
+a:hover {
+	color: var(--color-font);
+	font-weight: 500;
+	transition: 250ms ease-in;
 }
