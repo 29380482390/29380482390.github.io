@@ -1,9 +1,6 @@
 /* zaza */
 
-@import url("https://cdn.discordapp.com/attachments/730060415270387762/1109571472458006678/agrQzlN.otf");
-
 :root {
-    --font: "FSP DEMO - Torus Pro"; /* normal font */
     --color-font: rgb(205, 205, 205); /*  you probably want a good readable color */
     --color-disabledfont: rgba(255, 255, 255, 0.2); /*  you also might want a different color than above */
 	--color-link: rgb(158, 195, 196); /* bollocks itself */
@@ -11,9 +8,15 @@
     --color-background2: rgb(15, 15, 15); /* probably a good color */
 }
 
+@font-face {
+	font-family: Torus;
+	src: url(Fontspring-DEMO-toruspro-regular.otf);
+}
+
 /* commiting css shenanigans */
 
 * {
+	font-family: Torus;
     margin: 0;
     padding: 0;
     border: 0;
@@ -27,7 +30,6 @@
 }
 
 body {
-	font-family: var(--font) !important;
     font-weight: 400 !important;
     font-size: 120%; /* :skull: */
     font-style: normal;
