@@ -1,9 +1,9 @@
 /* zaza */
 
-@import url("./Fontspring-DEMO-toruspro-regular.otf");
+@import url("https://cdn.discordapp.com/attachments/730060415270387762/1109571472458006678/agrQzlN.otf");
 
 :root {
-    --font: "Torus Pro"; /* normal font */
+    --font: "FSP DEMO - Torus Pro"; /* normal font */
     --color-font: rgb(205, 205, 205); /*  you probably want a good readable color */
     --color-disabledfont: rgba(255, 255, 255, 0.2); /*  you also might want a different color than above */
 	--color-link: rgb(158, 195, 196); /* bollocks itself */
