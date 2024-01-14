@@ -10,27 +10,27 @@ const CONFIG = {
 	firstButtonsContainer: [
 		{
 			id: '1',
-			name: 'gmail',
-			icon: 'mail',
-			link: 'https://mail.google.com/',
-		},
-		{
-			id: '2',
-			name: 'outlook',
-			icon: 'mails',
-			link: 'https://outlook.office365.com/mail/',
-		},
-		{
-			id: '3',
 			name: 'youtube',
 			icon: 'youtube',
 			link: 'https://www.youtube.com/',
 		},
 		{
-			id: '4',
+			id: '2',
 			name: 'twitch',
 			icon: 'twitch',
 			link: 'https://www.twitch.tv/',
+		},
+		{
+			id: '3',
+			name: 'gmail',
+			icon: 'mail',
+			link: 'https://mail.google.com/',
+		},
+		{
+			id: '4',
+			name: 'outlook',
+			icon: 'mails',
+			link: 'https://outlook.office365.com/mail/',
 		},
 		{
 			id: '5',
