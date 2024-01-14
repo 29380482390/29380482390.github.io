@@ -10,15 +10,15 @@ const CONFIG = {
 	firstButtonsContainer: [
 		{
 			id: '1',
-			name: 'reddit',
-			icon: 'glasses',
-			link: 'https://www.reddit.com/',
+			name: 'gmail',
+			icon: 'mail',
+			link: 'https://mail.google.com/',
 		},
 		{
 			id: '2',
-			name: 'twitter',
-			icon: 'twitter',
-			link: 'https://twitter.com/home',
+			name: 'outlook',
+			icon: 'mails',
+			link: 'https://outlook.office365.com/mail/',
 		},
 		{
 			id: '3',
@@ -49,21 +49,21 @@ const CONFIG = {
 	secondButtonsContainer: [
 		{
 			id: '1',
-			name: 'gmail',
-			icon: 'mail',
-			link: 'https://mail.google.com/',
+			name: 'reddit',
+			icon: 'glasses',
+			link: 'https://www.reddit.com/',
 		},
 		{
 			id: '2',
-			name: 'outlook',
-			icon: 'mails',
-			link: 'https://outlook.office365.com/mail/',
+			name: 'twitter',
+			icon: 'twitter',
+			link: 'https://twitter.com/home',
 		},
 		{
 			id: '3',
-			name: 'fitgirl-repacks',
-			icon: 'sailboat',
-			link: 'https://fitgirl-repacks.site/',
+			name: '4chan',
+			icon: 'clover',
+			link: 'https://www.4chan.org/',
 		},
 		{
 			id: '4',
@@ -79,9 +79,9 @@ const CONFIG = {
 		},
 		{
 			id: '6',
-			name: '4chan',
-			icon: 'clover',
-			link: 'https://www.4chan.org/',
+			name: 'fitgirl-repacks',
+			icon: 'sailboat',
+			link: 'https://fitgirl-repacks.site/',
 		},
 	]
 };
