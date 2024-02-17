@@ -42,7 +42,7 @@ const CONFIG = {
 			id: '6',
 			name: 'anime',
 			icon: 'cat',
-			link: 'https://lite.aniwave.to/ongoing',
+			link: 'https://lite.aniwave.to/filter?keyword=&language%5B%5D=sub&language%5B%5D=softsub&sort=recently_updated',
 		},
 	],
 
