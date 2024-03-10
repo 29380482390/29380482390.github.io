@@ -36,7 +36,7 @@ const CONFIG = {
 			id: '5',
 			name: 'movies',
 			icon: 'film',
-			link: 'https://bflix.to/',
+			link: 'https://www.braflix.video/',
 		},
 		{
 			id: '6',
