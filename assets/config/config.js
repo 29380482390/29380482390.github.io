@@ -36,7 +36,7 @@ const CONFIG = {
 			id: '5',
 			name: 'movies',
 			icon: 'film',
-			link: 'https://bflixz.to/',
+			link: 'https://bflix.to/',
 		},
 		{
 			id: '6',
