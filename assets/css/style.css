@@ -1,204 +1,192 @@
-@import url('../font/maplemono.ttf');
-@import url('../font/ttyclock.ttf');
+/* omg hii x3 */
+
+@import url("../font/stylesheet.css");
 
 :root {
-  /* font size */
-  --fg-primary: 12vh; /* time and greeting */
-  --icon: 3vh; /* icon size */
+	/* font name */
+	--font: 'Apercu Mono Pro', monospace;
 
-  /* font color */
-  --fg: #9B9B9B; /* foreground color */
-  --sfg: #9B9B9B; /* secondary foreground color */
+	/* font size */
+	--fg-primary: 1.15rem; 
+  
+	/* font color */
+	--fg: #242424; /* foreground color */
+	--sfg: #9B9B9B; /* secondary foreground color */
+  
+	/* colors  */
+	--background: #000000; /* background color */
+	--sbackground: #1C1C1C; /* 2nd color */
+  }
 
-  /* colors  */
-  --accent: #282828; /* hover color */
-  --background: #000000; /* background color */
-  --cards: #0A0A0A; /* cards color */
-}
+
+
+/* 
+ 	TESAT 
+  */
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Maple Mono', monospace;
-  transition: 0.2s ease-in-out;
+	margin: 0;
+	padding: 0;
+	font-family: var(--font) !important;
+	font-weight: normal !important;
+	transition: 0.2s ease-in-out;
+	font-size: var(--fg-primary);
+	-webkit-user-select: none; /* Safari */
+	-ms-user-select: none; /* IE 10 and IE 11 */
+	user-select: none; /* Standard syntax */
 }
 
-body {
-  width: 100vw;
-  height: 100vh;
-  background-color: var(--background);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  /* 
+ 	TESAT 
+  */
 
-.notransition {
-  -webkit-transition: none;
-  -moz-transition: none;
-  -o-transition: none;
-  transition: none;
-}
+  html {
+	display: flex;
+	flex-flow: row nowrap;  
+	justify-content: center;
+	align-content: center;
+	align-items: center;
+	height: 100vh;
+	width: 100vw;
+	}
+  
+  body {
+	background: var(--background);
+	color: var(--fg);
+  }
 
-.container {
-  width: 145vh;
-  height: 85vh;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(4, 1fr);
-  grid-gap: 30px;
-  padding: 20px;
-}
-
-.card {
-  background-color: var(--cards);
-  border-radius: 7px;
-}
-
-.card:hover {
-  transform: translateY(-0.25rem);
-}
-
-.timeBlock {
-  grid-row: 1 / span 2;
-  grid-column: 1 / span 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.clock {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: ttyclock;
-}
-
-#hour,
-#separator,
-#minutes {
-  font-size: var(--fg-primary);
-  font-weight: bolder;
-  color: var(--fg);
-  font-family: ttyclock;
-}
-
-#greetings {
-  margin-top: 2vh;
-  font-size: var(--fg-secondary);
-  color: var(--fg);
-}
-
-.reduceGap {
-  grid-gap: 2rem !important;
-}
-
-.removeGap {
-  grid-gap: 0 !important;
-}
-
-.linksBlock {
-  grid-row: 3 / span 2;
-  grid-column: 1 / span 4;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  grid-gap: 1.5rem;
-}
-
-.linksBlockLeft {
-  grid-row: 1 / span 2;
-  grid-column: 1 / span 2;
-}
-
-.linksBlockRight {
-  grid-row: 1 / span 2;
-  grid-column: 3 / span 2;
-}
-
-.buttonsContainer {
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  grid-gap: 30px;
-  padding: 20px;
-}
-
-.button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
-.buttonIcon {
-  width: var(--icon);
-  height: var(--icon);
-  color: var(--fg);
-}
-
-.button__1 {
-  grid-row: 1;
-  grid-column: 1;
-}
-.button__2 {
-  grid-row: 1;
-  grid-column: 2;
-}
-.button__3 {
-  grid-row: 2;
-  grid-column: 1;
-}
-.button__4 {
-  grid-row: 2;
-  grid-column: 2;
-}
-.button__5 {
-  grid-row: 1;
-  grid-column: 3;
-}
-.button__6 {
-  grid-row: 2;
-  grid-column: 3;
-}
-.button:hover {
-  background-color: var(--accent);
-}
-.button:hover svg {
-  stroke: var(--sfg);
-}
-
-/* media - scaling */
-
-@media only screen and (max-width: 68.75em) {
+  /* 
+ 	TESAT 
+  */
+  
   .container {
-    grid-gap: 20px;
-    padding: 40px;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	width: 100%;
   }
 
-  .timeBlock {
-    grid-row: 1 / span 2;
-    grid-column: 1 / span 4;
+  .top_block {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 2vh;
+  }
+  
+  /* 
+ 	TESAT 
+  */
+
+  .folders_block {
+	display: flex;
+	justify-content: space-evenly;
   }
 
-  #greetings {
-    font-size: var(--fg-secondary);
+  .box {
+	width: 266px;
+	display: flex;
+    height: fit-content;
   }
 
-  .linksBlockRight {
-    display: none;
+  .box:not(:last-child) {
+	margin-right: 40px;
   }
 
-  .linksBlockLeft {
-    grid-column: 1 / span 4;
+  .title {
+	margin: -40px 0 0 0;
+	float: left;
+	border-radius: 8px 8px 0 0;
+	text-align: left;
+	padding: 11px 18px 18px 18px;
+	height: fit-content;
   }
 
-  .button {
-    grid-gap: 3vw;
-    padding-left: 100px;
-    padding-right: 100px;
+  .mask {
+	width:40px;
+	height:40px;
+	border-radius: 8px;
+	clip-path: border-box;
+	box-shadow: -8px+8px #FFB4A2;
+	margin-top: -40px;
+	margin-left: 0px;
   }
-}
+  
+  .links {
+	align-items: left;
+	padding: 18px;
+	position: absolute;
+	width: 230px;
+	border-radius: 0 8px 8px 8px;
+  }
+
+  .links2 {
+	margin-top: 0;
+	padding: 18px;
+	text-align: right;
+	position: relative;
+	margin-left: auto;
+	pointer-events: none;
+	opacity: 0.33;
+  }
+  
+  /* 
+ 	TESAT 
+  */
+  
+  .input_box {
+	border: none;
+	outline: none;
+	background: none;
+	margin-left: 8px;
+	margin-top: 8px;
+	width: 231px;
+	height: 32px;
+	text-align: left;
+	color: var(--sfg);
+	-webkit-user-select: auto; /* Safari */
+	-ms-user-select: auto; /* IE 10 and IE 11 */
+	user-select: auto; /* Standard syntax */
+  }
+  
+  .logo {
+	background: var(--background);
+	width: 63px;
+	height: 32px;
+	text-align: center;
+	border-radius: 8px;
+	margin-left: 8px;
+	margin-top: 8px;
+	color: var(--sfg)
+  }
+
+  form {
+	margin: 0px;
+	padding: 0px;
+  }
+  
+  .search_box {
+	display: flex;
+	background: var(--sbackground);
+	width: 318px;
+	padding: 0px;
+	margin-bottom: 40px;
+	align-self: center;
+	height: 48px;
+	border-radius: 8px;
+	overflow-x: auto;
+	white-space: nowrap;
+  }
+  
+  /* 
+ 	TESAT 
+  */
+
+  li {
+	font-size: 16px;
+	list-style-type: none;
+	padding: 5px
+  }
+  
+  a {
+	text-decoration: none;
+	color: var(--fg);
+  }

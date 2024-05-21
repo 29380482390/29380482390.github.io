@@ -1,44 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<title>home</title>
-		<link rel=" shortcut icon" type="image/png" href="assets/icons/favicon.png" />
-		<link rel="stylesheet" href="./assets/css/style.css" />
-		<script src="https://unpkg.com/lucide@latest"></script>
-	</head>
-
-	<body class="">
-		<div class="container">
-			<!-- clock and greeting  -->
-
-			<div class="timeBlock">
-				<div class="clock">
-					<div id="hour"></div>
-					<div id="separator"></div>
-					<div id="minutes"></div>
-				</div>
-				<div id="greetings"></div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="favicon" type="image/png" href="./assets/icons/favicon.png" />
+    <title>test page</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+	<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="top_block">
+		  <div class="search_box">
+			<div class="logo">g</div>
+			<div id="gSearch" style="display:block;">
+			  <form id="textField" class="google" action="https://google.com/search" method="get">
+				<input class="input_box" autocomplete="off" type="text" name="q" placeholder="...">
+			  </form>
 			</div>
-
-			<div class="linksBlock" id="linksBlock">
-				<div class="linksBlockLeft" id="linksBlockLeft"></div>
-				<div class="linksBlockRight" id="linksBlockRight"></div>
-			</div>
+		  </div>
 		</div>
+  
+		<div class="folders_block">
 
-	<!-- config  -->
-	<script src="./assets/config/config.js"></script>
-
-	<!-- scripts  -->
-	<script src="assets/js/layout.js"></script>
-	<script src="assets/js/time.js"></script>
-	<script src="assets/js/greeting.js"></script>
-	<script src="assets/js/buttons.js"></script>
-
-	<!-- icons -->
-	<script>
-	lucide.createIcons();
-	</script>
-	</body>
+		  <div class="box">
+			<div class="title" style="background:#FFB4A2;">chill</div>
+			<div class="mask"></div>
+			<div class="links" style="background:#FFB4A2;">
+				<li><a class="bm" href="https://boards.4chan.org/" target="_blank">4chan</a></li>
+				<li><a class="bm" href="https://www.reddit.com/" target="_blank">reddit</a></li>
+				<li><a class="bm" href="https://discord.com/app" target="_blank">discord</a></li>
+				<li><a class="bm" href="https://myanimelist.net/" target="_blank">mal</a></li>
+				<li><a class="bm" href="https://www.x.com/" target="_blank">x</a></li>
+			</div>
+			<div class="links2">
+				<li><a style="pointer-events: auto;margin-right:20px;" class="bm" href="https://boards.4chan.org/g/" target="_blank">tech</a><a style="pointer-events: auto;" class="bm" href="https://boards.4chan.org/wg/" target="_blank">wall</a></li>
+			</div>
+		  </div>
+  
+		  <div class="box">
+			<div class="title" style="background:#E5989B;">test</div>
+			<div class="mask" style="box-shadow:-7px+7px #E5989B;"></div>
+			<div class="links" style="background:#E5989B;">
+				<li><a class="bm" href="https://mail.google.com/" target="_blank">gmail</a></li>
+				<li><a class="bm" href="https://github.com/" target="_blank">github</a></li>
+				<li><a class="bm" href="https://chatgpt.com/" target="_blank">chatgpt</a></li>
+			</div>
+			<div class="links2" style="padding-right:17px;">
+				<li><a style="pointer-events: auto;" class="bm" href="https://outlook.com/" target="_blank">outlook</a></li>
+			</div>
+		  </div>
+  
+		  <div class="box">
+			<div class="title" style="background:#B5838D;">media</div>
+			<div class="mask" style="box-shadow:-7px+7px #B5838D;"></div>
+			<div class="links" style="background:#B5838D;">
+				<li><a class="bm" href="https://www.youtube.com/" target="_blank">youtube</a></li>
+				<li><a class="bm" href="https://www.twitch.tv/" target="_blank">twitch</a></li>
+				<li><a class="bm" href="https://nyaa.si/" target="_blank">nyaa.si</a></li>
+				<li><a class="bm" href="https://www.braflix.video/" target="_blank">braflix</a></li>
+			</div>
+		  </div>
+  
+		  <div class="box">
+			<div class="title" style="background:#6D6875;">piracy</div>
+			<div class="mask" style="box-shadow:-7px+7px #6D6875;"></div>
+			<div class="links" style="background:#6D6875;">
+				<li><a class="bm" href="https://fmhy.net/adblockvpnguide" target="_blank">fmhy.net</a></li>
+				<li><a class="bm" href="https://cs.rin.ru/forum/" target="_blank">cs.rin</a></li>
+				<li><a class="bm" href="https://massgrave.dev/" target="_blank">massgrave</a></li>
+				<li><a class="bm" href="https://fitgirl-repacks.site/" target="_blank">fitgirl</a></li>
+				<li><a class="bm" href="https://www.reddit.com/r/Piracy/wiki/megathread/" target="_blank">megathread</a></li>
+			</div>
+			<div class="links2">
+				<li style="color:#6D6875;">blank</li>
+				<li style="color:#6D6875;">blank</li>
+				<li style="color:#6D6875;">blank</li>
+				<li><a class="bm" style="pointer-events: auto;" href="https://dodi-repacks.site" target="_blank">dodi</a></li>
+			</div>
+		  </div>
+  
+		</div>
+	  </div>
+</body>
+<script>
+	document.getElementById('textField').addEventListener('input', function() {
+    this.scrollLeft = this.scrollWidth;
+});
+</script>
 </html>
