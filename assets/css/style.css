@@ -8,39 +8,38 @@
 
 	/* font size */
 	--fg-primary: 1.15rem; 
-  
+
 	/* font color */
 	--fg: #242424; /* foreground color */
-	--sfg: #9B9B9B; /* secondary foreground color */
-  
+	--sfg: #9B9B9B; /* 2nd foreground color */
+	--ssfg: #000000; /* 3rd foreground color */
+
 	/* colors  */
 	--background: #000000; /* background color */
 	--sbackground: #1C1C1C; /* 2nd color */
-  }
-
-
+	--ssbackground:rgb(54, 54, 54); /* 3rd color */
+}
 
 /* 
- 	TESAT 
-  */
+	root 
+*/
 
 * {
 	margin: 0;
 	padding: 0;
-	font-family: var(--font) !important;
 	font-weight: normal !important;
 	transition: 0.2s ease-in-out;
 	font-size: var(--fg-primary);
-	-webkit-user-select: none; /* Safari */
-	-ms-user-select: none; /* IE 10 and IE 11 */
-	user-select: none; /* Standard syntax */
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
-  /* 
- 	TESAT 
-  */
+/* 
+	backend 
+*/
 
-  html {
+html {
 	display: flex;
 	flex-flow: row nowrap;  
 	justify-content: center;
@@ -48,91 +47,120 @@
 	align-items: center;
 	height: 100vh;
 	width: 100vw;
-	}
-  
-  body {
+}
+
+body {
 	background: var(--background);
 	color: var(--fg);
-  }
+}
 
-  /* 
- 	TESAT 
-  */
-  
-  .container {
+/* 
+	containers 
+*/
+
+.container {
 	display: flex;
 	flex-direction: column;
 	height: 100%;
 	width: 100%;
-  }
+}
 
-  .top_block {
+.top_block {
 	display: flex;
 	flex-direction: column;
 	margin-bottom: 2vh;
-  }
-  
-  /* 
- 	TESAT 
-  */
+}
 
-  .folders_block {
+/* 
+	box 
+*/
+
+.folders_block {
 	display: flex;
 	justify-content: space-evenly;
-  }
+}
 
-  .box {
+.box {
 	width: 266px;
 	display: flex;
-    height: fit-content;
-  }
+	height: fit-content;
+}
 
-  .box:not(:last-child) {
+.box:not(:last-child) {
 	margin-right: 40px;
-  }
+}
 
-  .title {
+.title {
 	margin: -40px 0 0 0;
 	float: left;
 	border-radius: 8px 8px 0 0;
 	text-align: left;
-	padding: 11px 18px 18px 18px;
+	padding: 8px 18px 18px 18px;
 	height: fit-content;
-  }
+}
 
-  .mask {
+.title a {
+	font-family: var(--font) !important;
+	margin-left: 24px;
+}
+
+svg {
+	position: absolute;
+	z-index: 999;
+	margin-top: -32px;
+	margin-left: 12px;
+}
+
+
+.mask {
 	width:40px;
 	height:40px;
 	border-radius: 8px;
 	clip-path: border-box;
-	box-shadow: -8px+8px #FFB4A2;
+	box-shadow: -8px+8px red;
 	margin-top: -40px;
 	margin-left: 0px;
-  }
-  
-  .links {
+}
+
+/* 
+	links
+*/
+
+li {
+	list-style-type: none;
+	padding: 5px
+}
+
+a {
+	text-decoration: none;
+	color: var(--fg);
+}
+
+.links {
 	align-items: left;
-	padding: 18px;
+	padding: 5px 18px 18px 18px;
 	position: absolute;
 	width: 230px;
 	border-radius: 0 8px 8px 8px;
-  }
+	font-family: var(--font) !important;
+}
 
-  .links2 {
+.links2 {
 	margin-top: 0;
-	padding: 18px;
+	padding: 5px 18px 18px 18px;
 	text-align: right;
 	position: relative;
 	margin-left: auto;
 	pointer-events: none;
-	opacity: 0.33;
-  }
-  
-  /* 
- 	TESAT 
-  */
-  
-  .input_box {
+	opacity: 0.5;
+	font-family: var(--font) !important;
+}
+
+/* 
+	search bar 
+*/
+
+.input_box {
 	border: none;
 	outline: none;
 	background: none;
@@ -142,28 +170,30 @@
 	height: 32px;
 	text-align: left;
 	color: var(--sfg);
-	-webkit-user-select: auto; /* Safari */
-	-ms-user-select: auto; /* IE 10 and IE 11 */
-	user-select: auto; /* Standard syntax */
-  }
-  
-  .logo {
-	background: var(--background);
+	-webkit-user-select: auto;
+	-ms-user-select: auto;
+	user-select: auto;
+	font-family: var(--font) !important;
+}
+
+.logo {
+	background: var(--ssbackground);
 	width: 63px;
 	height: 32px;
 	text-align: center;
 	border-radius: 8px;
 	margin-left: 8px;
 	margin-top: 8px;
-	color: var(--sfg)
-  }
+	color: var(--ssfg);
+	font-family: var(--font) !important;
+}
 
-  form {
+form {
 	margin: 0px;
 	padding: 0px;
-  }
-  
-  .search_box {
+}
+
+.search_box {
 	display: flex;
 	background: var(--sbackground);
 	width: 318px;
@@ -174,19 +204,4 @@
 	border-radius: 8px;
 	overflow-x: auto;
 	white-space: nowrap;
-  }
-  
-  /* 
- 	TESAT 
-  */
-
-  li {
-	font-size: 16px;
-	list-style-type: none;
-	padding: 5px
-  }
-  
-  a {
-	text-decoration: none;
-	color: var(--fg);
-  }
+}
