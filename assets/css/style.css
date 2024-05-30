@@ -10,14 +10,12 @@
 	--fg-primary: 1.15rem; 
 
 	/* font color */
-	--fg: #242424; /* foreground color */
-	--sfg: #9B9B9B; /* 2nd foreground color */
-	--ssfg: #000000; /* 3rd foreground color */
+	--fg: #c0c0c0; /* foreground color */
+	--sfg: #f0f0f0; /* 2nd foreground color */
 
 	/* colors  */
 	--background: #000000; /* background color */
-	--sbackground: #1C1C1C; /* 2nd color */
-	--ssbackground:rgb(54, 54, 54); /* 3rd color */
+	--sbackground: #1e1e1e; /* 2nd color */
 }
 
 /* 
@@ -112,7 +110,6 @@ svg {
 	margin-left: 1em;
 }
 
-
 .mask {
 	width:40px;
 	height:40px;
@@ -179,14 +176,14 @@ a {
 }
 
 .logo {
-	background: var(--ssbackground);
+	background: var(--background);
 	width: 3.9375em;
 	height: 2em;
 	text-align: center;
 	border-radius: 0.5em;
 	margin-left: 0.5em;
 	margin-top: 0.5em;
-	color: var(--ssfg);
+	color: var(--fg);
 	font-family: var(--font) !important;
 }
 
