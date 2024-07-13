@@ -157,7 +157,7 @@ a {
 
 .bm:hover {
 	background: rgba(0,0,0,0.255);
-	transition: .2s;
+	transition: .333s;
 	border-radius: .5rem;
 	position: relative;
 	padding-left: .5rem;
