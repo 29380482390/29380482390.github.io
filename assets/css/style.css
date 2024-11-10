@@ -1,236 +1,41 @@
-/* omg hii x3 */
-
 @import url("../font/stylesheet.css");
 
 :root {
-	/* font name */
-	--font: 'Apercu Mono Pro', monospace;
-
-	/* font size */
-	--fg-primary: 1.15rem; 
-
-	/* font color */
-	--fg: #c0c0c0; /* foreground color */
-	--sfg: #f0f0f0; /* 2nd foreground color */
-
-	/* colors  */
-	--background: #000000; /* background color */
-	--sbackground: #1e1e1e; /* 2nd color */
+  --border-radius: 1rem;
+  --color-background: #000000;
+  --color-text-subtle: #646464;
+  --color-text: #9B9B9B;
+  --font-family: 'Apercu Mono Pro', monospace;
+  --font-size: clamp(16px, 1.6vw, 18px);
+  --font-weight-bold: 600;
+  --font-weight-normal: 400;
+  --space: 1rem;
+  --transition-speed: 400ms;
 }
-
-/* 
-	root 
-*/
-
-* {
-	margin: 0;
-	padding: 0;
-	font-weight: normal !important;
-	transition: 0.2s ease-in-out;
-	font-size: var(--fg-primary);
-	-webkit-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	letter-spacing: 0.000526em; /* 𝔀𝓱𝓾𝓱 𝓯𝓻𝓮𝓪𝓴𝔂 𝓯𝓸𝓷𝓽 */
-}
-
-/* 
-	backend 
-*/
 
 html {
-	display: flex;
-	flex-flow: row nowrap;  
-	justify-content: center;
-	align-content: center;
-	align-items: center;
-	height: 100vh;
-	width: 100vw;
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  letter-spacing: 0.000526em; /* 𝔀𝓱𝓾𝓱 𝓯𝓻𝓮𝓪𝓴𝔂 𝓯𝓸𝓷𝓽 */
+  line-height: 1.4;
 }
 
 body {
-	background: var(--background);
-	color: var(--fg);
+  background-position: top right;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-color: black;
+  margin: 0;
 }
 
-/* 
-	containers 
-*/
-
-.container {
-	display: flex;
-	flex-direction: column;
-	height: 100%;
-	width: 100%;
-}
-
-.top_block {
-	display: flex;
-	flex-direction: column;
-	margin-bottom: 3em;
-}
-
-/* 
-	box 
-*/
-
-.folders_block {
-	display: flex;
-	justify-content: space-evenly;
-}
-
-.box {
-	width: 16.875em;
-	display: flex;
-	height: fit-content;
-}
-
-.box:not(:last-child) {
-	margin-right: 1.25em;
-}
-
-.title {
-	margin: -2.5em 0 0 0;
-	float: left;
-	border-radius: 0.5em 0.5em 0 0;
-	text-align: left;
-	padding: 0.5em 1.125em 1.125em 1.125em;
-	height: fit-content;
-}
-
-.title a {
-	font-family: var(--font) !important;
-	margin-left: 1.5em;
-}
-
-svg {
-	position: absolute;
-	z-index: 999;
-	margin-top: -1.75em;
-	margin-left: 1em;
-}
-
-.mask {
-	width:40px;
-	height:40px;
-	border-radius: 8px;
-	clip-path: border-box;
-	box-shadow: -8px+8px red;
-	margin-top: -40px;
-	margin-left: 0px;
-}
-
-/* 
-	links
-*/
-
-li {
-	list-style-type: none;
-	padding-bottom: 0.55em
-}
-
-a {
-	text-decoration: none;
-	color: var(--fg);
-}
-
-.links {
-	align-items: left;
-	padding: 0.625em 1.125em 0.25em 1.125em;
-	position: absolute;
-	width: 13.125em;
-	border-radius: 0 0.5em 0.5em 0.5em;
-	font-family: var(--font) !important;
-}
-
-.links2 {
-	margin-top: 0;
-	padding: 0.625em 1.125em 0.25em 0;
-	text-align: right;
-	position: relative;
-	margin-left: auto;
-	pointer-events: none;
-	opacity: 0.5;
-	font-family: var(--font) !important;
-	margin-right: 1.125em;
-}
-
-.bm:hover {
-	background: rgba(0,0,0,0.255);
-	transition: .333s;
-	border-radius: .5rem;
-	position: relative;
-	padding-left: .5rem;
-	padding-right: .5rem;
-	padding-bottom: .25rem;
-	z-index: 999;
-}
-
-
-/* 
-	search bar 
-*/
-
-.input_box {
-	border: none;
-	outline: none;
-	background: none;
-	margin-left: 0.5em;
-	margin-top: 0.5em;
-	width: 14.4375em;
-	height: 2em;
-	text-align: left;
-	color: var(--sfg);
-	-webkit-user-select: auto;
-	-ms-user-select: auto;
-	user-select: auto;
-	font-family: var(--font) !important;
-}
-
-.logo {
-	background: var(--background);
-	width: 3.9375em;
-	height: 2em;
-	text-align: center;
-	border-radius: 0.5em;
-	margin-left: 0.5em;
-	margin-top: 0.5em;
-	color: var(--fg);
-	font-family: var(--font) !important;
-}
-
-form {
-	margin: 0;
-	padding: 0;
-}
-
-.search_box {
-	display: flex;
-	background: var(--sbackground);
-	width: 19.875em;
-	padding: 0px;
-	margin-bottom: 2.5em;
-	align-self: center;
-	height: 3em;
-	border-radius: 0.5em;
-	overflow-x: auto;
-	white-space: nowrap;
-}
-
-/* Media Query for Mobile Views */
-@media (max-width: 856px) {
-	.top_block {
-		margin-bottom: -10em;
-	}
-
-    .folders_block {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-gap: 1em;
-    }
-
-	.box {
-		margin-top: 15em;
-		margin-bottom: auto;
-	}
+main {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  min-height: 100dvh;
+  overflow: hidden;
+  padding: calc(var(--space) * 4) var(--space);
+  position: relative;
+  width: 100vw;
 }

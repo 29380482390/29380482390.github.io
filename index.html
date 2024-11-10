@@ -1,96 +1,522 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="icon" type="image/png" href="./assets/icons/favicon.png" />
-    <title>home</title>
-    <link rel="stylesheet" href="./assets/css/style.css">
-	<script src="https://kit.fontawesome.com/27f0b57b00.js" crossorigin="anonymous"></script>
-</head>
-<body>
-	<div class="container">
-		<div class="top_block">
-		  <div class="search_box">
-			<div class="logo">g</div>
-			<div id="gSearch" style="display:block;">
-			  <form id="textField" class="google" action="https://google.com/search" method="get">
-				<input class="input_box" autocomplete="off" type="text" name="q" placeholder="...">
-			  </form>
-			</div>
-		  </div>
-		</div>
-		<div class="folders_block">
-			<div class="box">
-				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-0.855 -0.855 24 24" id="Tea-Cup--Streamline-Core" height="1.25rem" width="1.25rem"><desc>Tea Cup Streamline Icon: https://streamlinehq.com</desc><g id="tea-cup--herbal-cook-tea-tisane-cup-drink-cooking-nutrition-mug-food"><path id="Vector" stroke="#c0c0c0" stroke-linecap="round" stroke-linejoin="round" d="M3.184285714285714 6.368571428571428h13.533214285714285v7.960714285714285c0 0.8445203357142856 -0.3354645 1.6543956428571427 -0.9326613642857143 2.251608428571428C15.187673614285714 17.178106928571427 14.377734621428573 17.513571428571428 13.533214285714285 17.513571428571428h-7.960714285714285c-0.8445203357142856 0 -1.6544593285714284 -0.3354645 -2.2516243499999997 -0.9326772857142857C2.7236947071428568 15.983681357142856 2.3882142857142856 15.173806050000001 2.3882142857142856 14.329285714285714V7.164642857142857c0 -0.2111340642857143 0.0838740857142857 -0.4136227928571429 0.2331693214285714 -0.562902107142857C2.7706629214285714 6.452445514285714 2.97315165 6.368571428571428 3.184285714285714 6.368571428571428Z" stroke-width="1.71"></path><path id="Vector_2" stroke="#c0c0c0" stroke-linecap="round" stroke-linejoin="round" d="M0.7960714285714285 21.49392857142857h20.697857142857142" stroke-width="1.71"></path><path id="Vector_3" stroke="#c0c0c0" stroke-linecap="round" stroke-linejoin="round" d="M16.7175 6.368571428571428h1.592142857142857c0.8444725714285714 0 1.6543956428571427 0.33548042142857143 2.251608428571428 0.9326613642857143 0.5972127857142857 0.5971650214285714 0.9326772857142857 1.4071040142857143 0.9326772857142857 2.2516243499999997s-0.3354645 1.6544593285714284 -0.9326772857142857 2.2516243499999997C19.964038499999997 12.401662435714286 19.15411542857143 12.737142857142857 18.309642857142855 12.737142857142857h-1.592142857142857" stroke-width="1.71"></path><path id="Vector_4" stroke="#c0c0c0" stroke-linecap="round" stroke-linejoin="round" d="M4.776428571428571 0.7960714285714285v1.592142857142857" stroke-width="1.71"></path><path id="Vector_5" stroke="#c0c0c0" stroke-linecap="round" stroke-linejoin="round" d="M12.737142857142857 0.7960714285714285v1.592142857142857" stroke-width="1.71"></path><path id="Vector_6" stroke="#c0c0c0" stroke-linecap="round" stroke-linejoin="round" d="M8.756785714285714 0.7960714285714285v1.592142857142857" stroke-width="1.71"></path></g></svg>		  
-				<div class="title" style="background:#403434;"><a>chill</a></div>
-				<div class="mask" style="box-shadow:-8px+8px #403434;"></div>
-				<div class="links" style="background:#403434;">
-					<li><a class="bm" href="https://boards.4chan.org/" target="_blank">4chan</a></li>
-					<li><a class="bm" href="https://www.reddit.com/" target="_blank">reddit</a></li>
-					<li><a class="bm" href="https://discord.com/app" target="_blank">discord</a></li>
-				</div>
-				<div class="links2">
-					<li><a style="pointer-events: auto;margin-right:20px;" class="bm" href="https://boards.4chan.org/g/" target="_blank">tech</a><a style="pointer-events: auto;" class="bm" href="https://boards.4chan.org/wg/" target="_blank">wg</a></li>
-				</div>
-			</div>
-
-			<div class="box">
-				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-0.855 -0.855 24 24" id="Landscape-2--Streamline-Core" height="1.25rem" width="1.25rem"><desc>Landscape 2 Streamline Icon: https://streamlinehq.com</desc><g id="landscape-2--photos-photo-landscape-picture-photography-camera-pictures-image"><path id="Vector" stroke="#c0c0c0" stroke-linecap="round" stroke-linejoin="round" d="m2.3882142857142856 21.49392857142857 17.513571428571428 0c0.8793405 0 1.592142857142857 -0.7128023571428571 1.592142857142857 -1.592142857142857l0 -17.513571428571428c0 -0.8793166178571429 -0.7128023571428571 -1.592142857142857 -1.592142857142857 -1.592142857142857l-17.513571428571428 0c-0.8793166178571429 0 -1.592142857142857 0.7128262392857142 -1.592142857142857 1.592142857142857l0 17.513571428571428c0 0.8793405 0.7128262392857142 1.592142857142857 1.592142857142857 1.592142857142857Z" stroke-width="1.71"></path><path id="Vector_2" stroke="#c0c0c0" stroke-linecap="round" stroke-linejoin="round" d="m2.78625 21.49392857142857 11.622642857142857 -10.954006542857142c0.14303811428571428 -0.11914004999999998 0.32331645 -0.18438606428571427 0.5094857142857143 -0.18438606428571427 0.18615334285714286 0 0.36643167857142855 0.06524601428571429 0.5094697928571428 0.18438606428571427l6.066080207142857 4.34655" stroke-width="1.71"></path><path id="Vector_3" stroke="#c0c0c0" stroke-linecap="round" stroke-linejoin="round" d="M7.164642857142857 9.552857142857142C8.483621764285713 9.552857142857142 9.552857142857142 8.483621764285713 9.552857142857142 7.164642857142857S8.483621764285713 4.776428571428571 7.164642857142857 4.776428571428571 4.776428571428571 5.84566395 4.776428571428571 7.164642857142857 5.84566395 9.552857142857142 7.164642857142857 9.552857142857142Z" stroke-width="1.71"></path></g></svg>			  
-				<div class="title" style="background:#593838;"><a>media</a></div>
-				<div class="mask" style="box-shadow:-8px+8px #593838;"></div>
-				<div class="links" style="background:#593838;">
-					<li><a class="bm" href="https://www.youtube.com/" target="_blank">youtube</a></li>
-					<li><a class="bm" href="https://x.com/" target="_blank">twitter</a></li>
-					<li><a class="bm" href="https://www.twitch.tv/" target="_blank">twitch</a></li>
-					<li><a class="bm" href="https://erynith.github.io/movie-web-instances/" target="_blank">movies</a></li>
-					<li><a class="bm" href="https://nyaa.si/" target="_blank">nyaa</a></li>
-				</div>
-			</div>
-
-			<div class="box">
-				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" id="Astronomy-Planet-Saturn-1--Streamline-Ultimate" height="1.25rem" width="1.25rem"><desc>Astronomy Planet Saturn 1 Streamline Icon: https://streamlinehq.com</desc><path stroke="#c0c0c0" stroke-linecap="round" stroke-linejoin="round" d="M3.5 12c0 2.2543 0.89553 4.4163 2.48959 6.0104C7.58365 19.6045 9.74566 20.5 12 20.5c2.2543 0 4.4163 -0.8955 6.0104 -2.4896C19.6045 16.4163 20.5 14.2543 20.5 12c0 -2.25434 -0.8955 -4.41635 -2.4896 -6.01041C16.4163 4.39553 14.2543 3.5 12 3.5c-2.25434 0 -4.41635 0.89553 -6.01041 2.48959C4.39553 7.58365 3.5 9.74566 3.5 12Z" stroke-width="1.5"></path><path stroke="#c0c0c0" stroke-linecap="round" stroke-linejoin="round" d="M0.75 23.25 23.25 0.75" stroke-width="1.5"></path><path stroke="#c0c0c0" stroke-linecap="round" stroke-linejoin="round" d="M9.48 20.12 20.12 9.47998" stroke-width="1.5"></path><path stroke="#c0c0c0" stroke-linecap="round" stroke-linejoin="round" d="M3.799 14.2401 14.24 3.79907" stroke-width="1.5"></path></svg>			  
-				<div class="title" style="background:#3f3030;"><a>misc</a></div>
-				<div class="mask" style="box-shadow:-8px+8px #3f3030;"></div>
-				<div class="links" style="background:#3f3030;">
-					<li><a class="bm" href="https://keep.google.com/u/0/" target="_blank">notes</a></li>
-					<li><a class="bm" href="https://mail.google.com/" target="_blank">gmail</a></li>
-					<li><a class="bm" href="https://github.com/" target="_blank">github</a></li>
-					<li><a class="bm" href="https://chatgpt.com/" target="_blank">chatgpt</a></li>
-					<li><a class="bm" href="https://vault.bitwarden.com/#/login" target="_blank">bitwarden</a></li>
-					<li><a class="bm" href="https://gg.deals/" target="_blank">game deals</a></li>
-				</div>
-				<div class="links2">
-					<li style="opacity: 0;">blank</li>
-					<li><a style="pointer-events: auto;" class="bm" href="https://outlook.com/" target="_blank">outlook</a></li>
-				</div>
-		  	</div>
-			  
-			<div class="box">
-				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-0.855 -0.855 24 24" id="Sail-Ship--Streamline-Core" height="1.25rem" width="1.25rem"><desc>Sail Ship Streamline Icon: https://streamlinehq.com</desc><g id="sail-ship--travel-boat-transportation-transport-ocean-ship-sea-water"><path id="Vector" stroke="#c0c0c0" stroke-linecap="round" stroke-linejoin="round" d="M21.49392857142857 15.125357142857142H0.7960714285714285l1.592142857142857 4.298785714285715c0.22770827142857145 0.6094722857142857 0.6366660857142857 1.134561 1.1718012214285713 1.5045749999999998 0.535151057142857 0.37001399999999995 1.1707981714285713 0.5672805 1.8214273499999998 0.5652107142857142h11.495271428571428c0.6505495714285714 0.002069785714285714 1.286292214285714 -0.19519671428571428 1.8214114285714285 -0.5652107142857142 0.5351192142857143 -0.37001399999999995 0.9441407142857142 -0.8951027142857143 1.171817142857143 -1.5045749999999998l1.6239857142857141 -4.298785714285715Z" stroke-width="1.71"></path><path id="Vector_2" stroke="#c0c0c0" stroke-linecap="round" stroke-linejoin="round" d="M10.348928571428571 15.125357142857142v-14.329285714285714" stroke-width="1.71"></path><path id="Vector_3" stroke="#c0c0c0" stroke-linecap="round" stroke-linejoin="round" d="m10.348928571428571 0.7960714285714285 -7.960714285714285 9.552857142857142h7.960714285714285" stroke-width="1.71"></path><path id="Vector_4" stroke="#c0c0c0" stroke-linecap="round" stroke-linejoin="round" d="m13.533214285714285 3.9803571428571427 5.5725 6.368571428571428H13.533214285714285" stroke-width="1.71"></path></g></svg>
-				<div class="title" style="background:#423f52;"><a>piracy</a></div>
-				<div class="mask" style="box-shadow:-8px+8px #423f52;"></div>
-				<div class="links" style="background:#423f52;">
-					<li><a class="bm" href="https://www.reddit.com/r/Piracy/wiki/megathread/" target="_blank">megathread</a></li>
-					<li><a class="bm" href="https://massgrave.dev/" target="_blank">massgrave</a></li>
-					<li><a class="bm" href="https://fitgirl-repacks.site/" target="_blank">fitgirl</a></li>
-					<li><a class="bm" href="https://cs.rin.ru/forum/" target="_blank">csrin</a></li>
-					<li><a class="bm" href="https://fmhy.net/beginners-guide" target="_blank">fmhy</a></li>
-				</div>
-				<div class="links2">
-					<li style="opacity: 0;">blank</li>
-					<li style="opacity: 0;">blank</li>
-					<li><a class="bm" style="pointer-events: auto;" href="https://dodi-repacks.site" target="_blank">dodi</a></li>
-					<li style="opacity: 0;">blank</li>
-					<li><a class="bm" style="pointer-events: auto;" href="https://wotaku.moe/qs" target="_blank">wotaku</a></li>
-				</div>
-			</div>
-		</div>
-	  </div>
-</body>
+<!doctype html>
+<meta charset="utf-8" />
+<meta name="robots" content="noindex" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/png" href="./assets/icons/favicon.png" />
+<link rel="stylesheet" href="./assets/css/style.css">
+<title>home</title>
 <script>
-	document.getElementById('textField').addEventListener('input', function() {
-		this.scrollLeft = this.scrollWidth;
-	});
+    function randBG(){
+        var bgs = [
+          './assets/imgs/bg1.webp',
+          './assets/imgs/bg2.webp',
+          './assets/imgs/bg3.webp',
+          './assets/imgs/bg4.webp',
+          './assets/imgs/bg5.webp',
+          './assets/imgs/bg6.webp',
+          './assets/imgs/bg7.webp',
+          './assets/imgs/bg8.webp'
+        ];
+        var size = bgs.length;
+        var x = Math.floor(size * Math.random());
+        document.body.style.backgroundImage = "url("+ bgs[x] + ")";
+    }
+    document.addEventListener("DOMContentLoaded", randBG);
+
+    const CONFIG = {
+        commandPathDelimiter: '/',
+        commandSearchDelimiter: ' ',
+        defaultSearchTemplate: 'http://www.google.com/search?q={}',
+        openLinksInNewTab: false,
+        suggestionLimit: 4,
+    };
+    const COMMANDS = new Map([
+        ['4', {
+            name: '4chan',
+            url: 'https://boards.4chan.org/'
+        }],
+        ['x', {
+            name: 'x.com',
+            url: 'https://x.com/'
+        }],
+        ['r', {
+            name: 'reddit',
+            url: 'https://www.reddit.com/'
+        }],
+        ['i ', {
+            name: 'instagram',
+            url: 'https://instagram.com/'
+        }],
+        ['y', {
+            name: 'youtube',
+            url: 'https://www.youtube.com/'
+        }],
+        ['t', {
+            name: 'twitch',
+            url: 'https://www.twitch.tv/'
+        }],
+        ['m ', {
+            name: 'movies',
+            url: 'https://erynith.github.io/movie-web-instances/'
+        }],
+        ['a', {
+            name: 'anime',
+            url: 'https://www.miruro.tv/'
+        }],
+        ['n', {
+            name: 'notes',
+            url: 'https://keep.google.com/u/0/'
+        }],
+        ['c', {
+            name: 'chatgpt',
+            url: 'https://chatgpt.com/'
+        }],
+        ['p', {
+            name: 'proton',
+            url: 'https://account.proton.me/apps'
+        }],
+        ['g', {
+            name: 'gmail',
+            url: 'https://mail.google.com/'
+        }],
+        ['m', {
+            name: 'megathread',
+            url: 'https://www.reddit.com/r/Piracy/wiki/megathread/'
+        }],
+        ['f ', {
+            name: 'fitgirl',
+            url: 'https://fitgirl-repacks.site/'
+        }],
+        ['f', {
+            name: 'fmhy',
+            url: 'https://fmhy.net/beginners-guide'
+        }],
+        ['d', {
+            name: 'dlpirate',
+            url: 'https://www.downloadpirate.com/'
+        }]
+    ]);
+</script><template id="commands-template">
+    <style>
+        .commands {
+            column-gap: 0;
+            columns: 2;
+            list-style: none;
+            margin: 0 auto;
+            max-width: 23rem;
+            overflow: hidden;
+            padding: 0;
+            width: 100vw;
+        }
+
+        .command {
+            display: flex;
+            gap: var(--space);
+            outline: 0;
+            padding: var(--space);
+            position: relative;
+            text-decoration: none;
+        }
+
+        .command::after {
+            background: var(--color-text-subtle);
+            content: ' ';
+            inset: 1px;
+            opacity: 0.05;
+            position: absolute;
+            transition: opacity var(--transition-speed);
+        }
+
+        .command:where(:focus, :hover)::after {
+            opacity: 0.1;
+        }
+
+        .key {
+            color: var(--color-text);
+            display: inline-block;
+            text-align: center;
+            width: 3ch;
+        }
+
+        .name {
+            color: var(--color-text-subtle);
+            transition: color var(--transition-speed);
+        }
+
+        .command:where(:focus, :hover) .name {
+            color: var(--color-text);
+        }
+
+        @media (min-width: 23rem) {
+            .commands {
+                border-radius: var(--border-radius);
+            }
+        }
+
+        @media (min-width: 62rem) {
+            .commands {
+                columns: 4;
+                max-width: 44rem;
+            }
+        }
+    </style>
+    <nav>
+        <menu class="commands"></menu>
+    </nav>
+</template><template id="command-template">
+    <li><a class="command" rel="noopener noreferrer"><span class="key"></span><span class="name"></span></a></li>
+</template>
+<script type="module">
+    class Commands extends HTMLElement {
+        constructor() {
+            super();
+            this.attachShadow({
+                mode: 'open'
+            });
+            const template = document.getElementById('commands-template');
+            const clone = template.content.cloneNode(true);
+            const commands = clone.querySelector('.commands');
+            const commandTemplate = document.getElementById('command-template');
+            for (const [key, {
+                    name,
+                    url
+                }] of COMMANDS.entries()) {
+                if (!name || !url) continue;
+                const clone = commandTemplate.content.cloneNode(true);
+                const command = clone.querySelector('.command');
+                command.href = url;
+                if (CONFIG.openLinksInNewTab) command.target = '_blank';
+                clone.querySelector('.key').innerText = key;
+                clone.querySelector('.name').innerText = name;
+                commands.append(clone);
+            }
+            this.shadowRoot.append(clone);
+        }
+    }
+    customElements.define('commands-component', Commands);
+</script><template id="search-template">
+    <style>
+        input,
+        button {
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            background: transparent;
+            border: 0;
+            display: block;
+            outline: 0;
+        }
+
+        .dialog {
+            align-items: center;
+            background: var(--color-background);
+            border: none;
+            display: none;
+            flex-direction: column;
+            height: 100%;
+            justify-content: center;
+            left: 0;
+            padding: 0;
+            top: 0;
+            width: 100%;
+        }
+
+        .dialog[open] {
+            display: flex;
+        }
+
+        .form {
+            width: 100%;
+        }
+
+        .input {
+            color: var(--color-text);
+            font-size: 3rem;
+            font-weight: var(--font-weight-bold);
+            padding: 0;
+            text-align: center;
+            width: 100%;
+        }
+
+        .suggestions {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            justify-content: center;
+            list-style: none;
+            margin: var(--space) 0 0;
+            overflow: hidden;
+            padding: 0;
+        }
+
+        .suggestion {
+            color: var(--color-text);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: var(--space);
+            position: relative;
+            transition: color var(--transition-speed);
+            white-space: nowrap;
+            z-index: 1;
+        }
+
+        .suggestion:where(:focus, :hover) {
+            color: var(--color-background);
+        }
+
+        .suggestion::before {
+            background-color: var(--color-text);
+            border-radius: calc(var(--border-radius) / 5);
+
+            content: ' ';
+            inset: calc(var(--space) / 1.5) calc(var(--space) / 3);
+            opacity: 0;
+            position: absolute;
+            transform: translateY(0.5em);
+            transition: all var(--transition-speed);
+            z-index: -1;
+        }
+
+        .suggestion:where(:focus, :hover)::before {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .match {
+            color: var(--color-text-subtle);
+            transition: color var(--transition-speed);
+        }
+
+        .suggestion:where(:focus, :hover) .match {
+            color: var(--color-background);
+        }
+
+        @media (min-width: 700px) {
+            .suggestions {
+                flex-direction: row;
+            }
+        }
+    </style>
+    <dialog class="dialog">
+        <form autocomplete="off" class="form" method="dialog" spellcheck="false"><input class="input" title="search" type="text" />
+            <menu class="suggestions"></menu>
+        </form>
+    </dialog>
+</template><template id="suggestion-template">
+    <li><button class="suggestion" type="button"></button></li>
+</template><template id="match-template"><span class="match"></span></template>
+<script type="module">
+    class Search extends HTMLElement {
+        #dialog;
+        #form;
+        #input;
+        #suggestions;
+        constructor() {
+            super();
+            this.attachShadow({
+                mode: 'open'
+            });
+            const template = document.getElementById('search-template');
+            const clone = template.content.cloneNode(true);
+            this.#dialog = clone.querySelector('.dialog');
+            this.#form = clone.querySelector('.form');
+            this.#input = clone.querySelector('.input');
+            this.#suggestions = clone.querySelector('.suggestions');
+            this.#form.addEventListener('submit', this.#onSubmit, false);
+            this.#input.addEventListener('input', this.#onInput);
+            this.#suggestions.addEventListener('click', this.#onSuggestionClick);
+            document.addEventListener('keydown', this.#onKeydown);
+            this.shadowRoot.append(clone);
+        }
+        static #escapeRegexCharacters(s) {
+            return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+        }
+        static #fetchDuckDuckGoSuggestions(search) {
+            return new Promise((resolve) => {
+                window.autocompleteCallback = (res) => {
+                    const suggestions = [];
+                    for (const item of res) {
+                        if (item.phrase === search.toLowerCase()) continue;
+                        suggestions.push(item.phrase);
+                    }
+                    resolve(suggestions);
+                };
+                const script = document.createElement('script');
+                document.querySelector('head').appendChild(script);
+                script.src = `https://duckduckgo.com/ac/?callback=autocompleteCallback&q=${search}`;
+                script.onload = script.remove;
+            });
+        }
+        static #formatSearchUrl(template, search) {
+            return template.replace(/{}/g, encodeURIComponent(search));
+        }
+        static #hasProtocol(s) {
+            return /^[a-zA-Z]+:\/\//i.test(s);
+        }
+        static #isUrl(s) {
+            return /^((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)$/i.test(s);
+        }
+        static #parseQuery = (raw) => {
+            const query = raw.trim();
+            if (this.#isUrl(query)) {
+                const url = this.#hasProtocol(query) ? query : `https://${query}`;
+                return {
+                    query,
+                    url
+                };
+            }
+            if (COMMANDS.has(query)) {
+                const {
+                    key,
+                    url
+                } = COMMANDS.get(query);
+                return {
+                    key,
+                    query,
+                    url
+                };
+            }
+            let splitBy = CONFIG.commandSearchDelimiter;
+            const [searchKey, rawSearch] = query.split(new RegExp(`${splitBy}(.*)`));
+            if (COMMANDS.has(searchKey)) {
+                const command = COMMANDS.get(searchKey);
+                const template = new URL(command.searchTemplate ?? '', command.url);
+                const search = rawSearch.trim();
+                const url = Search.#formatSearchUrl(decodeURI(template.href), search);
+                return {
+                    key: searchKey,
+                    query,
+                    search,
+                    splitBy,
+                    url
+                };
+            }
+            splitBy = CONFIG.commandPathDelimiter;
+            const [pathKey, path] = query.split(new RegExp(`${splitBy}(.*)`));
+            if (COMMANDS.has(pathKey)) {
+                const command = COMMANDS.get(pathKey);
+                const url = `${new URL(command.url).origin}/${path}`;
+                return {
+                    key: pathKey,
+                    path,
+                    query,
+                    splitBy,
+                    url
+                };
+            }
+            const url = Search.#formatSearchUrl(CONFIG.defaultSearchTemplate, query);
+            return {
+                query,
+                search: query,
+                url
+            };
+        };
+        #close() {
+            this.#input.value = '';
+            this.#input.blur();
+            this.#dialog.close();
+            this.#suggestions.innerHTML = '';
+        }
+        #execute(query) {
+            const target = CONFIG.openLinksInNewTab ? '_blank' : '_self';
+            window.open(Search.#parseQuery(query).url, target, 'noopener noreferrer');
+            this.#close();
+        }
+        #focusNextSuggestion(previous = false) {
+            const active = this.shadowRoot.activeElement;
+            let nextIndex;
+            if (active.dataset.index) {
+                const activeIndex = Number(active.dataset.index);
+                nextIndex = previous ? activeIndex - 1 : activeIndex + 1;
+            } else {
+                nextIndex = previous ? this.#suggestions.childElementCount - 1 : 0;
+            }
+            const next = this.#suggestions.children[nextIndex];
+            if (next) next.querySelector('.suggestion').focus();
+            else this.#input.focus();
+        }
+        #onInput = async () => {
+            const oq = Search.#parseQuery(this.#input.value);
+            if (!oq.query) {
+                this.#close();
+                return;
+            }
+            let suggestions = COMMANDS.get(oq.query)?.suggestions ?? [];
+            if (oq.search && suggestions.length < CONFIG.suggestionLimit) {
+                const res = await Search.#fetchDuckDuckGoSuggestions(oq.search);
+                suggestions = suggestions.concat(oq.splitBy ? res.map((search) => `${oq.key}${oq.splitBy}${search}`) : res);
+            }
+            const nq = Search.#parseQuery(this.#input.value);
+            if (nq.query !== oq.query) return;
+            this.#renderSuggestions(suggestions, oq.query);
+        };
+        #onKeydown = (e) => {
+            if (!this.#dialog.open) {
+                this.#dialog.show();
+                this.#input.focus();
+                requestAnimationFrame(() => {
+                    if (!this.#input.value) this.#close();
+                });
+                return;
+            }
+            if (e.key === 'Escape') {
+                this.#close();
+                return;
+            }
+            const alt = e.altKey ? 'alt-' : '';
+            const ctrl = e.ctrlKey ? 'ctrl-' : '';
+            const meta = e.metaKey ? 'meta-' : '';
+            const shift = e.shiftKey ? 'shift-' : '';
+            const modifierPrefixedKey = `${alt}${ctrl}${meta}${shift}${e.key}`;
+            if (/^(ArrowDown|Tab|ctrl-n)$/.test(modifierPrefixedKey)) {
+                e.preventDefault();
+                this.#focusNextSuggestion();
+                return;
+            }
+            if (/^(ArrowUp|ctrl-p|shift-Tab)$/.test(modifierPrefixedKey)) {
+                e.preventDefault();
+                this.#focusNextSuggestion(true);
+            }
+        };
+        #onSubmit = () => {
+            this.#execute(this.#input.value);
+        };
+        #onSuggestionClick = (e) => {
+            const ref = e.target.closest('.suggestion');
+            if (!ref) return;
+            this.#execute(ref.dataset.suggestion);
+        };
+        #renderSuggestions(suggestions, query) {
+            this.#suggestions.innerHTML = '';
+            const sliced = suggestions.slice(0, CONFIG.suggestionLimit);
+            const template = document.getElementById('suggestion-template');
+            for (const [index, suggestion] of sliced.entries()) {
+                const clone = template.content.cloneNode(true);
+                const ref = clone.querySelector('.suggestion');
+                ref.dataset.index = index;
+                ref.dataset.suggestion = suggestion;
+                const escapedQuery = Search.#escapeRegexCharacters(query);
+                const matched = suggestion.match(new RegExp(escapedQuery, 'i'));
+                if (matched) {
+                    const template = document.getElementById('match-template');
+                    const clone = template.content.cloneNode(true);
+                    const matchRef = clone.querySelector('.match');
+                    const pre = suggestion.slice(0, matched.index);
+                    const post = suggestion.slice(matched.index + matched[0].length);
+                    matchRef.innerText = matched[0];
+                    matchRef.insertAdjacentHTML('beforebegin', pre);
+                    matchRef.insertAdjacentHTML('afterend', post);
+                    ref.append(clone);
+                } else {
+                    ref.innerText = suggestion;
+                }
+                this.#suggestions.append(clone);
+            }
+        }
+    }
+    customElements.define('search-component', Search);
 </script>
-</html>
+<main>
+    <commands-component></commands-component>
+    <search-component></search-component>
+</main>
