@@ -25,8 +25,11 @@ document.addEventListener("keydown", (e) => {
     if (!isTyping) {
         document.body.classList.add("search-active");
         searchBox.classList.add("visible");
-        searchInput.value = ""; // Clear previous input
+        searchInput.value = e.key; // Insert the first key manually
         isTyping = true;
+    } else {
+        // Append key to input if already typing
+        searchInput.value += e.key;
     }
 
     // focus the input and move cursor to the end
