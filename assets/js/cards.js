@@ -66,7 +66,7 @@ const CARDS = [{
         link: "https://keep.google.com/u/0/"
     },
     {
-        name: "piracy megathread",
+        name: "megathread",
         icon: "ri-file-list-2-line",
         link: "https://www.reddit.com/r/Piracy/wiki/megathread/"
     },

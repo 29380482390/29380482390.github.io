@@ -7,7 +7,6 @@ let isTyping = false;
 
 // listen for keydown events on the entire document
 document.addEventListener("keydown", (e) => {
-    // ignore if user is holding modifier keys or typing in an input/textarea
     if (
         e.ctrlKey || e.metaKey || e.altKey ||
         document.activeElement.tagName === "INPUT" ||
@@ -16,44 +15,50 @@ document.addEventListener("keydown", (e) => {
         return;
     }
 
-    // ignore non-character keys (e.g., arrows, shift, etc.)
     if (e.key.length !== 1) {
         return;
     }
 
-    // activate the search if typing begins
     if (!isTyping) {
         document.body.classList.add("search-active");
         searchBox.classList.add("visible");
-        searchInput.value = e.key; // Insert the first key manually
+        searchInput.value = e.key;
         isTyping = true;
     } else {
-        // Append key to input if already typing
         searchInput.value += e.key;
     }
 
-    // focus the input and move cursor to the end
     searchInput.focus();
     searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length);
-
-    // prevent default behavior of the key
     e.preventDefault();
 });
+
+// detect if input is a valid domain
+function isProbablyURL(input) {
+    // If it contains a dot and no spaces, it's probably a domain
+    return /^[^\s]+\.[^\s]+$/.test(input);
+}
 
 // handle key presses inside the search input
 searchInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
-        // search the query
-        const query = encodeURIComponent(searchInput.value.trim());
-        if (query) {
-            window.location.href = `https://duckduckgo.com/?q=${query}`;
+        const rawQuery = searchInput.value.trim();
+
+        if (rawQuery) {
+            if (isProbablyURL(rawQuery)) {
+                // if it doesn't start with http/https, add it
+                const url = rawQuery.match(/^https?:\/\//) ? rawQuery : `https://${rawQuery}`;
+                window.location.href = url;
+            } else {
+                const query = encodeURIComponent(rawQuery);
+                window.location.href = `https://duckduckgo.com/?q=${query}`;
+            }
         }
     } else if (e.key === "Escape") {
-        // hide search box and reset state when esc is pressed
         searchBox.classList.remove("visible");
         document.body.classList.remove("search-active");
         isTyping = false;
-        searchInput.blur(); // remove focus from input
+        searchInput.blur();
     }
 });
 
@@ -63,7 +68,7 @@ searchInput.addEventListener("blur", () => {
         document.body.classList.remove("search-active");
         searchBox.classList.remove("visible");
         isTyping = false;
-    }, 200); // delay helps with enter/esc key registration
+    }, 200);
 });
 
 // get all card elements on the page
