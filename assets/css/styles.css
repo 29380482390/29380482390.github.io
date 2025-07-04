@@ -47,12 +47,10 @@ main {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: stretch;
 }
 
 .container {
   width: 100%;
-  padding: 0 1rem;
   max-width: 1280px;
 }
 
@@ -65,7 +63,7 @@ main {
   text-decoration: none;
 
   margin: 1.2rem;
-  padding: clamp(2rem, 4vw, 4rem) clamp(2rem, 6vw, 8rem);
+  padding: 4rem 8rem;
 
   background: rgba(255, 255, 255, 0.08); /* semi-transparent */
   border-radius: 16px;
@@ -108,7 +106,7 @@ main {
    card icon styling
    ================= */
 .card__icon {
-  font-size: clamp(1.2rem, 2vw, 2rem);
+  font-size: 2rem;
 
   padding: 1rem;
 
@@ -147,7 +145,7 @@ main {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+  background-image: url('../imgs/filter.png');
   opacity: 0.033;
   pointer-events: none;
   z-index: 0;
@@ -210,7 +208,7 @@ main {
     =================== */
   #searchInput {
     width: 100vw;
-    font-size: clamp(2rem, 5vw, 4rem);
+    font-size: 4rem;
     text-align: center;
     background-color: transparent;
     color: var(--text-color);
