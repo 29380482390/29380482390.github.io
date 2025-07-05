@@ -33,9 +33,28 @@ document.addEventListener("keydown", (e) => {
     e.preventDefault();
 });
 
+// handle paste event on the document
+document.addEventListener("paste", (e) => {
+    const pastedText = (e.clipboardData || window.clipboardData).getData("text");
+
+    if (!pastedText) return;
+
+    if (!isTyping) {
+        document.body.classList.add("search-active");
+        searchBox.classList.add("visible");
+        searchInput.value = pastedText;
+        isTyping = true;
+    } else {
+        searchInput.value += pastedText;
+    }
+
+    searchInput.focus();
+    searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length);
+    e.preventDefault();
+});
+
 // detect if input is a valid domain
 function isProbablyURL(input) {
-    // If it contains a dot and no spaces, it's probably a domain
     return /^[^\s]+\.[^\s]+$/.test(input);
 }
 
@@ -46,7 +65,6 @@ searchInput.addEventListener("keydown", (e) => {
 
         if (rawQuery) {
             if (isProbablyURL(rawQuery)) {
-                // if it doesn't start with http/https, add it
                 const url = rawQuery.match(/^https?:\/\//) ? rawQuery : `https://${rawQuery}`;
                 window.location.href = url;
             } else {
