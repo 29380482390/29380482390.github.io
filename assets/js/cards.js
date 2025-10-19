@@ -31,16 +31,6 @@ const CARDS = [{
         link: "https://www.twitch.tv/"
     },
     {
-        name: "movies",
-        icon: "ri-film-line",
-        link: "https://erynith.github.io/movie-web-instances/"
-    },
-    {
-        name: "anime",
-        icon: "ri-bell-line",
-        link: "https://www.miruro.tv/"
-    },
-    {
         name: "gg.deals",
         icon: "ri-gamepad-line",
         link: "https://gg.deals/"
