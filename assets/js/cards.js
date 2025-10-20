@@ -26,16 +26,6 @@ const CARDS = [{
         link: "https://www.youtube.com/"
     },
     {
-        name: "twitch",
-        icon: "ri-twitch-fill",
-        link: "https://www.twitch.tv/"
-    },
-    {
-        name: "gg.deals",
-        icon: "ri-gamepad-line",
-        link: "https://gg.deals/"
-    },
-    {
         name: "chatgpt",
         icon: "ri-openai-line",
         link: "https://chatgpt.com/"
@@ -59,11 +49,6 @@ const CARDS = [{
         name: "megathread",
         icon: "ri-file-list-2-line",
         link: "https://www.reddit.com/r/Piracy/wiki/megathread/"
-    },
-    {
-        name: "fmhy",
-        icon: "ri-file-paper-2-line",
-        link: "https://fmhy.net/beginners-guide"
     }
 ];
 
