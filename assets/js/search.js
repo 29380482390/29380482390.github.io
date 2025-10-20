@@ -69,7 +69,7 @@ searchInput.addEventListener("keydown", (e) => {
                 window.location.href = url;
             } else {
                 const query = encodeURIComponent(rawQuery);
-                window.location.href = `https://duckduckgo.com/?q=${query}`;
+                window.location.href = `https://www.google.com/search?q=${query}`;
             }
         }
     } else if (e.key === "Escape") {
