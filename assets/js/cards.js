@@ -26,9 +26,14 @@ const CARDS = [{
         link: "https://www.youtube.com/"
     },
     {
-        name: "chatgpt",
+        name: "twitch",
+        icon: "ri-twitch-fill",
+        link: "https://www.twitch.tv/"
+    },
+    {
+        name: "deepseek",
         icon: "ri-openai-line",
-        link: "https://chatgpt.com/"
+        link: "https://chat.deepseek.com/"
     },
     {
         name: "proton",
@@ -44,6 +49,11 @@ const CARDS = [{
         name: "notes",
         icon: "ri-sticky-note-fill",
         link: "https://keep.google.com/u/0/"
+    },
+    {
+        name: "fmhy",
+        icon: "ri-file-paper-2-line",
+        link: "https://fmhy.net/"
     },
     {
         name: "megathread",
