@@ -47,5 +47,13 @@
     <!-- js logic -->
     <script src="./assets/js/cards.js"></script>
     <script src="./assets/js/search.js"></script>
+
+    <!-- linux check -->
+    <script>
+      const isLinux = /Linux/.test(navigator.userAgent) || /X11/.test(navigator.userAgent);
+      if (!isLinux) {
+        document.body.style.backgroundColor = '#1b1f22';
+      }
+    </script>
   </body>
 </html>
