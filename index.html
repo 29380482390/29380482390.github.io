@@ -50,10 +50,16 @@
 
     <!-- linux check -->
     <script>
-      const isLinux = /Linux/.test(navigator.userAgent) || /X11/.test(navigator.userAgent);
-      if (!isLinux) {
-        document.body.style.backgroundColor = '#1b1f22';
-      }
+        const isLinux = /Linux/.test(navigator.userAgent) || /X11/.test(navigator.userAgent);
+        if (!isLinux) {
+          document.body.classList.add('windows-bg');
+        }
     </script>
   </body>
+  <style>
+    .windows-bg {
+      background-color: #1b1f22 !important;
+      background: #1b1f22 !important;
+    }
+  </style>
 </html>
