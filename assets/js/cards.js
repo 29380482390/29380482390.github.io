@@ -48,7 +48,7 @@ const CARDS = [{
     {
         name: "notes",
         icon: "ri-sticky-note-fill",
-        link: "https://keep.google.com/u/0/"
+        link: "https://keep.google.com/u/1/"
     },
     {
         name: "fmhy",
