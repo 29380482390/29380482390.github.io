@@ -1,95 +1,35 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <!-- * -->
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-- page title -->
     <title>home</title>
-
-    <!-- page favicon -->
     <link rel="icon" type="image/png" href="./assets/icons/favicon.png" />
-
-    <!-- font bs -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
-
-    <!-- css stylesheet -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./assets/css/styles.css" />
+</head>
 <body>
-  <!-- main container -->
-  <div class="wrapper">
-  <!-- top container placeholder clock -->
-  <div class="top"><span id="clock">--:--</span></div>
-  <!-- placeholder for cards -->
-  <div id="bookmarks" class="bookmarks"></div>
-
-    <!-- searchBox -->
+<div class="wrapper">
+    <div class="top"><span id="clock">--:--</span></div>
+    <div id="bookmarks" class="bookmarks"></div>
     <form class="search-bar" id="form" autocomplete="off">
-    <div class="prompt">search</div>
-    <div class="search-wrap">
-    <input 
-      id="search" 
-      type="search" 
-      placeholder=" "
-      spellcheck="false"
-      autocomplete="off"
-      autocapitalize="off"
-      autocorrect="off"
-      autofocus
-    />
-    </div>
+        <div class="prompt"></div>
+        <div class="search-wrap">
+            <input id="search" type="search" placeholder=" " spellcheck="false" autocomplete="off" autocapitalize="off" autocorrect="off" autofocus />
+        </div>
     </form>
-  </div>
-  <!-- js logic -->
-  <script>
+</div>
+<script>
     const SEARCH_ENGINE = "https://www.startpage.com/sp/search?query=";
-
     const CONFIG = {
-      cards: [
-        {
-          title: "1",
-          items: [
-            { title: "4chan", href: "https://boards.4chan.org/" },
-            { title: "youtube", href: "https://www.youtube.com/" },
-            { title: "twitch", href: "https://www.twitch.tv/" },
-            { title: "instagram", href: "https://instagram.com/" },
-          ],
-        },
-        {
-          title: "2",
-          items: [
-            { title: "x.com", href: "https://x.com" },
-            { title: "reddit", href: "https://www.reddit.com/" },
-            { title: "proton", href: "https://account.proton.me/apps/" },
-            { title: "gmail", href: "https://mail.google.com/" },
-
-          ],
-        },
-        {
-          title: "3",
-          items: [
-            { title: "notes", href: "https://keep.google.com/u/1/" },
-            { title: "cs.rin.ru", href: "https://cs.rin.ru/forum/" },
-            { title: "fmhy", href: "https://fmhy.net" },
-            { title: "megathread", href: "https://www.reddit.com/r/Piracy/wiki/megathread" },
-          ],
-        },
-        {
-          title: "4",
-          items: [
-            { title: "gg.deals", href: "https://gg.deals" },
-            { title: "deepl", href: "https://www.deepl.com/en" },
-            { title: "chatgpt", href: "https://chatgpt.com" },
-            { title: "deepseek", href: "https://chat.deepseek.com" },
-          ],
-        },
-      ],
+        cards: [
+            { title: "1", items: [ { title: "4chan", href: "https://boards.4chan.org/" }, { title: "youtube", href: "https://www.youtube.com/" }, { title: "twitch", href: "https://www.twitch.tv/" }, { title: "instagram", href: "https://instagram.com/" } ] },
+            { title: "2", items: [ { title: "x.com", href: "https://x.com" }, { title: "reddit", href: "https://www.reddit.com/" }, { title: "proton", href: "https://account.proton.me/apps/" }, { title: "gmail", href: "https://mail.google.com/" } ] },
+            { title: "3", items: [ { title: "notes", href: "https://keep.google.com/u/1/" }, { title: "cs.rin.ru", href: "https://cs.rin.ru/forum/" }, { title: "fmhy", href: "https://fmhy.net" }, { title: "megathread", href: "https://www.reddit.com/r/Piracy/wiki/megathread" } ] },
+            { title: "4", items: [ { title: "gg.deals", href: "https://gg.deals" }, { title: "deepl", href: "https://www.deepl.com/en" }, { title: "chatgpt", href: "https://chatgpt.com" }, { title: "deepseek", href: "https://chat.deepseek.com" } ] }
+        ]
     };
 
     const FAVICON_PROBE_TIMEOUT_MS = 6000;
@@ -97,263 +37,169 @@
     const FAVICON_CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000;
     const _faviconMemCache = Object.create(null);
 
-    // Restore favicon cache from localStorage.
     (function hydrateFaviconCache() {
-      try {
-        const raw = localStorage.getItem(FAVICON_CACHE_KEY);
-        if (!raw) return;
-
-        const parsed = JSON.parse(raw);
-        const now = Date.now();
-
-        for (const [key, entry] of Object.entries(parsed)) {
-          if (entry && typeof entry === "object" && now - entry.ts < FAVICON_CACHE_TTL_MS) {
-            _faviconMemCache[key] = entry.src;
-          }
-        }
-      } catch {
-        // Ignore storage/JSON errors.
-      }
+        try {
+            const raw = localStorage.getItem(FAVICON_CACHE_KEY);
+            if (!raw) return;
+            const parsed = JSON.parse(raw);
+            const now = Date.now();
+            for (const [key, entry] of Object.entries(parsed)) {
+                if (entry && typeof entry === "object" && now - entry.ts < FAVICON_CACHE_TTL_MS) {
+                    _faviconMemCache[key] = entry.src;
+                }
+            }
+        } catch { /* ignore */ }
     })();
 
-    // Save favicon cache back to localStorage.
     function persistFaviconCache() {
-      try {
-        const now = Date.now();
-        const out = {};
-
-        for (const [key, src] of Object.entries(_faviconMemCache)) {
-          out[key] = { src, ts: now };
-        }
-
-        localStorage.setItem(FAVICON_CACHE_KEY, JSON.stringify(out));
-      } catch {
-        // Ignore storage quota / privacy mode errors.
-      }
-    }
-
-    // Very simple root-domain extraction.
-    // This is not perfect for all public suffixes, but it is enough for most common sites.
-    function rootDomain(hostname) {
-      const parts = hostname.split(".");
-      return parts.length > 2 ? parts.slice(-2).join(".") : hostname;
-    }
-
-    // Build favicon source tiers.
-    // Tier 1: fast third-party favicon services.
-    // Tier 2: direct site icon URLs.
-    // Tier 3: fallback services.
-    function buildSources(hostname) {
-      const root = rootDomain(hostname);
-      const isSub = root !== hostname;
-
-      const tier1 = [
-        [`https://icons.duckduckgo.com/ip3/${hostname}.ico`, 16],
-        [`https://favicon.im/${hostname}?larger=true`, 16],
-        [`https://icon.horse/icon/${hostname}`, 16],
-        [`https://www.google.com/s2/favicons?domain=${hostname}&sz=32`, 16],
-      ];
-
-      if (isSub) {
-        tier1.push(
-          [`https://icons.duckduckgo.com/ip3/${root}.ico`, 16],
-          [`https://favicon.im/${root}?larger=true`, 16],
-          [`https://icon.horse/icon/${root}`, 16],
-          [`https://www.google.com/s2/favicons?domain=${root}&sz=32`, 16],
-        );
-      }
-
-      const tier2 = [
-        [`https://${hostname}/apple-touch-icon.png`, 20],
-        [`https://${hostname}/favicon.ico`, 20],
-      ];
-
-      if (isSub) {
-        tier2.push(
-          [`https://${root}/apple-touch-icon.png`, 20],
-          [`https://${root}/favicon.ico`, 20],
-        );
-      }
-
-      const tier3 = [
-        [`https://geticon.io/img?url=${hostname}&size=128`, 16],
-        [`https://api.faviconkit.com/${hostname}/256`, 16],
-      ];
-
-      return { tier1, tier2, tier3 };
-    }
-
-    // Probe whether an image source loads and meets a minimum size.
-    function probeIcon(src, minSize) {
-      return new Promise((resolve) => {
-        const img = new Image();
-        let settled = false;
-
-        const finish = (w) => {
-          if (!settled) {
-            settled = true;
-            resolve(w);
-          }
-        };
-
-        const timer = setTimeout(() => finish(0), FAVICON_PROBE_TIMEOUT_MS);
-
-        img.onload = () => {
-          clearTimeout(timer);
-          finish(img.naturalWidth >= minSize ? img.naturalWidth : 0);
-        };
-
-        img.onerror = () => {
-          clearTimeout(timer);
-          finish(0);
-        };
-
-        img.src = src;
-      });
-    }
-
-    // Race a tier of favicon sources and return the first one that loads successfully.
-    async function raceTier(sources) {
-      if (!sources.length) return null;
-
-      return new Promise((resolve) => {
-        let remaining = sources.length;
-        let won = false;
-
-        for (const [src, minSize] of sources) {
-          probeIcon(src, minSize).then((w) => {
-            remaining--;
-
-            if (w > 0 && !won) {
-              won = true;
-              resolve(src);
-            } else if (remaining === 0 && !won) {
-              resolve(null);
+        try {
+            const now = Date.now();
+            const out = {};
+            for (const [key, src] of Object.entries(_faviconMemCache)) {
+                out[key] = { src, ts: now };
             }
-          });
-        }
-      });
+            localStorage.setItem(FAVICON_CACHE_KEY, JSON.stringify(out));
+        } catch { /* ignore */ }
     }
 
-    // Check a tier sequentially.
-    // This is slower than racing, but useful for fallback tiers.
+    function rootDomain(hostname) {
+        const parts = hostname.split(".");
+        return parts.length > 2 ? parts.slice(-2).join(".") : hostname;
+    }
+
+    function buildSources(hostname) {
+        const root = rootDomain(hostname);
+        const isSub = root !== hostname;
+        const tier1 = [
+            [`https://icons.duckduckgo.com/ip3/${hostname}.ico`, 16],
+            [`https://favicon.im/${hostname}?larger=true`, 16],
+            [`https://icon.horse/icon/${hostname}`, 16],
+            [`https://www.google.com/s2/favicons?domain=${hostname}&sz=32`, 16]
+        ];
+        if (isSub) {
+            tier1.push(
+                [`https://icons.duckduckgo.com/ip3/${root}.ico`, 16],
+                [`https://favicon.im/${root}?larger=true`, 16],
+                [`https://icon.horse/icon/${root}`, 16],
+                [`https://www.google.com/s2/favicons?domain=${root}&sz=32`, 16]
+            );
+        }
+        const tier2 = [
+            [`https://${hostname}/apple-touch-icon.png`, 20],
+            [`https://${hostname}/favicon.ico`, 20]
+        ];
+        if (isSub) {
+            tier2.push(
+                [`https://${root}/apple-touch-icon.png`, 20],
+                [`https://${root}/favicon.ico`, 20]
+            );
+        }
+        const tier3 = [
+            [`https://geticon.io/img?url=${hostname}&size=128`, 16],
+            [`https://api.faviconkit.com/${hostname}/256`, 16]
+        ];
+        return { tier1, tier2, tier3 };
+    }
+
+    function probeIcon(src, minSize) {
+        return new Promise((resolve) => {
+            const img = new Image();
+            let settled = false;
+            const finish = (w) => { if (!settled) { settled = true; resolve(w); } };
+            const timer = setTimeout(() => finish(0), FAVICON_PROBE_TIMEOUT_MS);
+            img.onload = () => { clearTimeout(timer); finish(img.naturalWidth >= minSize ? img.naturalWidth : 0); };
+            img.onerror = () => { clearTimeout(timer); finish(0); };
+            img.src = src;
+        });
+    }
+
+    async function raceTier(sources) {
+        if (!sources.length) return null;
+        return new Promise((resolve) => {
+            let remaining = sources.length;
+            let won = false;
+            for (const [src, minSize] of sources) {
+                probeIcon(src, minSize).then((w) => {
+                    remaining--;
+                    if (w > 0 && !won) { won = true; resolve(src); }
+                    else if (remaining === 0 && !won) resolve(null);
+                });
+            }
+        });
+    }
+
     async function probeSequential(sources) {
-      for (const [src, minSize] of sources) {
-        const w = await probeIcon(src, minSize);
-        if (w > 0) return src;
-      }
-      return null;
-    }
-
-    // Load favicon into the supplied <img>, with cache support and fallback hiding.
-    async function loadFavicon(displayImg, domain, sources) {
-      if (domain in _faviconMemCache) {
-        const cached = _faviconMemCache[domain];
-
-        if (cached) {
-          displayImg.src = cached;
-          displayImg.style.opacity = "1";
-        } else {
-          displayImg.style.display = "none";
+        for (const [src, minSize] of sources) {
+            const w = await probeIcon(src, minSize);
+            if (w > 0) return src;
         }
-        return;
-      }
-
-      if (!sources) {
-        displayImg.style.display = "none";
-        return;
-      }
-
-      let winner = await raceTier(sources.tier1);
-      if (!winner) winner = await probeSequential(sources.tier2);
-      if (!winner) winner = await probeSequential(sources.tier3);
-
-      _faviconMemCache[domain] = winner;
-      persistFaviconCache();
-
-      if (winner) {
-        displayImg.src = winner;
-        displayImg.style.opacity = "1";
-      } else {
-        displayImg.style.display = "none";
-      }
+        return null;
     }
 
-    // Create the favicon element for one bookmark.
+    async function loadFavicon(displayImg, domain, sources) {
+        if (domain in _faviconMemCache) {
+            const cached = _faviconMemCache[domain];
+            if (cached) { displayImg.src = cached; displayImg.style.opacity = "1"; }
+            else { displayImg.style.display = "none"; }
+            return;
+        }
+        if (!sources) { displayImg.style.display = "none"; return; }
+        let winner = await raceTier(sources.tier1);
+        if (!winner) winner = await probeSequential(sources.tier2);
+        if (!winner) winner = await probeSequential(sources.tier3);
+        _faviconMemCache[domain] = winner;
+        persistFaviconCache();
+        if (winner) { displayImg.src = winner; displayImg.style.opacity = "1"; }
+        else { displayImg.style.display = "none"; }
+    }
+
     function createIcon(item) {
-      let domain = "";
-      try {
-        domain = new URL(item.href).hostname;
-      } catch {
-        domain = "";
-      }
-
-      const sources = domain ? buildSources(domain) : null;
-
-      const img = document.createElement("img");
-      img.className = "bookmark-icon";
-      img.alt = "";
-      img.decoding = "async";
-      img.loading = "lazy";
-      img.referrerPolicy = "no-referrer";
-
-      // If all favicon attempts fail, replace the image with a text fallback.
-      img.addEventListener(
-        "error",
-        () => {
-          if (!img.dataset.fallback) {
-            img.dataset.fallback = "1";
-            const fallback = document.createElement("span");
-            fallback.className = "bookmark-fallback";
-            fallback.textContent = item.title.trim().slice(0, 1).toUpperCase();
-            img.replaceWith(fallback);
-          }
-        },
-        { once: true },
-      );
-
-      loadFavicon(img, domain, sources);
-      return img;
+        let domain = "";
+        try { domain = new URL(item.href).hostname; } catch { domain = ""; }
+        const sources = domain ? buildSources(domain) : null;
+        const img = document.createElement("img");
+        img.className = "bookmark-icon";
+        img.alt = "";
+        img.decoding = "async";
+        img.loading = "lazy";
+        img.referrerPolicy = "no-referrer";
+        img.addEventListener("error", () => {
+            if (!img.dataset.fallback) {
+                img.dataset.fallback = "1";
+                const fallback = document.createElement("span");
+                fallback.className = "bookmark-fallback";
+                fallback.textContent = item.title.trim().slice(0, 1).toUpperCase();
+                img.replaceWith(fallback);
+            }
+        }, { once: true });
+        loadFavicon(img, domain, sources);
+        return img;
     }
 
-    // Escape HTML before injecting text into innerHTML.
     function escapeHtml(s) {
-      return String(s)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#39;");
+        return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
     }
 
-    // Score a bookmark against the query.
-    // Higher score means a better match.
     function scoreItem(item, query) {
-      const q = query.trim().toLowerCase();
-      if (!q) return -1;
-
-      const title = item.title.toLowerCase();
-      const aliases = item.aliases || [];
-      const href = item.href.toLowerCase();
-      const hay = [title, href, ...aliases].join(" ");
-
-      if (title === q) return 100;
-      if (aliases.some((a) => a.toLowerCase() === q)) return 98;
-      if (title.startsWith(q)) return 90;
-      if (aliases.some((a) => a.toLowerCase().startsWith(q))) return 88;
-      if (hay.includes(q)) return 70;
-
-      return -1;
+        const q = query.trim().toLowerCase();
+        if (!q) return -1;
+        const title = item.title.toLowerCase();
+        const aliases = item.aliases || [];
+        const href = item.href.toLowerCase();
+        const hay = [title, href, ...aliases].join(" ");
+        if (title === q) return 100;
+        if (aliases.some(a => a.toLowerCase() === q)) return 98;
+        if (title.startsWith(q)) return 90;
+        if (aliases.some(a => a.toLowerCase().startsWith(q))) return 88;
+        if (hay.includes(q)) return 70;
+        return -1;
     }
 
-    // Highlight matching text safely.
     function highlightText(text, query) {
-      if (!query) return escapeHtml(text);
-
-      const q = query.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      if (!q) return escapeHtml(text);
-
-      return escapeHtml(text).replace(new RegExp(`(${q})`, "ig"), "<mark>$1</mark>");
+        if (!query) return escapeHtml(text);
+        const q = query.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        if (!q) return escapeHtml(text);
+        return escapeHtml(text).replace(new RegExp(`(${q})`, "ig"), "<mark>$1</mark>");
     }
 
     const cardsEl = document.getElementById("bookmarks");
@@ -361,175 +207,109 @@
     const clockEl = document.getElementById("clock");
     const formEl = document.getElementById("form");
 
-    // Render all bookmark cards once.
     function render() {
-      cardsEl.innerHTML = CONFIG.cards
-        .map(
-          (card, cardIndex) => `
+        cardsEl.innerHTML = CONFIG.cards.map((card, cardIndex) => `
             <section class="section" data-card="${cardIndex}">
-              <ul>
-                ${card.items
-                  .map(
-                    (item, itemIndex) => `
-                      <li
-                        class="bookmark"
-                        data-card="${cardIndex}"
-                        data-item="${itemIndex}"
-                        data-title="${escapeHtml(item.title)}"
-                        data-href="${escapeHtml(item.href)}"
-                      >
+                <ul>${card.items.map((item, itemIndex) => `
+                    <li class="bookmark" data-card="${cardIndex}" data-item="${itemIndex}" data-title="${escapeHtml(item.title)}" data-href="${escapeHtml(item.href)}">
                         <a class="bookmark-link" href="${escapeHtml(item.href)}" target="_self" rel="noopener noreferrer">
-                          <span class="icon-slot"></span>
-                          <span class="label">${escapeHtml(item.title)}</span>
+                            <span class="icon-slot"></span>
+                            <span class="label">${escapeHtml(item.title)}</span>
                         </a>
-                      </li>
-                    `,
-                  )
-                  .join("")}
-              </ul>
+                    </li>
+                `).join("")}</ul>
             </section>
-          `,
-        )
-        .join("");
-
-      // Replace each placeholder slot with the favicon element.
-      document.querySelectorAll(".bookmark").forEach((li) => {
-        const cardIndex = Number(li.dataset.card);
-        const itemIndex = Number(li.dataset.item);
-        const item = CONFIG.cards[cardIndex].items[itemIndex];
-        const slot = li.querySelector(".icon-slot");
-        slot.replaceWith(createIcon(item));
-      });
-
-      updateSearch("");
+        `).join("");
+        document.querySelectorAll(".bookmark").forEach((li) => {
+            const cardIndex = Number(li.dataset.card);
+            const itemIndex = Number(li.dataset.item);
+            const item = CONFIG.cards[cardIndex].items[itemIndex];
+            const slot = li.querySelector(".icon-slot");
+            slot.replaceWith(createIcon(item));
+        });
+        updateSearch("");
     }
 
-    // Clock update.
     function updateClock() {
-      const now = new Date();
-      clockEl.textContent = now.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      });
+        const now = new Date();
+        clockEl.textContent = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
     }
 
-    // Filter, highlight, and rank bookmarks.
-    // IMPORTANT: this now returns the best match for Enter/openBest.
     function updateSearch(rawValue) {
-      const value = (rawValue || "").trim();
-      const q = value.toLowerCase();
-
-      const bookmarks = [...document.querySelectorAll(".bookmark")];
-      let best = null;
-      let bestScore = -1;
-
-      bookmarks.forEach((li) => {
-        li.classList.remove("bookmark-match", "bookmark-nomatch", "primary-match");
-
-        const title = li.dataset.title || "";
-        const item = { title, href: li.dataset.href || "" };
-        const label = li.querySelector(".label");
-
-        // No query: restore everything to normal.
-        if (!q) {
-          li.style.display = "";
-          if (label) label.textContent = title;
-          return;
-        }
-
-        const score = scoreItem(item, q);
-        const isMatch = score >= 0;
-
-        if (isMatch) {
-          li.classList.add("bookmark-match");
-          li.style.display = "";
-          if (score > bestScore) {
-            bestScore = score;
-            best = li;
-          }
-        } else {
-          li.classList.add("bookmark-nomatch");
-          li.style.display = "";
-        }
-
-        if (label) label.innerHTML = highlightText(title, q);
-      });
-
-      return best;
+        const value = (rawValue || "").trim();
+        const q = value.toLowerCase();
+        const bookmarks = [...document.querySelectorAll(".bookmark")];
+        let best = null, bestScore = -1;
+        bookmarks.forEach((li) => {
+            li.classList.remove("bookmark-match", "bookmark-nomatch", "primary-match");
+            const title = li.dataset.title || "";
+            const item = { title, href: li.dataset.href || "" };
+            const label = li.querySelector(".label");
+            if (!q) {
+                li.style.display = "";
+                if (label) label.textContent = title;
+                return;
+            }
+            const score = scoreItem(item, q);
+            const isMatch = score >= 0;
+            if (isMatch) {
+                li.classList.add("bookmark-match");
+                li.style.display = "";
+                if (score > bestScore) { bestScore = score; best = li; }
+            } else {
+                li.classList.add("bookmark-nomatch");
+                li.style.display = "";
+            }
+            if (label) label.innerHTML = highlightText(title, q);
+        });
+        return best;
     }
 
-    // Open the best matching bookmark, or search Startpage if there is no match.
+    // --- NEW URL DETECTION ---
+    function isLikelyURL(str) {
+        str = str.trim();
+        if (!str) return false;
+        if (/^https?:\/\//i.test(str)) return true;
+        if (/\s/.test(str)) return false;
+        const domainPattern = /^([a-z0-9-]+\.)+[a-z0-9-]{2,}(:\d+)?(\/.*)?$/i;
+        const ipPattern = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}(:\d+)?(\/.*)?$/;
+        const localhostPattern = /^localhost(:\d+)?(\/.*)?$/i;
+        return domainPattern.test(str) || ipPattern.test(str) || localhostPattern.test(str);
+    }
+
     function openBest() {
-      const value = searchEl.value.trim();
-      const best = updateSearch(value);
-
-      if (best) {
-        best.querySelector(".bookmark-link").click();
-        return;
-      }
-
-      if (value) {
-        location.href = SEARCH_ENGINE + encodeURIComponent(value);
-      }
+        const value = searchEl.value.trim();
+        const best = updateSearch(value);
+        if (best) {
+            best.querySelector(".bookmark-link").click();
+            return;
+        }
+        if (value) {
+            if (isLikelyURL(value)) {
+                let url = value;
+                if (!/^https?:\/\//i.test(url)) url = "https://" + url;
+                location.href = url;
+                return;
+            }
+            location.href = SEARCH_ENGINE + encodeURIComponent(value);
+        }
     }
 
-    // Keep the search input focused.
     function forceFocus() {
-      if (document.activeElement !== searchEl) {
-        requestAnimationFrame(() => searchEl.focus());
-      }
+        if (document.activeElement !== searchEl) requestAnimationFrame(() => searchEl.focus());
     }
 
     render();
     updateClock();
     setInterval(updateClock, 10000);
-
-    // Live filtering while typing.
     searchEl.addEventListener("input", () => updateSearch(searchEl.value));
-
-    // Submit opens the best match or searches the web.
-    formEl.addEventListener("submit", (e) => {
-      e.preventDefault();
-      openBest();
-    });
-
-    // Escape clears the field but does not unfocus it.
-    searchEl.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        searchEl.value = "";
-        updateSearch("");
-        forceFocus();
-      }
-    });
-
-    // Slash focuses the search bar unless the user is already typing somewhere else.
-    document.addEventListener("keydown", (e) => {
-      const tag = document.activeElement?.tagName;
-      const isTypingField = tag === "INPUT" || tag === "TEXTAREA" || document.activeElement?.isContentEditable;
-
-      if (e.key === "/" && !isTypingField && document.activeElement !== searchEl) {
-        e.preventDefault();
-        searchEl.focus();
-      }
-    });
-
-    // Focus on load and whenever the tab becomes visible again.
+    formEl.addEventListener("submit", (e) => { e.preventDefault(); openBest(); });
+    searchEl.addEventListener("keydown", (e) => { if (e.key === "Escape") { e.preventDefault(); searchEl.value = ""; updateSearch(""); forceFocus(); } });
+    document.addEventListener("keydown", (e) => { const tag = document.activeElement?.tagName; const isTypingField = tag === "INPUT" || tag === "TEXTAREA" || document.activeElement?.isContentEditable; if (e.key === "/" && !isTypingField && document.activeElement !== searchEl) { e.preventDefault(); searchEl.focus(); } });
     window.addEventListener("load", forceFocus);
-    document.addEventListener("visibilitychange", () => {
-      if (!document.hidden) forceFocus();
-    });
-
-    // Fix: the old code used `search.addEventListener`, but `search` does not exist.
-    // This keeps the input focused after blur without throwing a runtime error.
-    searchEl.addEventListener("blur", () => {
-      setTimeout(forceFocus, 0);
-    });
-
-    // Click anywhere outside the search box and keep focus on the input.
-    document.addEventListener("click", (e) => {
-      if (e.target !== searchEl) forceFocus();
-    });
-  </script>
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) forceFocus(); });
+    searchEl.addEventListener("blur", () => setTimeout(forceFocus, 0));
+    document.addEventListener("click", (e) => { if (e.target !== searchEl) forceFocus(); });
+</script>
 </body>
 </html>
