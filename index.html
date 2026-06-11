@@ -133,51 +133,46 @@
     const isSub = root !== hostname;
 
     const tier1 = [
-      { url: `https://www.google.com/s2/favicons?domain=${hostname}&sz=64`, size: 64 },
-      { url: `https://icons.duckduckgo.com/ip3/${hostname}.ico`, size: 32 },
-      { url: `https://api.faviconkit.com/${hostname}/64`, size: 64 },
-      { url: `https://favicon.splitbee.io/?url=${hostname}`, size: 32 },
+      [`https://www.google.com/s2/favicons?domain=${hostname}&sz=64`, 64],
+      [`https://icons.duckduckgo.com/ip3/${hostname}.ico`, 32],
+      [`https://api.faviconkit.com/${hostname}/64`, 64],
+      [`https://favicon.splitbee.io/?url=${hostname}`, 32]
     ];
-
     if (isSub) {
       tier1.push(
-        { url: `https://www.google.com/s2/favicons?domain=${root}&sz=64`, size: 64 },
-        { url: `https://icons.duckduckgo.com/ip3/${root}.ico`, size: 32 },
-        { url: `https://api.faviconkit.com/${root}/64`, size: 64 },
-        { url: `https://favicon.splitbee.io/?url=${root}`, size: 32 }
+        [`https://www.google.com/s2/favicons?domain=${root}&sz=64`, 64],
+        [`https://icons.duckduckgo.com/ip3/${root}.ico`, 32],
+        [`https://api.faviconkit.com/${root}/64`, 64],
+        [`https://favicon.splitbee.io/?url=${root}`, 32]
       );
     }
 
     const tier2 = [
-      { url: `https://${hostname}/apple-touch-icon.png`, size: 128 },
-      { url: `https://${hostname}/apple-touch-icon-precomposed.png`, size: 128 },
-      { url: `https://${hostname}/favicon.ico`, size: 32 },
-      { url: `https://${hostname}/favicon-32x32.png`, size: 32 },
-      { url: `https://${hostname}/favicon-48x48.png`, size: 48 },
-      { url: `https://${hostname}/favicon-64x64.png`, size: 64 },
+      [`https://${hostname}/apple-touch-icon.png`, 128],
+      [`https://${hostname}/apple-touch-icon-precomposed.png`, 128],
+      [`https://${hostname}/favicon.ico`, 32],
+      [`https://${hostname}/favicon-32x32.png`, 32]
     ];
-
     if (isSub) {
       tier2.push(
-        { url: `https://${root}/apple-touch-icon.png`, size: 128 },
-        { url: `https://${root}/apple-touch-icon-precomposed.png`, size: 128 },
-        { url: `https://${root}/favicon.ico`, size: 32 },
-        { url: `https://${root}/favicon-32x32.png`, size: 32 }
+        [`https://${root}/apple-touch-icon.png`, 128],
+        [`https://${root}/apple-touch-icon-precomposed.png`, 128],
+        [`https://${root}/favicon.ico`, 32],
+        [`https://${root}/favicon-32x32.png`, 32]
       );
     }
 
     const tier3 = [
-      { url: `https://icon.horse/icon/${hostname}?size=64`, size: 64 },
-      { url: `https://logo.clearbit.com/${hostname}?size=64`, size: 64 },
+      [`https://icon.horse/icon/${hostname}?size=64`, 64],
+      [`https://logo.clearbit.com/${hostname}?size=64`, 64]
     ];
 
-    // ---------- Ultimate fallback: inline SVG “globe” icon ----------
     const fallback = 'data:image/svg+xml,' + encodeURIComponent(
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
-    <circle cx="24" cy="24" r="20" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
-    <ellipse cx="24" cy="24" rx="10" ry="20" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
-    <line x1="4" y1="24" x2="44" y2="24" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
-    </svg>`
+      `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+        <circle cx="24" cy="24" r="20" fill="none" stroke="rgba(241,228,209,0.5)" stroke-width="2"/>
+        <ellipse cx="24" cy="24" rx="10" ry="20" fill="none" stroke="rgba(241,228,209,0.5)" stroke-width="2"/>
+        <line x1="4" y1="24" x2="44" y2="24" stroke="rgba(241,228,209,0.5)" stroke-width="2"/>
+      </svg>`
     );
 
     return { tier1, tier2, tier3, fallback };
