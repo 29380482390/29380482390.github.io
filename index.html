@@ -87,227 +87,229 @@
       }]
     }]
   };
-  const FAVICON_CACHE_KEY = "favicon-resolved-v2";
-  const CACHE_TTL = 7 * 24 * 60 * 60 * 1000;
-  const PROBE_TIMEOUT = 4000;
-  const MIN_ICON_SIZE = 16; // Accept 16x16 favicons
-  
-  // Use your original cache names to avoid breaking existing code
-  const _faviconMemCache = Object.create(null);
-  
-  // Hydrate cache
-  (function hydrateFaviconCache() {
-    try {
-      const raw = localStorage.getItem(FAVICON_CACHE_KEY);
-      if (!raw) return;
-      const parsed = JSON.parse(raw);
-      const now = Date.now();
-      for (const [key, entry] of Object.entries(parsed)) {
-        if (entry && typeof entry === "object" && now - entry.ts < CACHE_TTL) {
-          _faviconMemCache[key] = entry.src;
-        }
+  const FAVICON_CACHE_KEY = "favicon-resolved-v3"; // 👈 NEW KEY – forces cache reset
+const CACHE_TTL = 7 * 24 * 60 * 60 * 1000;
+const PROBE_TIMEOUT = 4000;
+const MIN_ICON_SIZE = 16;
+
+const _faviconMemCache = Object.create(null);
+
+// Hydrate cache
+(function hydrateFaviconCache() {
+  try {
+    const raw = localStorage.getItem(FAVICON_CACHE_KEY);
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    const now = Date.now();
+    for (const [key, entry] of Object.entries(parsed)) {
+      if (entry && typeof entry === "object" && now - entry.ts < CACHE_TTL) {
+        _faviconMemCache[key] = entry.src;
       }
-    } catch {
-      /* ignore */
     }
-  })();
-  
-  function persistFaviconCache() {
-    try {
-      const now = Date.now();
-      const out = {};
-      for (const [key, src] of Object.entries(_faviconMemCache)) {
-        out[key] = { src, ts: now };
+  } catch {
+    /* ignore */
+  }
+})();
+
+function persistFaviconCache() {
+  try {
+    const now = Date.now();
+    const out = {};
+    for (const [key, src] of Object.entries(_faviconMemCache)) {
+      out[key] = { src, ts: now };
+    }
+    localStorage.setItem(FAVICON_CACHE_KEY, JSON.stringify(out));
+  } catch {
+    /* ignore */
+  }
+}
+
+function rootDomain(hostname) {
+  const parts = hostname.split(".");
+  if (parts.length <= 2) return hostname;
+  const specialTlds = new Set(['co.uk', 'com.au', 'co.jp', 'co.nz', 'com.br', 'com.sg', 'org.uk']);
+  const lastTwo = parts.slice(-2).join('.');
+  if (specialTlds.has(lastTwo) && parts.length > 2) {
+    return parts.slice(-3).join('.');
+  }
+  return lastTwo;
+}
+
+function buildSources(hostname) {
+  const root = rootDomain(hostname);
+  const isSub = root !== hostname;
+
+  // 👇 HARDCODED OVERRIDES for the stubborn sites
+  const overrides = [];
+  if (root === 'primevideo.com') {
+    overrides.push(['https://m.media-amazon.com/images/G/01/primevideo/favicon._CB485931370_.ico', MIN_ICON_SIZE]);
+  }
+  if (root === '4chan.org') {
+    overrides.push(['https://s.4cdn.org/image/favicon.ico', MIN_ICON_SIZE]);
+  }
+  // cs.rin.ru works fine with the direct path below, so no override needed.
+
+  // Tier 1: Direct root paths (tried FIRST)
+  const tier1 = [
+    ...overrides, // 👈 Overrides come first
+    [`https://${hostname}/apple-touch-icon.png`, MIN_ICON_SIZE],
+    [`https://${hostname}/apple-touch-icon-precomposed.png`, MIN_ICON_SIZE],
+    [`https://${hostname}/favicon.ico`, MIN_ICON_SIZE],
+    [`https://${hostname}/favicon-32x32.png`, MIN_ICON_SIZE],
+  ];
+  if (isSub) {
+    tier1.push(
+      [`https://${root}/apple-touch-icon.png`, MIN_ICON_SIZE],
+      [`https://${root}/apple-touch-icon-precomposed.png`, MIN_ICON_SIZE],
+      [`https://${root}/favicon.ico`, MIN_ICON_SIZE],
+      [`https://${root}/favicon-32x32.png`, MIN_ICON_SIZE]
+    );
+  }
+
+  // Tier 2: External services (fallback)
+  const tier2 = [
+    [`https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${hostname}&size=64`, MIN_ICON_SIZE],
+    [`https://logo.clearbit.com/${hostname}?size=64`, MIN_ICON_SIZE],
+    [`https://favicon.yandex.net/favicon/${hostname}`, MIN_ICON_SIZE],
+    [`https://icon.horse/icon/${hostname}?size=64`, MIN_ICON_SIZE],
+    [`https://api.faviconkit.com/${hostname}/64`, MIN_ICON_SIZE],
+    [`https://icons.duckduckgo.com/ip3/${hostname}.ico`, MIN_ICON_SIZE],
+  ];
+  if (isSub) {
+    tier2.push(
+      [`https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${root}&size=64`, MIN_ICON_SIZE],
+      [`https://logo.clearbit.com/${root}?size=64`, MIN_ICON_SIZE],
+      [`https://favicon.yandex.net/favicon/${root}`, MIN_ICON_SIZE],
+      [`https://icon.horse/icon/${root}?size=64`, MIN_ICON_SIZE],
+      [`https://api.faviconkit.com/${root}/64`, MIN_ICON_SIZE],
+      [`https://icons.duckduckgo.com/ip3/${root}.ico`, MIN_ICON_SIZE]
+    );
+  }
+
+  return { tier1, tier2 };
+}
+
+function probeIcon(src, minSize) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    let settled = false;
+    const timer = setTimeout(() => finish(null), PROBE_TIMEOUT);
+    const finish = (result) => {
+      if (!settled) {
+        settled = true;
+        clearTimeout(timer);
+        resolve(result);
       }
-      localStorage.setItem(FAVICON_CACHE_KEY, JSON.stringify(out));
-    } catch {
-      /* ignore */
-    }
-  }
-  
-  // Keep your original rootDomain logic (renamed back to match the call)
-  function rootDomain(hostname) {
-    const parts = hostname.split(".");
-    if (parts.length <= 2) return hostname;
-    // Handle multi-part TLDs (co.uk, com.au, etc.)
-    const specialTlds = new Set(['co.uk', 'com.au', 'co.jp', 'co.nz', 'com.br', 'com.sg', 'org.uk']);
-    const lastTwo = parts.slice(-2).join('.');
-    if (specialTlds.has(lastTwo) && parts.length > 2) {
-      return parts.slice(-3).join('.');
-    }
-    return lastTwo;
-  }
-  
-  // Build sources – DIRECT PATHS FIRST (fixes Prime, 4chan, cs.rin.ru)
-  function buildSources(hostname) {
-    const root = rootDomain(hostname);
-    const isSub = root !== hostname;
-  
-    // TIER 1: Direct paths (most accurate)
-    const tier1 = [
-      [`https://${hostname}/apple-touch-icon.png`, MIN_ICON_SIZE],
-      [`https://${hostname}/apple-touch-icon-precomposed.png`, MIN_ICON_SIZE],
-      [`https://${hostname}/favicon.ico`, MIN_ICON_SIZE],
-      [`https://${hostname}/favicon-32x32.png`, MIN_ICON_SIZE],
-    ];
-    if (isSub) {
-      tier1.push(
-        [`https://${root}/apple-touch-icon.png`, MIN_ICON_SIZE],
-        [`https://${root}/apple-touch-icon-precomposed.png`, MIN_ICON_SIZE],
-        [`https://${root}/favicon.ico`, MIN_ICON_SIZE],
-        [`https://${root}/favicon-32x32.png`, MIN_ICON_SIZE]
-      );
-    }
-  
-    // TIER 2: External services (fallback)
-    const tier2 = [
-      [`https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${hostname}&size=64`, MIN_ICON_SIZE],
-      [`https://logo.clearbit.com/${hostname}?size=64`, MIN_ICON_SIZE],
-      [`https://favicon.yandex.net/favicon/${hostname}`, MIN_ICON_SIZE],
-      [`https://icon.horse/icon/${hostname}?size=64`, MIN_ICON_SIZE],
-      [`https://api.faviconkit.com/${hostname}/64`, MIN_ICON_SIZE],
-      [`https://icons.duckduckgo.com/ip3/${hostname}.ico`, MIN_ICON_SIZE],
-    ];
-    if (isSub) {
-      tier2.push(
-        [`https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${root}&size=64`, MIN_ICON_SIZE],
-        [`https://logo.clearbit.com/${root}?size=64`, MIN_ICON_SIZE],
-        [`https://favicon.yandex.net/favicon/${root}`, MIN_ICON_SIZE],
-        [`https://icon.horse/icon/${root}?size=64`, MIN_ICON_SIZE],
-        [`https://api.faviconkit.com/${root}/64`, MIN_ICON_SIZE],
-        [`https://icons.duckduckgo.com/ip3/${root}.ico`, MIN_ICON_SIZE]
-      );
-    }
-  
-    return { tier1, tier2 };
-  }
-  
-  // Probe a single icon – returns the URL if valid, else null
-  function probeIcon(src, minSize) {
-    return new Promise((resolve) => {
-      const img = new Image();
-      let settled = false;
-      const timer = setTimeout(() => finish(null), PROBE_TIMEOUT);
-      const finish = (result) => {
-        if (!settled) {
-          settled = true;
-          clearTimeout(timer);
+    };
+    img.onload = () => {
+      finish(img.naturalWidth >= minSize ? src : null);
+    };
+    img.onerror = () => finish(null);
+    img.src = src;
+  });
+}
+
+async function raceTier(sources) {
+  if (!sources.length) return null;
+  return new Promise((resolve) => {
+    let remaining = sources.length;
+    let won = false;
+    for (const [src, minSize] of sources) {
+      probeIcon(src, minSize).then((result) => {
+        remaining--;
+        if (result && !won) {
+          won = true;
           resolve(result);
+        } else if (remaining === 0 && !won) {
+          resolve(null);
         }
-      };
-      img.onload = () => {
-        finish(img.naturalWidth >= minSize ? src : null);
-      };
-      img.onerror = () => finish(null);
-      img.src = src;
-    });
-  }
-  
-  // FIXED raceTier: correctly waits for the first NON-NULL result
-  async function raceTier(sources) {
-    if (!sources.length) return null;
-    return new Promise((resolve) => {
-      let remaining = sources.length;
-      let won = false;
-      for (const [src, minSize] of sources) {
-        probeIcon(src, minSize).then((result) => {
-          remaining--;
-          if (result && !won) {
-            won = true;
-            resolve(result);
-          } else if (remaining === 0 && !won) {
-            resolve(null);
-          }
-        });
-      }
-    });
-  }
-  
-  // Main loader – uses your original cache variables
-  async function loadFavicon(imgElement, domain, sources) {
-    if (domain in _faviconMemCache) {
-      const cached = _faviconMemCache[domain];
-      if (cached) {
-        imgElement.src = cached;
-        imgElement.style.opacity = "1";
-      } else {
-        imgElement.style.display = "none";
-      }
-      return;
+      });
     }
-  
-    if (!sources) {
-      imgElement.style.display = "none";
-      return;
-    }
-  
-    let winner = await raceTier(sources.tier1);
-    if (!winner) winner = await raceTier(sources.tier2);
-  
-    _faviconMemCache[domain] = winner;
-    persistFaviconCache();
-  
-    if (winner) {
-      imgElement.src = winner;
+  });
+}
+
+async function loadFavicon(imgElement, domain, sources) {
+  if (domain in _faviconMemCache) {
+    const cached = _faviconMemCache[domain];
+    if (cached) {
+      imgElement.src = cached;
       imgElement.style.opacity = "1";
     } else {
       imgElement.style.display = "none";
     }
+    return;
   }
-  
-  // Create fallback span (colored initial letter)
-  function createFallbackSpan(title) {
-    const span = document.createElement("span");
-    span.className = "bookmark-fallback";
-    const letter = (title.trim().slice(0, 1) || "?").toUpperCase();
-    span.textContent = letter;
-    let hash = 0;
-    for (let i = 0; i < title.length; i++) {
-      hash = title.charCodeAt(i) + ((hash << 5) - hash);
+
+  if (!sources) {
+    imgElement.style.display = "none";
+    return;
+  }
+
+  let winner = await raceTier(sources.tier1);
+  if (!winner) winner = await raceTier(sources.tier2);
+
+  _faviconMemCache[domain] = winner;
+  persistFaviconCache();
+
+  if (winner) {
+    imgElement.src = winner;
+    imgElement.style.opacity = "1";
+  } else {
+    imgElement.style.display = "none";
+  }
+}
+
+function createFallbackSpan(title) {
+  const span = document.createElement("span");
+  span.className = "bookmark-fallback";
+  const letter = (title.trim().slice(0, 1) || "?").toUpperCase();
+  span.textContent = letter;
+  let hash = 0;
+  for (let i = 0; i < title.length; i++) {
+    hash = title.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const hue = Math.abs(hash) % 360;
+  span.style.backgroundColor = `hsl(${hue}, 60%, 85%)`;
+  span.style.color = `hsl(${hue}, 70%, 30%)`;
+  return span;
+}
+
+function createIcon(item) {
+  let domain = "";
+  try {
+    domain = new URL(item.href).hostname;
+  } catch {
+    domain = "";
+  }
+  const sources = domain ? buildSources(domain) : null;
+
+  const img = document.createElement("img");
+  img.className = "bookmark-icon";
+  img.alt = "";
+  img.decoding = "async";
+  img.loading = "lazy";
+  img.referrerPolicy = "no-referrer";
+  img.style.opacity = "0";
+
+  img.addEventListener("error", () => {
+    if (domain && _faviconMemCache[domain] !== undefined) {
+      delete _faviconMemCache[domain];
+      persistFaviconCache();
     }
-    const hue = Math.abs(hash) % 360;
-    span.style.backgroundColor = `hsl(${hue}, 60%, 85%)`;
-    span.style.color = `hsl(${hue}, 70%, 30%)`;
-    return span;
-  }
-  
-  // Create icon element
-  function createIcon(item) {
-    let domain = "";
-    try {
-      domain = new URL(item.href).hostname;
-    } catch {
-      domain = "";
+    if (img.parentNode && !img.dataset.fallback) {
+      img.dataset.fallback = "1";
+      const fallback = createFallbackSpan(item.title);
+      img.replaceWith(fallback);
     }
-    const sources = domain ? buildSources(domain) : null;
-  
-    const img = document.createElement("img");
-    img.className = "bookmark-icon";
-    img.alt = "";
-    img.decoding = "async";
-    img.loading = "lazy";
-    img.referrerPolicy = "no-referrer";
-    img.style.opacity = "0";
-  
-    img.addEventListener("error", () => {
-      if (domain && _faviconMemCache[domain] !== undefined) {
-        delete _faviconMemCache[domain];
-        persistFaviconCache();
-      }
-      if (img.parentNode && !img.dataset.fallback) {
-        img.dataset.fallback = "1";
-        const fallback = createFallbackSpan(item.title);
-        img.replaceWith(fallback);
-      }
-    }, { once: true });
-  
-    img.addEventListener("load", () => {
-      img.style.opacity = "1";
-    });
-  
-    loadFavicon(img, domain, sources);
-    return img;
-  }
+  }, { once: true });
+
+  img.addEventListener("load", () => {
+    img.style.opacity = "1";
+  });
+
+  loadFavicon(img, domain, sources);
+  return img;
+}
 
   function escapeHtml(s) {
     return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
