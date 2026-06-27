@@ -87,59 +87,63 @@
       }]
     }]
   };
-  const FAVICON_CACHE_KEY = 'favicon-resolved-v2';
+  const FAVICON_CACHE_KEY = "favicon-resolved-v2";
   const CACHE_TTL = 7 * 24 * 60 * 60 * 1000;
   const PROBE_TIMEOUT = 4000;
+  const MIN_ICON_SIZE = 16; // Accept 16x16 favicons
   
-  // In‑memory cache
-  const memCache = new Map();
+  // Use your original cache names to avoid breaking existing code
+  const _faviconMemCache = Object.create(null);
   
-  // Hydrate cache from localStorage
-  try {
-    const raw = localStorage.getItem(FAVICON_CACHE_KEY);
-    if (raw) {
+  // Hydrate cache
+  (function hydrateFaviconCache() {
+    try {
+      const raw = localStorage.getItem(FAVICON_CACHE_KEY);
+      if (!raw) return;
       const parsed = JSON.parse(raw);
       const now = Date.now();
-      for (const [domain, entry] of Object.entries(parsed)) {
-        if (entry && now - entry.ts < CACHE_TTL) {
-          memCache.set(domain, entry.src);
+      for (const [key, entry] of Object.entries(parsed)) {
+        if (entry && typeof entry === "object" && now - entry.ts < CACHE_TTL) {
+          _faviconMemCache[key] = entry.src;
         }
       }
+    } catch {
+      /* ignore */
     }
-  } catch {}
+  })();
   
-  function persistCache() {
+  function persistFaviconCache() {
     try {
       const now = Date.now();
-      const obj = {};
-      for (const [domain, src] of memCache) {
-        obj[domain] = { src, ts: now };
+      const out = {};
+      for (const [key, src] of Object.entries(_faviconMemCache)) {
+        out[key] = { src, ts: now };
       }
-      localStorage.setItem(FAVICON_CACHE_KEY, JSON.stringify(obj));
-    } catch {}
+      localStorage.setItem(FAVICON_CACHE_KEY, JSON.stringify(out));
+    } catch {
+      /* ignore */
+    }
   }
   
-  // Improved root domain: keep the last two parts, but respect common multi‑part TLDs
-  function getEffectiveDomain(hostname) {
-    const parts = hostname.split('.');
+  // Keep your original rootDomain logic (renamed back to match the call)
+  function rootDomain(hostname) {
+    const parts = hostname.split(".");
     if (parts.length <= 2) return hostname;
-    // Simple list of public suffixes with two+ parts – extend as needed
+    // Handle multi-part TLDs (co.uk, com.au, etc.)
     const specialTlds = new Set(['co.uk', 'com.au', 'co.jp', 'co.nz', 'com.br', 'com.sg', 'org.uk']);
     const lastTwo = parts.slice(-2).join('.');
     if (specialTlds.has(lastTwo) && parts.length > 2) {
-      return parts.slice(-3).join('.'); // e.g. something.co.uk → something.co.uk
+      return parts.slice(-3).join('.');
     }
     return lastTwo;
   }
   
-  // Generate sources for a domain
-  const MIN_ICON_SIZE = 16; // accept 16×16 favicons
-  
+  // Build sources – DIRECT PATHS FIRST (fixes Prime, 4chan, cs.rin.ru)
   function buildSources(hostname) {
-    const root = rootDomain(hostname); // keep your existing rootDomain function
+    const root = rootDomain(hostname);
     const isSub = root !== hostname;
   
-    // Tier 1: direct root paths (most accurate, tried FIRST)
+    // TIER 1: Direct paths (most accurate)
     const tier1 = [
       [`https://${hostname}/apple-touch-icon.png`, MIN_ICON_SIZE],
       [`https://${hostname}/apple-touch-icon-precomposed.png`, MIN_ICON_SIZE],
@@ -155,7 +159,7 @@
       );
     }
   
-    // Tier 2: external services (good fallback for sites without direct favicon)
+    // TIER 2: External services (fallback)
     const tier2 = [
       [`https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${hostname}&size=64`, MIN_ICON_SIZE],
       [`https://logo.clearbit.com/${hostname}?size=64`, MIN_ICON_SIZE],
@@ -175,67 +179,68 @@
       );
     }
   
-    // No tier3 needed – we now have just two tiers: direct (T1) and external (T2)
     return { tier1, tier2 };
   }
   
-  // Probe a single icon URL
+  // Probe a single icon – returns the URL if valid, else null
   function probeIcon(src, minSize) {
     return new Promise((resolve) => {
       const img = new Image();
       let settled = false;
-      const timer = setTimeout(() => finish(0), PROBE_TIMEOUT);
-      const finish = (width) => {
+      const timer = setTimeout(() => finish(null), PROBE_TIMEOUT);
+      const finish = (result) => {
         if (!settled) {
           settled = true;
           clearTimeout(timer);
-          resolve(width >= minSize ? src : null);
+          resolve(result);
         }
       };
-      img.onload = () => finish(img.naturalWidth);
-      img.onerror = () => finish(0);
+      img.onload = () => {
+        finish(img.naturalWidth >= minSize ? src : null);
+      };
+      img.onerror = () => finish(null);
       img.src = src;
     });
   }
   
-  // Try all sources in a tier concurrently – return first that passes
+  // FIXED raceTier: correctly waits for the first NON-NULL result
   async function raceTier(sources) {
     if (!sources.length) return null;
-    const probes = sources.map(([src, min]) => probeIcon(src, min));
-    const results = await Promise.any(probes.map(p => p.catch(() => null)));
-    return results || null;
+    return new Promise((resolve) => {
+      let remaining = sources.length;
+      let won = false;
+      for (const [src, minSize] of sources) {
+        probeIcon(src, minSize).then((result) => {
+          remaining--;
+          if (result && !won) {
+            won = true;
+            resolve(result);
+          } else if (remaining === 0 && !won) {
+            resolve(null);
+          }
+        });
+      }
+    });
   }
   
-  // Fallback sequential for remaining tiers
-  async function probeSequential(sources) {
-    for (const [src, min] of sources) {
-      const result = await probeIcon(src, min);
-      if (result) return result;
-    }
-    return null;
-  }
-
-    
-  // Main loader
+  // Main loader – uses your original cache variables
   async function loadFavicon(imgElement, domain, sources) {
-    // Check memory cache
     if (domain in _faviconMemCache) {
       const cached = _faviconMemCache[domain];
       if (cached) {
         imgElement.src = cached;
-        imgElement.style.opacity = '1';
+        imgElement.style.opacity = "1";
       } else {
-        imgElement.style.display = 'none';
+        imgElement.style.display = "none";
       }
       return;
     }
   
     if (!sources) {
-      imgElement.style.display = 'none';
+      imgElement.style.display = "none";
       return;
     }
   
-    // TRY DIRECT PATHS FIRST, then external services
     let winner = await raceTier(sources.tier1);
     if (!winner) winner = await raceTier(sources.tier2);
   
@@ -244,19 +249,18 @@
   
     if (winner) {
       imgElement.src = winner;
-      imgElement.style.opacity = '1';
+      imgElement.style.opacity = "1";
     } else {
-      imgElement.style.display = 'none';
+      imgElement.style.display = "none";
     }
   }
   
-  // Helper to create a fallback span with initial letter and colour
+  // Create fallback span (colored initial letter)
   function createFallbackSpan(title) {
-    const span = document.createElement('span');
-    span.className = 'bookmark-fallback';
-    const letter = (title.trim().slice(0, 1) || '?').toUpperCase();
+    const span = document.createElement("span");
+    span.className = "bookmark-fallback";
+    const letter = (title.trim().slice(0, 1) || "?").toUpperCase();
     span.textContent = letter;
-    // Derive a soft colour from the domain (optional)
     let hash = 0;
     for (let i = 0; i < title.length; i++) {
       hash = title.charCodeAt(i) + ((hash << 5) - hash);
@@ -269,40 +273,36 @@
   
   // Create icon element
   function createIcon(item) {
-    let domain = '';
+    let domain = "";
     try {
       domain = new URL(item.href).hostname;
     } catch {
-      domain = '';
+      domain = "";
     }
     const sources = domain ? buildSources(domain) : null;
   
-    const img = document.createElement('img');
-    img.className = 'bookmark-icon';
-    img.alt = '';
-    img.decoding = 'async';
-    img.loading = 'lazy';
-    img.referrerPolicy = 'no-referrer';
-    img.style.opacity = '0'; // start invisible
+    const img = document.createElement("img");
+    img.className = "bookmark-icon";
+    img.alt = "";
+    img.decoding = "async";
+    img.loading = "lazy";
+    img.referrerPolicy = "no-referrer";
+    img.style.opacity = "0";
   
-    // Error handler: replace with fallback span
-    img.addEventListener('error', () => {
-      // If the cached icon failed, remove from cache and maybe retry later?
-      if (domain && memCache.has(domain)) {
-        memCache.delete(domain);
-        persistCache();
+    img.addEventListener("error", () => {
+      if (domain && _faviconMemCache[domain] !== undefined) {
+        delete _faviconMemCache[domain];
+        persistFaviconCache();
       }
-      // Only replace if not already replaced
       if (img.parentNode && !img.dataset.fallback) {
-        img.dataset.fallback = '1';
+        img.dataset.fallback = "1";
         const fallback = createFallbackSpan(item.title);
         img.replaceWith(fallback);
       }
     }, { once: true });
   
-    // If image loads successfully, show it
-    img.addEventListener('load', () => {
-      img.style.opacity = '1';
+    img.addEventListener("load", () => {
+      img.style.opacity = "1";
     });
   
     loadFavicon(img, domain, sources);
