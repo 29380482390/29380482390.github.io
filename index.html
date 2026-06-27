@@ -133,54 +133,50 @@
   }
   
   // Generate sources for a domain
+  const MIN_ICON_SIZE = 16; // accept 16×16 favicons
+  
   function buildSources(hostname) {
-    const root = getEffectiveDomain(hostname);
+    const root = rootDomain(hostname); // keep your existing rootDomain function
     const isSub = root !== hostname;
   
-    // Tier 1: most reliable external services
+    // Tier 1: direct root paths (most accurate, tried FIRST)
     const tier1 = [
-      // Google's new favicon service (returns coloured letter fallback)
-      [`https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${hostname}&size=64`, 32],
-      [`https://icons.duckduckgo.com/ip3/${hostname}.ico`, 32],
-      [`https://favicon.yandex.net/favicon/${hostname}`, 32],
-      [`https://logo.clearbit.com/${hostname}?size=64`, 64], // good for brands
+      [`https://${hostname}/apple-touch-icon.png`, MIN_ICON_SIZE],
+      [`https://${hostname}/apple-touch-icon-precomposed.png`, MIN_ICON_SIZE],
+      [`https://${hostname}/favicon.ico`, MIN_ICON_SIZE],
+      [`https://${hostname}/favicon-32x32.png`, MIN_ICON_SIZE],
     ];
     if (isSub) {
       tier1.push(
-        [`https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${root}&size=64`, 32],
-        [`https://icons.duckduckgo.com/ip3/${root}.ico`, 32],
-        [`https://favicon.yandex.net/favicon/${root}`, 32],
-        [`https://logo.clearbit.com/${root}?size=64`, 64]
+        [`https://${root}/apple-touch-icon.png`, MIN_ICON_SIZE],
+        [`https://${root}/apple-touch-icon-precomposed.png`, MIN_ICON_SIZE],
+        [`https://${root}/favicon.ico`, MIN_ICON_SIZE],
+        [`https://${root}/favicon-32x32.png`, MIN_ICON_SIZE]
       );
     }
   
-    // Tier 2: additional services
+    // Tier 2: external services (good fallback for sites without direct favicon)
     const tier2 = [
-      [`https://icon.horse/icon/${hostname}?size=64`, 32],
-      [`https://api.faviconkit.com/${hostname}/64`, 64],
+      [`https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${hostname}&size=64`, MIN_ICON_SIZE],
+      [`https://logo.clearbit.com/${hostname}?size=64`, MIN_ICON_SIZE],
+      [`https://favicon.yandex.net/favicon/${hostname}`, MIN_ICON_SIZE],
+      [`https://icon.horse/icon/${hostname}?size=64`, MIN_ICON_SIZE],
+      [`https://api.faviconkit.com/${hostname}/64`, MIN_ICON_SIZE],
+      [`https://icons.duckduckgo.com/ip3/${hostname}.ico`, MIN_ICON_SIZE],
     ];
     if (isSub) {
       tier2.push(
-        [`https://icon.horse/icon/${root}?size=64`, 32],
-        [`https://api.faviconkit.com/${root}/64`, 64]
+        [`https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${root}&size=64`, MIN_ICON_SIZE],
+        [`https://logo.clearbit.com/${root}?size=64`, MIN_ICON_SIZE],
+        [`https://favicon.yandex.net/favicon/${root}`, MIN_ICON_SIZE],
+        [`https://icon.horse/icon/${root}?size=64`, MIN_ICON_SIZE],
+        [`https://api.faviconkit.com/${root}/64`, MIN_ICON_SIZE],
+        [`https://icons.duckduckgo.com/ip3/${root}.ico`, MIN_ICON_SIZE]
       );
     }
   
-    // Tier 3: direct root paths (often blocked by CORS, but Image can load them)
-    const tier3 = [
-      [`https://${hostname}/apple-touch-icon.png`, 128],
-      [`https://${hostname}/favicon.ico`, 32],
-      [`https://${hostname}/favicon-32x32.png`, 32],
-    ];
-    if (isSub) {
-      tier3.push(
-        [`https://${root}/apple-touch-icon.png`, 128],
-        [`https://${root}/favicon.ico`, 32],
-        [`https://${root}/favicon-32x32.png`, 32]
-      );
-    }
-  
-    return { tier1, tier2, tier3 };
+    // No tier3 needed – we now have just two tiers: direct (T1) and external (T2)
+    return { tier1, tier2 };
   }
   
   // Probe a single icon URL
@@ -218,21 +214,20 @@
     }
     return null;
   }
-  
+
+    
   // Main loader
   async function loadFavicon(imgElement, domain, sources) {
     // Check memory cache
-    if (memCache.has(domain)) {
-      const cached = memCache.get(domain);
+    if (domain in _faviconMemCache) {
+      const cached = _faviconMemCache[domain];
       if (cached) {
         imgElement.src = cached;
         imgElement.style.opacity = '1';
-        return;
       } else {
-        // cached value is null → no icon found before; show fallback
         imgElement.style.display = 'none';
-        return;
       }
+      return;
     }
   
     if (!sources) {
@@ -240,18 +235,12 @@
       return;
     }
   
-    let winner = null;
-    try {
-      winner = await raceTier(sources.tier1);
-      if (!winner) winner = await probeSequential(sources.tier2);
-      if (!winner) winner = await probeSequential(sources.tier3);
-    } catch {
-      winner = null;
-    }
+    // TRY DIRECT PATHS FIRST, then external services
+    let winner = await raceTier(sources.tier1);
+    if (!winner) winner = await raceTier(sources.tier2);
   
-    // Store result (even null) in cache
-    memCache.set(domain, winner);
-    persistCache();
+    _faviconMemCache[domain] = winner;
+    persistFaviconCache();
   
     if (winner) {
       imgElement.src = winner;
