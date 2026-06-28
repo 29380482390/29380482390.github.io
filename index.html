@@ -88,7 +88,6 @@
     }]
   };
   const FAVICON_CACHE_KEY = "favicon-resolved-v3"; // 👈 NEW KEY – forces cache reset
-const FAVICON_CACHE_KEY = "favicon-resolved-v4"; // 👈 NEW KEY – forces cache reset
 const CACHE_TTL = 7 * 24 * 60 * 60 * 1000;
 const PROBE_TIMEOUT = 4000;
 const MIN_ICON_SIZE = 16;
@@ -140,22 +139,15 @@ function buildSources(hostname) {
   const root = rootDomain(hostname);
   const isSub = root !== hostname;
 
-  // 👇 HARDCODED OVERRIDES for stubborn/wrong icons
+  // 👇 HARDCODED OVERRIDES for the stubborn sites
   const overrides = [];
-  if (hostname === 'primevideo.com' || hostname.endsWith('.primevideo.com')) {
+  if (root === 'primevideo.com') {
     overrides.push(['https://m.media-amazon.com/images/G/01/primevideo/favicon._CB485931370_.ico', MIN_ICON_SIZE]);
   }
-  if (hostname === '4chan.org' || hostname.endsWith('.4chan.org')) {
+  if (root === '4chan.org') {
     overrides.push(['https://s.4cdn.org/image/favicon.ico', MIN_ICON_SIZE]);
   }
-  // 🔥 FIX FOR CS.RIN.RU
-  if (hostname === 'cs.rin.ru') {
-    overrides.push(['https://cs.rin.ru/favicon.ico', MIN_ICON_SIZE]);
-  }
-  // 🔥 FIX FOR GMAIL (handles both mail.google.com and gmail.com)
-  if (hostname === 'mail.google.com' || hostname === 'gmail.com') {
-    overrides.push(['https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico', MIN_ICON_SIZE]);
-  }
+  // cs.rin.ru works fine with the direct path below, so no override needed.
 
   // Tier 1: Direct root paths (tried FIRST)
   const tier1 = [
