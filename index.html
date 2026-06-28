@@ -88,25 +88,21 @@
     }]
   };
 // ========== CONFIG ==========
-const FAVICON_CACHE_KEY = "favicon-resolved-v6"; // fresh start
+const FAVICON_CACHE_KEY = "favicon-resolved-v5"; // new key = fresh start
 const CACHE_TTL = 7 * 24 * 60 * 60 * 1000;
 const PROBE_TIMEOUT = 4000;
 const MIN_ICON_SIZE = 16;
 
-// ========== DIRECT OVERRIDES (bulletproof) ==========
-// Add both naked and www. variants to cover all cases
+// ========== DIRECT OVERRIDES (no probing, 100% reliable) ==========
 const DIRECT_ICON_MAP = {
   'mail.google.com': 'https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico',
   'gmail.com': 'https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico',
   'primevideo.com': 'https://m.media-amazon.com/images/G/01/primevideo/favicon._CB485931370_.ico',
   '4chan.org': 'https://s.4cdn.org/image/favicon.ico',
   'cs.rin.ru': 'https://cs.rin.ru/favicon.ico',
-  'www.cs.rin.ru': 'https://cs.rin.ru/favicon.ico', // for subdomain
-  'reddit.com': 'https://www.redditstatic.com/favicon.ico',
-  'www.reddit.com': 'https://www.redditstatic.com/favicon.ico',
 };
 
-// ========== CACHE (same as before) ==========
+// ========== CACHE (same as before, but cleaned) ==========
 const _faviconMemCache = Object.create(null);
 
 (function hydrate() {
@@ -138,17 +134,19 @@ function persistCache() {
 function rootDomain(hostname) {
   const parts = hostname.split('.');
   if (parts.length <= 2) return hostname;
+  // only special multi‑part TLDs
   const special = new Set(['co.uk','com.au','co.jp','co.nz','com.br','com.sg','org.uk']);
   const lastTwo = parts.slice(-2).join('.');
   if (special.has(lastTwo) && parts.length > 2) return parts.slice(-3).join('.');
   return lastTwo;
 }
 
-// ========== BUILD SOURCES ==========
+// ========== BUILD SOURCES (cleaner) ==========
 function buildSources(hostname) {
   const root = rootDomain(hostname);
   const isSub = root !== hostname;
 
+  // Direct paths (tried first)
   const tier1 = [
     [`https://${hostname}/apple-touch-icon.png`, MIN_ICON_SIZE],
     [`https://${hostname}/favicon.ico`, MIN_ICON_SIZE],
@@ -162,6 +160,7 @@ function buildSources(hostname) {
     );
   }
 
+  // External fallbacks
   const tier2 = [
     [`https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${hostname}&size=64`, MIN_ICON_SIZE],
     [`https://logo.clearbit.com/${hostname}?size=64`, MIN_ICON_SIZE],
@@ -184,7 +183,7 @@ function buildSources(hostname) {
   return { tier1, tier2 };
 }
 
-// ========== PROBE (sequential) ==========
+// ========== SINGLE ICON PROBE (sequential, no race) ==========
 function probeIcon(src, minSize) {
   return new Promise((resolve) => {
     const img = new Image();
@@ -208,8 +207,9 @@ function probeIcon(src, minSize) {
   });
 }
 
-// ========== LOAD FAVICON ==========
+// ========== LOAD FAVICON (with cache) ==========
 async function loadFavicon(imgElement, domain, sources) {
+  // 1. Check memory cache
   if (domain in _faviconMemCache) {
     const cached = _faviconMemCache[domain];
     if (cached) {
@@ -227,11 +227,14 @@ async function loadFavicon(imgElement, domain, sources) {
     return;
   }
 
+  // 2. Try tier1 sequentially
   let winner = null;
   for (const [src, minSize] of sources.tier1) {
     const result = await probeIcon(src, minSize);
     if (result) { winner = result; break; }
   }
+
+  // 3. If none, try tier2 sequentially
   if (!winner) {
     for (const [src, minSize] of sources.tier2) {
       const result = await probeIcon(src, minSize);
@@ -239,6 +242,7 @@ async function loadFavicon(imgElement, domain, sources) {
     }
   }
 
+  // 4. Cache & apply
   _faviconMemCache[domain] = winner;
   persistCache();
 
@@ -250,7 +254,7 @@ async function loadFavicon(imgElement, domain, sources) {
   }
 }
 
-// ========== FALLBACK SPAN ==========
+// ========== FALLBACK SPAN (colorful initial) ==========
 function createFallbackSpan(title) {
   const span = document.createElement('span');
   span.className = 'bookmark-fallback';
@@ -266,12 +270,14 @@ function createFallbackSpan(title) {
   return span;
 }
 
-// ========== CREATE ICON ==========
+// ========== CREATE ICON (the main entry) ==========
 function createIcon(item) {
   let domain = '';
   try {
     domain = new URL(item.href).hostname;
-  } catch {}
+  } catch {
+    // if invalid URL, treat as empty
+  }
 
   const img = document.createElement('img');
   img.className = 'bookmark-icon';
@@ -281,14 +287,17 @@ function createIcon(item) {
   img.referrerPolicy = 'no-referrer';
   img.style.opacity = '0';
 
-  // ----- DIRECT OVERRIDE (instant, no probe) -----
+  // ----- DIRECT OVERRIDE (no probing, instant) -----
   if (domain && DIRECT_ICON_MAP[domain]) {
     const fixedSrc = DIRECT_ICON_MAP[domain];
     img.src = fixedSrc;
     img.style.opacity = '1';
+    // cache it for next time
     _faviconMemCache[domain] = fixedSrc;
     persistCache();
+    // still attach error handler for safety
     img.addEventListener('error', () => {
+      // fallback if the direct URL somehow fails
       if (img.parentNode && !img.dataset.fallback) {
         img.dataset.fallback = '1';
         const fallback = createFallbackSpan(item.title);
@@ -298,10 +307,12 @@ function createIcon(item) {
     return img;
   }
 
-  // ----- NORMAL DISCOVERY -----
+  // ----- NORMAL DISCOVERY for all other domains -----
   const sources = domain ? buildSources(domain) : null;
 
+  // Error handler: replace with fallback on failure
   img.addEventListener('error', () => {
+    // clear cache so we retry next time
     if (domain && domain in _faviconMemCache) {
       delete _faviconMemCache[domain];
       persistCache();
@@ -317,6 +328,7 @@ function createIcon(item) {
     img.style.opacity = '1';
   });
 
+  // Start async loading
   loadFavicon(img, domain, sources);
   return img;
 }
