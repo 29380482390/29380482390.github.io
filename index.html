@@ -271,33 +271,41 @@
 }
 
   function createIcon(item) {
-    let domain = "";
-    try {
-      domain = new URL(item.href).hostname;
-    } catch {
-      domain = "";
-    }
-    const sources = domain ? buildSources(domain) : null;
     const img = document.createElement("img");
+
     img.className = "bookmark-icon";
     img.alt = "";
     img.decoding = "async";
-    img.loading = "lazy";
-    img.referrerPolicy = "no-referrer";
+    img.loading = "eager";
+
+    const fallback = document.createElement("span");
+    fallback.className = "bookmark-fallback";
+    fallback.textContent = item.title.trim().slice(0, 2).toUpperCase();
+
     img.addEventListener("error", () => {
-      if(!img.dataset.fallback) {
-        img.dataset.fallback = "1";
-        const fallback = document.createElement("span");
-        fallback.className = "bookmark-fallback";
-        fallback.textContent = item.title.trim().slice(0, 1).toUpperCase();
         img.replaceWith(fallback);
-      }
-    }, {
-      once: true
-    });
+    }, { once: true });
+
+    // Explicit icon
+    if (item.icon) {
+        img.src = item.icon;
+        return img;
+    }
+
+    // Normal automatic favicon handling
+    let domain = "";
+
+    try {
+        domain = new URL(item.href).hostname;
+    } catch {
+        return fallback;
+    }
+
+    const sources = buildSources(domain);
     loadFavicon(img, domain, sources);
+
     return img;
-  }
+}
 
   function escapeHtml(s) {
     return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
