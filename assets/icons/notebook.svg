@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="case" x2="0" y2="1"><stop stop-color="#535354"/><stop offset="1" stop-color="#232324"/></linearGradient>
+    <linearGradient id="paper" x2="0" y2="1"><stop stop-color="#f0eee8"/><stop offset="1" stop-color="#bbb9b3"/></linearGradient>
+  </defs>
+  <rect x="5" y="5" width="54" height="54" rx="13" fill="url(#case)" stroke="#ffffff25"/>
+  <rect x="16" y="13" width="34" height="40" rx="5" fill="#000" opacity=".25"/>
+  <rect x="14" y="10" width="34" height="42" rx="5" fill="#b1afa9"/>
+  <path d="M20 10h23a5 5 0 0 1 5 5v31a4 4 0 0 0-4-3H20Z" fill="url(#paper)"/>
+  <path d="M20 10v37" stroke="#797872" stroke-width="1"/>
+  <path d="M20 43h24a4 4 0 0 1 0 8H20a4 4 0 0 1 0-8Z" fill="#dbd9d3"/>
+  <path d="M20 46h25m-25 2h24" stroke="#a5a39d" stroke-width=".7"/>
+  <path d="M37 10h6v20l-3-2-3 2Z" fill="#797970"/>
+  <path d="M25 22h7m-7 6h7m-7 6h13" stroke="#7c7b76" stroke-width="1.2" stroke-linecap="round" opacity=".65"/>
+  <path d="M16 14v29" stroke="#f9f7f0" stroke-opacity=".4" stroke-width=".7"/>
+</svg>
