@@ -8,12 +8,13 @@
   <meta name="description" content="A quiet place for your bookmarks.">
   <title>startpage</title>
   <link rel="icon" href="./assets/minimal/favicon.svg?v=9a0454c58a" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/minimal/styles.css?v=245bfe360e">
+  <link rel="stylesheet" href="./assets/minimal/styles.css?v=291e5ec03d">
   <script defer src="./assets/minimal/bookmarks.js?v=abf431e24d"></script>
-  <script defer src="./assets/minimal/core.js?v=92b9de3d41"></script>
-  <script defer src="./assets/minimal/app.js?v=1a21f8e8ca"></script>
+  <script defer src="./assets/minimal/core.js?v=07e4403299"></script>
+  <script defer src="./assets/minimal/app.js?v=fb27391876"></script>
 </head>
 <body>
+  <div id="wallpaper" class="wallpaper" aria-hidden="true"></div>
   <main id="home" class="home">
     <h1 class="sr-only">startpage</h1>
     <form id="search-form" class="search-form" role="search" autocomplete="off">
@@ -52,9 +53,48 @@
             <p id="custom-engine-hint" class="settings-hint">use {query} where the search phrase should go.</p>
           </div>
         </div>
-        <div class="bookmarks-heading"><h3>bookmarks</h3><button id="add-bookmark" type="button" class="text-button"><span aria-hidden="true">+</span> add</button></div>
-        <div class="editor-labels" aria-hidden="true"><span>key</span><span>name / address</span></div>
+        <section class="background-settings" aria-labelledby="background-title">
+          <h3 id="background-title">background</h3>
+          <label class="sr-only" for="background-mode">background type</label>
+          <div class="select-wrap">
+            <select id="background-mode">
+              <option value="random">random photo on refresh</option>
+              <option value="image">image address</option>
+              <option value="color">solid color</option>
+            </select>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg>
+          </div>
+          <div id="background-image-field" class="background-option" hidden>
+            <label class="field-label" for="background-url">image address</label>
+            <input id="background-url" type="text" inputmode="url" autocapitalize="off" spellcheck="false" maxlength="2000" placeholder="https://example.com/photo.jpg">
+          </div>
+          <div id="background-color-field" class="background-option" hidden>
+            <label class="field-label" for="background-color">color</label>
+            <input id="background-color" type="color" value="#181818">
+          </div>
+          <div id="background-photo-controls" class="background-photo-controls">
+            <div class="range-field">
+              <label for="background-blur">blur</label><output id="background-blur-value" for="background-blur">20 px</output>
+              <input id="background-blur" type="range" min="0" max="40" value="20">
+            </div>
+            <div class="range-field">
+              <label for="background-darkness">darkness</label><output id="background-darkness-value" for="background-darkness">58%</output>
+              <input id="background-darkness" type="range" min="0" max="90" value="58">
+            </div>
+          </div>
+          <div id="background-random-controls" class="background-option">
+            <button id="new-background" class="text-button" type="button"><span aria-hidden="true">↻</span> new photo</button>
+            <a class="photo-credit" href="https://picsum.photos/" target="_blank" rel="noopener noreferrer">photos by lorem picsum</a>
+          </div>
+          <p id="background-status" class="settings-hint" role="status"></p>
+        </section>
+        <div class="bookmarks-heading"><h3>bookmarks</h3></div>
+        <div class="editor-labels" aria-hidden="true">
+          <div class="editor-label-group"><span>key</span><span>name / address</span></div>
+          <div class="editor-label-group"><span>key</span><span>name / address</span></div>
+        </div>
         <div id="bookmark-editor" class="bookmark-editor"></div>
+        <div class="add-bookmark-float"><button id="add-bookmark" type="button" class="text-button"><span aria-hidden="true">+</span> add bookmarks</button></div>
       </div>
       <p id="settings-error" class="settings-error" role="alert"></p>
     </form>

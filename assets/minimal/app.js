@@ -21,6 +21,11 @@
   let settingsDirty = false;
   let draftBase;
   let draftWritten = '';
+  const wallpaper = byId('wallpaper');
+  let photoSeed = crypto.randomUUID();
+  let wallpaperSource = '';
+  let wallpaperRequest = 0;
+  let pendingPhoto;
 
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -32,6 +37,87 @@
   } catch { /* Corrupt or unavailable storage leaves the original links usable. */ }
   let searchIndex = core.indexBookmarks(preferences.bookmarks);
   let currentSerialized = JSON.stringify(preferences);
+
+  function collectBackground() {
+    return { mode: byId('background-mode').value, url: byId('background-url').value, color: byId('background-color').value, blur: Number(byId('background-blur').value), darkness: Number(byId('background-darkness').value) };
+  }
+
+  function updateBackgroundFields() {
+    const mode = byId('background-mode').value;
+    byId('background-image-field').hidden = mode !== 'image';
+    byId('background-color-field').hidden = mode !== 'color';
+    byId('background-photo-controls').hidden = mode === 'color';
+    byId('background-random-controls').hidden = mode !== 'random';
+    byId('background-url').disabled = mode !== 'image';
+    byId('background-color').disabled = mode !== 'color';
+    byId('background-blur-value').value = `${byId('background-blur').value} px`;
+    byId('background-darkness-value').value = `${byId('background-darkness').value}%`;
+  }
+
+  function applyBackground(background) {
+    wallpaper.style.setProperty('--wallpaper-color', background.color);
+    wallpaper.style.setProperty('--wallpaper-blur', `${background.blur}px`);
+    const dim = background.darkness / 100;
+    wallpaper.style.setProperty('--wallpaper-inner', String(dim));
+    wallpaper.style.setProperty('--wallpaper-middle', String(Math.min(.98, dim + .22)));
+    wallpaper.style.setProperty('--wallpaper-outer', String(Math.min(.98, dim + .38)));
+    const source = core.backgroundUrl(background, photoSeed);
+    if (source === wallpaperSource) return;
+    wallpaperSource = source;
+    const request = ++wallpaperRequest;
+    if (pendingPhoto) {
+      pendingPhoto.onload = pendingPhoto.onerror = null;
+      pendingPhoto.removeAttribute('src');
+      pendingPhoto = null;
+    }
+    byId('new-background').disabled = false;
+    byId('background-status').textContent = '';
+    if (!source) {
+      wallpaper.classList.remove('has-photo');
+      for (const image of wallpaper.querySelectorAll('img')) {
+        image.classList.remove('ready');
+        setTimeout(() => image.remove(), 850);
+      }
+      return;
+    }
+    const photo = new Image();
+    pendingPhoto = photo;
+    photo.alt = '';
+    photo.draggable = false;
+    photo.referrerPolicy = 'no-referrer';
+    photo.decoding = 'async';
+    byId('new-background').disabled = true;
+    byId('background-status').textContent = 'loading photo...';
+    photo.onload = async () => {
+      try { await photo.decode(); } catch { /* The load event already confirms a usable image. */ }
+      if (request !== wallpaperRequest) return;
+      pendingPhoto = null;
+      const previous = Array.from(wallpaper.querySelectorAll('img'));
+      wallpaper.append(photo);
+      photo.getBoundingClientRect(); // Commit transparency before the photo fades in.
+      photo.classList.add('ready');
+      wallpaper.classList.add('has-photo');
+      for (const image of previous) {
+        image.classList.remove('ready');
+        setTimeout(() => image.remove(), 850);
+      }
+      byId('new-background').disabled = false;
+      byId('background-status').textContent = '';
+    };
+    photo.onerror = () => {
+      if (request !== wallpaperRequest) return;
+      pendingPhoto = null;
+      byId('new-background').disabled = false;
+      byId('background-status').textContent = 'photo unavailable. choose another photo or image address.';
+    };
+    photo.src = source;
+  }
+
+  function previewBackground() {
+    updateBackgroundFields();
+    try { applyBackground(core.validateBackground(collectBackground())); }
+    catch { /* Keep the current photo while an address is being edited. */ }
+  }
 
   function icon(path) {
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -176,6 +262,8 @@
   document.addEventListener('click', event => {
     if (!event.target.closest('a, button, dialog, input, select, textarea')) focusSearch();
   });
+  document.addEventListener('contextmenu', event => event.preventDefault());
+  document.addEventListener('dragstart', event => event.preventDefault());
   window.addEventListener('focus', focusSearch);
   window.addEventListener('pageshow', event => {
     // The initial render is already animated; rendering it again would cancel that entrance.
@@ -240,7 +328,7 @@
     draftWritten = '';
     try {
       const savedDraft = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null');
-      if (savedDraft?.base === currentSerialized) {
+      if (savedDraft?.base && JSON.stringify(core.validatePreferences(JSON.parse(savedDraft.base))) === currentSerialized) {
         draft = core.validateDraft(savedDraft.value);
         settingsDirty = true;
         draftWritten = JSON.stringify(savedDraft);
@@ -248,6 +336,12 @@
     } catch { /* Invalid drafts cannot change active preferences. */ }
     byId('engine').value = draft.engine;
     byId('custom-search-url').value = draft.customSearchUrl || '';
+    byId('background-mode').value = draft.background.mode;
+    byId('background-url').value = draft.background.url;
+    byId('background-color').value = draft.background.color;
+    byId('background-blur').value = draft.background.blur;
+    byId('background-darkness').value = draft.background.darkness;
+    previewBackground();
     updateEngineField();
     editor.replaceChildren(...draft.bookmarks.map(editorRow));
     if (settingsDirty) autosave(true);
@@ -267,6 +361,7 @@
   function closeSettings() {
     if (!dialog.open || closing) return;
     autosave(true);
+    applyBackground(preferences.background);
     closing = true;
     dialog.classList.remove('visible');
     closeTimer = setTimeout(finishClose, 460);
@@ -293,6 +388,15 @@
     settingsDirty = true;
     autosave();
   });
+  byId('background-mode').addEventListener('change', () => {
+    previewBackground();
+    settingsDirty = true;
+    autosave();
+  });
+  byId('new-background').addEventListener('click', () => {
+    photoSeed = crypto.randomUUID();
+    previewBackground();
+  });
   byId('add-bookmark').addEventListener('click', () => {
     if (editor.children.length >= 64) {
       error.textContent = 'use up to 64 bookmarks.';
@@ -302,10 +406,11 @@
     editor.append(row);
     settingsDirty = true;
     autosave();
-    row.querySelector('input').focus();
+    row.querySelector('input').focus({ preventScroll: true });
+    row.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
   function collectDraft() {
-    return { engine: byId('engine').value, customSearchUrl: byId('custom-search-url').value, bookmarks: Array.from(editor.children, row => ({
+    return { engine: byId('engine').value, customSearchUrl: byId('custom-search-url').value, background: collectBackground(), bookmarks: Array.from(editor.children, row => ({
       key: row.querySelector('.key-input').value,
       name: row.querySelector('.name-input').value,
       url: row.querySelector('.url-input').value
@@ -337,6 +442,7 @@
       preferences = next;
       searchIndex = core.indexBookmarks(next.bookmarks);
       currentSerialized = serialized;
+      applyBackground(next.background);
       scheduleRender();
     }
     try {
@@ -353,7 +459,8 @@
     }
   }
 
-  byId('settings-form').addEventListener('input', () => {
+  byId('settings-form').addEventListener('input', event => {
+    if (event.target.closest('.background-settings')) previewBackground();
     settingsDirty = true;
     clearTimeout(saveTimer);
     saveTimer = setTimeout(autosave, 300);
@@ -368,10 +475,12 @@
       preferences = event.newValue ? core.validatePreferences(JSON.parse(event.newValue)) : core.defaults(globalThis.STARTPAGE_DEFAULTS);
       searchIndex = core.indexBookmarks(preferences.bookmarks);
       currentSerialized = JSON.stringify(preferences);
+      applyBackground(preferences.background);
       scheduleRender();
     } catch { /* Ignore invalid changes from other tabs. */ }
   });
 
   renderBookmarks();
   focusSearch();
+  applyBackground(preferences.background);
 })();

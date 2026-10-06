@@ -5,6 +5,22 @@
     duckduckgo: 'https://duckduckgo.com/?q=',
     startpage: 'https://www.startpage.com/sp/search?query='
   });
+  const BACKGROUND = Object.freeze({ mode: 'random', url: '', color: '#181818', blur: 20, darkness: 58 });
+
+  function validateBackground(value = BACKGROUND, draft = false) {
+    if (!value || !['random', 'image', 'color'].includes(value.mode)) throw new Error('choose a background.');
+    const url = typeof value.url === 'string' ? value.url.trim() : '';
+    if (url.length > 2000) throw new Error('use an image address up to 2000 characters.');
+    if (!draft && value.mode === 'image' && !safeUrl(url)) throw new Error('enter a valid http or https image address.');
+    if (!/^#[a-f0-9]{6}$/i.test(value.color)) throw new Error('choose a valid background color.');
+    if (!Number.isFinite(value.blur) || value.blur < 0 || value.blur > 40 || !Number.isFinite(value.darkness) || value.darkness < 0 || value.darkness > 90) throw new Error('choose blur from 0-40 and darkness from 0-90.');
+    return { mode: value.mode, url, color: value.color.toLowerCase(), blur: value.blur, darkness: value.darkness };
+  }
+
+  function backgroundUrl(background, seed) {
+    if (background.mode === 'random') return `https://picsum.photos/seed/${encodeURIComponent(seed)}/1600/1000`;
+    return background.mode === 'image' ? safeUrl(background.url) : null;
+  }
 
   function safeUrl(value) {
     const text = String(value || '').trim();
@@ -45,7 +61,7 @@
       keys.add(key);
       return { key, name, url };
     });
-    return { version: 1, engine: value.engine, customSearchUrl, bookmarks };
+    return { version: 1, engine: value.engine, customSearchUrl, bookmarks, background: validateBackground(value.background) };
   }
 
   function validateSearchTemplate(value) {
@@ -97,6 +113,7 @@
     return {
       engine: value.engine,
       customSearchUrl: text(value.customSearchUrl || '', 2000),
+      background: validateBackground(value.background, true),
       bookmarks: value.bookmarks.map(item => ({ key: text(item?.key, 8), name: text(item?.name, 40), url: text(item?.url, 2000) }))
     };
   }
@@ -129,7 +146,7 @@
     return defaults(bookmarks);
   }
 
-  const api = Object.freeze({ ENGINES, safeUrl, validateSearchTemplate, validatePreferences, validateDraft, destination, matches, indexBookmarks, matchIndex, defaults, migrate });
+  const api = Object.freeze({ ENGINES, BACKGROUND, validateBackground, backgroundUrl, safeUrl, validateSearchTemplate, validatePreferences, validateDraft, destination, matches, indexBookmarks, matchIndex, defaults, migrate });
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.STARTPAGE_CORE = api;
 })(globalThis);
