@@ -11,7 +11,6 @@
     if (!value || !['random', 'image', 'color'].includes(value.mode)) throw new Error('choose a background.');
     const url = typeof value.url === 'string' ? value.url.trim() : '';
     if (url.length > 2000) throw new Error('use an image address up to 2000 characters.');
-    if (!draft && value.mode === 'image' && !safeUrl(url)) throw new Error('enter a valid http or https image address.');
     if (!/^#[a-f0-9]{6}$/i.test(value.color)) throw new Error('choose a valid background color.');
     if (!Number.isFinite(value.blur) || value.blur < 0 || value.blur > 40 || !Number.isFinite(value.darkness) || value.darkness < 0 || value.darkness > 90) throw new Error('choose blur from 0-40 and darkness from 0-90.');
     return { mode: value.mode, url, color: value.color.toLowerCase(), blur: value.blur, darkness: value.darkness };
