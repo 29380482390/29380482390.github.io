@@ -8,7 +8,7 @@
   const BACKGROUND = Object.freeze({ mode: 'random', url: '', color: '#181818', blur: 20, darkness: 58 });
 
   function validateBackground(value = BACKGROUND, draft = false) {
-    if (!value || !['random', 'image', 'color'].includes(value.mode)) throw new Error('choose a background.');
+    if (!value || !['random', 'image', 'color', 'transparent'].includes(value.mode)) throw new Error('choose a background.');
     const url = typeof value.url === 'string' ? value.url.trim() : '';
     if (url.length > 2000) throw new Error('use an image address up to 2000 characters.');
     if (!/^#[a-f0-9]{6}$/i.test(value.color)) throw new Error('choose a valid background color.');

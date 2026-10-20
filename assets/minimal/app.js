@@ -11,6 +11,7 @@
   const error = byId('settings-error');
   const bookmarkMotion = new WeakMap();
   const bookmarkContent = new WeakMap();
+  const editorMotion = new Map();
   const leavingBookmarks = new Map();
   let preferences = core.defaults(globalThis.STARTPAGE_DEFAULTS);
   let composing = false;
@@ -26,6 +27,8 @@
   let wallpaperSource = '';
   let wallpaperRequest = 0;
   let pendingPhoto;
+  let bookmarkPointerDrag;
+  let bookmarkDragFrame;
 
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -46,7 +49,7 @@
     const mode = byId('background-mode').value;
     byId('background-image-field').hidden = mode !== 'image';
     byId('background-color-field').hidden = mode !== 'color';
-    byId('background-photo-controls').hidden = mode === 'color';
+    byId('background-photo-controls').hidden = mode === 'color' || mode === 'transparent';
     byId('background-random-controls').hidden = mode !== 'random';
     byId('background-url').disabled = mode !== 'image';
     byId('background-color').disabled = mode !== 'color';
@@ -55,7 +58,11 @@
   }
 
   function applyBackground(background) {
-    wallpaper.style.setProperty('--wallpaper-color', background.color);
+    const transparent = background.mode === 'transparent';
+    wallpaper.classList.toggle('is-transparent', transparent);
+    document.documentElement.classList.toggle('transparent-background', transparent);
+    document.body.classList.toggle('transparent-background', transparent);
+    wallpaper.style.setProperty('--wallpaper-color', transparent ? 'rgba(0, 0, 0, 0)' : background.color);
     wallpaper.style.setProperty('--wallpaper-blur', `${background.blur}px`);
     const dim = background.darkness / 100;
     wallpaper.style.setProperty('--wallpaper-inner', String(dim));
@@ -263,7 +270,9 @@
     if (!event.target.closest('a, button, dialog, input, select, textarea')) focusSearch();
   });
   document.addEventListener('contextmenu', event => event.preventDefault());
-  document.addEventListener('dragstart', event => event.preventDefault());
+  document.addEventListener('dragstart', event => {
+    if (!event.target.closest('.drag-handle')) event.preventDefault();
+  });
   window.addEventListener('focus', focusSearch);
   window.addEventListener('pageshow', event => {
     // The initial render is already animated; rendering it again would cancel that entrance.
@@ -274,6 +283,12 @@
   function editorRow(bookmark) {
     const row = document.createElement('div');
     row.className = 'editor-row';
+    const drag = document.createElement('button');
+    drag.type = 'button';
+    drag.className = 'drag-handle';
+    drag.setAttribute('aria-label', `reorder ${bookmark.name || 'bookmark'}; use up or down arrow keys`);
+    drag.title = 'drag to reorder';
+    drag.append(icon('M5 7h14M5 12h14M5 17h14'));
     const key = document.createElement('input');
     key.className = 'key-input';
     key.value = bookmark.key;
@@ -306,16 +321,183 @@
     remove.setAttribute('aria-label', `remove ${bookmark.name || 'bookmark'}`);
     remove.append(icon('m7 7 10 10M17 7 7 17'));
     remove.addEventListener('click', () => {
-      const next = row.nextElementSibling || row.previousElementSibling;
+      const rows = editorRows();
+      const next = rows[rows.indexOf(row) + 1] || rows[rows.indexOf(row) - 1];
       row.remove();
       settingsDirty = true;
       autosave();
       if (next) next.querySelector('input').focus();
       else byId('add-bookmark').focus();
     });
-    row.append(key, fields, remove);
+    row.append(drag, key, fields, remove);
+    drag.addEventListener('pointerdown', event => {
+      if (!event.isPrimary || event.button !== 0) return;
+      const rect = row.getBoundingClientRect();
+      bookmarkPointerDrag = { row, handle: drag, pointerId: event.pointerId, startX: event.clientX, startY: event.clientY, offsetX: event.clientX - rect.left, offsetY: event.clientY - rect.top, origin: editorRows(), moved: false };
+      drag.setPointerCapture(event.pointerId);
+    });
+    drag.addEventListener('keydown', event => {
+      if (!['ArrowUp', 'ArrowDown'].includes(event.key)) return;
+      const before = captureEditorRects();
+      const columns = splitEditorColumns(editorItems());
+      const column = columns.findIndex(items => items.includes(row));
+      const items = columns[column];
+      const index = items.indexOf(row);
+      const nextIndex = index + (event.key === 'ArrowUp' ? -1 : 1);
+      if (nextIndex < 0 || nextIndex >= items.length) return;
+      [items[index], items[nextIndex]] = [items[nextIndex], items[index]];
+      renderEditorColumns(columns);
+      animateEditorMovement(before);
+      settingsDirty = true;
+      autosave();
+      drag.focus();
+      event.preventDefault();
+    });
     return row;
   }
+
+  function editorRows() {
+    return Array.from(editor.children).filter(child => child.classList.contains('editor-row'));
+  }
+
+  function editorItems() {
+    return Array.from(editor.children).filter(child => child.classList.contains('editor-row') || child.classList.contains('drag-placeholder'));
+  }
+
+  function splitEditorColumns(items) {
+    if (getComputedStyle(editor).gridTemplateColumns.split(' ').filter(Boolean).length < 2) return [items, []];
+    return [items.filter((_, index) => index % 2 === 0), items.filter((_, index) => index % 2 === 1)];
+  }
+
+  function renderEditorColumns(columns) {
+    const ordered = [];
+    for (let index = 0; index < Math.max(columns[0].length, columns[1].length); index += 1) {
+      if (columns[0][index]) ordered.push(columns[0][index]);
+      if (columns[1][index]) ordered.push(columns[1][index]);
+    }
+    editor.replaceChildren(...ordered);
+  }
+
+  function captureEditorRects() {
+    const items = editorItems();
+    const rects = new Map(items.map(item => [item, item.getBoundingClientRect()]));
+    for (const [item, motion] of editorMotion) motion.cancel();
+    editorMotion.clear();
+    return rects;
+  }
+
+  function animateEditorMovement(before) {
+    for (const item of editorItems()) {
+      const prior = before.get(item);
+      if (!prior) continue;
+      const next = item.getBoundingClientRect();
+      const x = prior.left - next.left;
+      const y = prior.top - next.top;
+      if (Math.abs(x) < 1 && Math.abs(y) < 1) continue;
+      const motion = item.animate([
+        { transform: `translate(${x}px, ${y}px)` },
+        { transform: 'translate(0, 0)' }
+      ], { duration: 240, easing: 'cubic-bezier(.2,.8,.2,1)' });
+      editorMotion.set(item, motion);
+      motion.finished.then(() => { if (editorMotion.get(item) === motion) editorMotion.delete(item); }).catch(() => {});
+    }
+  }
+
+  function beginBookmarkDrag(drag) {
+    const rect = drag.row.getBoundingClientRect();
+    captureEditorRects();
+    const placeholder = document.createElement('div');
+    placeholder.className = 'drag-placeholder';
+    placeholder.setAttribute('aria-hidden', 'true');
+    placeholder.style.height = `${rect.height}px`;
+    const preview = drag.row.cloneNode(true);
+    preview.classList.add('bookmark-drag-preview');
+    preview.setAttribute('aria-hidden', 'true');
+    preview.inert = true;
+    preview.querySelectorAll('button, input').forEach(control => { control.tabIndex = -1; });
+    Object.assign(preview.style, { left: `${rect.left}px`, top: `${rect.top}px`, width: `${rect.width}px`, height: `${rect.height}px` });
+    drag.row.replaceWith(placeholder);
+    document.body.append(preview);
+    drag.placeholder = placeholder;
+    drag.preview = preview;
+  }
+
+  function repositionBookmarkPlaceholder(drag, point) {
+    if (!drag.placeholder?.isConnected) return;
+    const before = captureEditorRects();
+    const columns = splitEditorColumns(editorItems());
+    const editorRect = editor.getBoundingClientRect();
+    const destination = columns[1].length && point.x >= editorRect.left + editorRect.width / 2 ? 1 : 0;
+    const destinationItems = columns[destination].filter(item => item !== drag.placeholder);
+    const insertionIndex = destinationItems.findIndex(item => {
+      const rect = before.get(item) || item.getBoundingClientRect();
+      return point.y < rect.top + rect.height / 2;
+    });
+    columns[0] = columns[0].filter(item => item !== drag.placeholder);
+    columns[1] = columns[1].filter(item => item !== drag.placeholder);
+    const targetColumn = columns[destination];
+    targetColumn.splice(insertionIndex < 0 ? targetColumn.length : insertionIndex, 0, drag.placeholder);
+    renderEditorColumns(columns);
+    const closest = destinationItems.reduce((nearest, item) => {
+      const rect = before.get(item) || item.getBoundingClientRect();
+      const distance = Math.abs(point.y - (rect.top + rect.height / 2));
+      return !nearest || distance < nearest.distance ? { item, distance } : nearest;
+    }, null)?.item;
+    for (const row of editorRows()) row.classList.toggle('drag-over', row === closest);
+    animateEditorMovement(before);
+  }
+
+  function updateBookmarkDrag(drag, event) {
+    const point = { x: event.clientX, y: event.clientY };
+    drag.latest = point;
+    if (!drag.moved && Math.hypot(point.x - drag.startX, point.y - drag.startY) < 6) return;
+    event.preventDefault();
+    if (!drag.moved) {
+      drag.moved = true;
+      beginBookmarkDrag(drag);
+    }
+    drag.preview.style.left = `${point.x - drag.offsetX}px`;
+    drag.preview.style.top = `${point.y - drag.offsetY}px`;
+    if (!bookmarkDragFrame) {
+      bookmarkDragFrame = requestAnimationFrame(() => {
+        bookmarkDragFrame = 0;
+        if (bookmarkPointerDrag === drag && drag.latest) repositionBookmarkPlaceholder(drag, drag.latest);
+      });
+    }
+  }
+
+  document.addEventListener('pointermove', event => {
+    const drag = bookmarkPointerDrag;
+    if (!drag || event.pointerId !== drag.pointerId) return;
+    updateBookmarkDrag(drag, event);
+  });
+
+  function finishBookmarkPointerDrag(event) {
+    const drag = bookmarkPointerDrag;
+    if (!drag || event.pointerId !== drag.pointerId) return;
+    if (bookmarkDragFrame) {
+      cancelAnimationFrame(bookmarkDragFrame);
+      bookmarkDragFrame = 0;
+    }
+    if (drag.moved && drag.latest && event.type !== 'pointercancel') repositionBookmarkPlaceholder(drag, drag.latest);
+    if (drag.placeholder?.isConnected) {
+      if (event.type === 'pointercancel') {
+        for (const row of drag.origin) editor.append(row);
+        drag.placeholder.remove();
+      } else drag.placeholder.replaceWith(drag.row);
+    }
+    for (const row of editorRows()) row.classList.remove('drag-over');
+    drag.preview?.remove();
+    bookmarkPointerDrag = null;
+    const rows = editorRows();
+    if (drag.moved && event.type !== 'pointercancel' && drag.origin.some((row, index) => rows[index] !== row)) {
+      settingsDirty = true;
+      autosave();
+      drag.handle.focus();
+    }
+  }
+  document.addEventListener('pointerup', finishBookmarkPointerDrag);
+  document.addEventListener('pointercancel', finishBookmarkPointerDrag);
 
   function openSettings() {
     if (dialog.open) return;
@@ -398,7 +580,7 @@
     previewBackground();
   });
   byId('add-bookmark').addEventListener('click', () => {
-    if (editor.children.length >= 64) {
+    if (editorRows().length >= 64) {
       error.textContent = 'use up to 64 bookmarks.';
       return;
     }
@@ -410,7 +592,11 @@
     row.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
   function collectDraft() {
-    return { engine: byId('engine').value, customSearchUrl: byId('custom-search-url').value, background: collectBackground(), bookmarks: Array.from(editor.children, row => ({
+    const rows = Array.from(editor.children)
+      .filter(row => row.classList.contains('editor-row') || row.classList.contains('drag-placeholder'))
+      .map(row => row.classList.contains('drag-placeholder') ? bookmarkPointerDrag?.row : row)
+      .filter(Boolean);
+    return { engine: byId('engine').value, customSearchUrl: byId('custom-search-url').value, background: collectBackground(), bookmarks: rows.map(row => ({
       key: row.querySelector('.key-input').value,
       name: row.querySelector('.name-input').value,
       url: row.querySelector('.url-input').value
